@@ -3,9 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>GLC · Mercedes-Benz · Continuous Surface Pitch</title>
+  <title>GLC · Mercedes-Benz</title>
 
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -13,40 +12,36 @@
     rel="stylesheet"
   />
 
-  <!-- Tailwind via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            ink: "#000000",
-            ink2: "#0a0a0a",
-            ink3: "#111111",
-            ink4: "#1a1a1a",
-            line: "rgba(255,255,255,0.08)",
-            line2: "rgba(255,255,255,0.14)",
-            muted: "#a8aeb6",
-            accent: "#5b9dd9",
-            "accent-2": "#7ab8ea",
+            ink:  "#000000",
+            ink1: "#06080d",
+            ink2: "#0a0d14",
+            ink3: "#0f1320",
+            line: "rgba(255,255,255,0.06)",
+            muted: "#C8CCD0",
+            "muted-2": "#7a808a",
+            accent: "#00ADEF",
+            "accent-2": "#33C0F2",
+            ai:    "#A78BFA",
+            "ai-2":"#C4B5FD",
           },
           fontFamily: {
             sans: ['"Inter"', "system-ui", "sans-serif"],
-          },
-          letterSpacing: {
-            display: "-0.025em",
           },
         },
       },
     };
   </script>
 
-  <!-- Lucide icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
-    html,
-    body {
+    html, body {
       background: #000;
       color: #fff;
       font-family: "Inter", system-ui, sans-serif;
@@ -54,1288 +49,1632 @@
       font-feature-settings: "ss01", "cv11";
     }
 
-    /* Custom scrollbar */
+    /* Scrollbars */
     ::-webkit-scrollbar { width: 8px; height: 8px; }
     ::-webkit-scrollbar-track { background: #000; }
     ::-webkit-scrollbar-thumb { background: #1a1a1a; border-radius: 4px; }
     ::-webkit-scrollbar-thumb:hover { background: #2a2a2a; }
     .no-scrollbar::-webkit-scrollbar { display: none; }
-    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-    /* ----- Glass surfaces ----- */
-    .glass {
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0) 40%),
-        rgba(17, 17, 17, 0.65);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+    /* ---------- Glass premium ---------- */
+    .glass-premium {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      backdrop-filter: blur(40px) saturate(180%);
+      -webkit-backdrop-filter: blur(40px) saturate(180%);
       box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.04),
-        0 24px 60px -20px rgba(0, 0, 0, 0.6);
+        inset 0 1px 0 rgba(255, 255, 255, 0.06),
+        0 30px 80px -30px rgba(0, 0, 0, 0.7);
     }
     .glass-soft {
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0) 60%),
-        rgba(20, 20, 20, 0.55);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.05);
+      backdrop-filter: blur(24px) saturate(150%);
+      -webkit-backdrop-filter: blur(24px) saturate(150%);
     }
-    .hairline { border: 1px solid rgba(255, 255, 255, 0.08); }
+    .glass-chip {
+      background: rgba(15,17,28,0.55);
+      border: 1px solid rgba(255,255,255,0.08);
+      backdrop-filter: blur(28px) saturate(170%);
+      -webkit-backdrop-filter: blur(28px) saturate(170%);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.06),
+        0 10px 30px -10px rgba(0,0,0,0.6);
+    }
+    .hairline { border: 1px solid rgba(255,255,255,0.06); }
 
-    /* ----- Pulse bar at top ----- */
+    /* ---------- Atmospheric backgrounds (richer than before) ---------- */
+    .atmo-hero {
+      background:
+        radial-gradient(60% 55% at 80% 12%, rgba(167,139,250,0.32) 0%, transparent 55%),
+        radial-gradient(60% 55% at 16% 82%, rgba(0,173,239,0.28) 0%, transparent 60%),
+        radial-gradient(40% 50% at 50% 50%, rgba(20,24,40,0.95) 0%, rgba(6,8,13,1) 70%),
+        #06080d;
+    }
+    .atmo-range {
+      background:
+        radial-gradient(50% 70% at 6% 50%, rgba(0,173,239,0.24) 0%, transparent 55%),
+        radial-gradient(50% 80% at 94% 78%, rgba(0,173,239,0.14) 0%, transparent 60%),
+        radial-gradient(40% 50% at 70% 12%, rgba(167,139,250,0.10) 0%, transparent 60%),
+        linear-gradient(180deg, #060912 0%, #060912 100%);
+    }
+    .atmo-pilot {
+      background:
+        radial-gradient(60% 70% at 92% 26%, rgba(167,139,250,0.30) 0%, transparent 60%),
+        radial-gradient(50% 70% at 10% 88%, rgba(0,173,239,0.18) 0%, transparent 60%),
+        linear-gradient(180deg, #07091a 0%, #060912 100%);
+    }
+    .atmo-cabin {
+      background:
+        radial-gradient(50% 60% at 14% 16%, rgba(167,139,250,0.22) 0%, transparent 60%),
+        radial-gradient(60% 70% at 84% 84%, rgba(0,173,239,0.20) 0%, transparent 60%),
+        linear-gradient(180deg, #06080d 0%, #060912 100%);
+    }
+    .atmo-airmatic {
+      background:
+        radial-gradient(50% 70% at 88% 22%, rgba(0,173,239,0.22) 0%, transparent 60%),
+        radial-gradient(50% 60% at 12% 78%, rgba(167,139,250,0.18) 0%, transparent 60%),
+        linear-gradient(180deg, #07091a 0%, #060912 100%);
+    }
+    .atmo-roof {
+      background:
+        radial-gradient(60% 70% at 50% 8%, rgba(167,139,250,0.28) 0%, transparent 60%),
+        radial-gradient(40% 60% at 14% 86%, rgba(0,173,239,0.16) 0%, transparent 60%),
+        linear-gradient(180deg, #06080d 0%, #060912 100%);
+    }
+    .atmo-charge {
+      background:
+        radial-gradient(60% 70% at 14% 26%, rgba(0,173,239,0.30) 0%, transparent 60%),
+        radial-gradient(50% 60% at 86% 78%, rgba(167,139,250,0.22) 0%, transparent 60%),
+        linear-gradient(180deg, #060e1a 0%, #060912 100%);
+    }
+    .atmo-tco {
+      background:
+        radial-gradient(60% 70% at 90% 18%, rgba(0,173,239,0.16) 0%, transparent 60%),
+        radial-gradient(40% 60% at 8% 88%, rgba(167,139,250,0.14) 0%, transparent 60%),
+        #060912;
+    }
+    .atmo-cronus {
+      background:
+        radial-gradient(70% 80% at 50% 0%, rgba(167,139,250,0.24) 0%, transparent 55%),
+        radial-gradient(50% 60% at 50% 100%, rgba(0,173,239,0.16) 0%, transparent 60%),
+        #060912;
+    }
+
+    /* ---------- Section divider ---------- */
+    .chapter-rule {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08) 50%, transparent);
+    }
+
+    /* ---------- Top pulse line ---------- */
     .pulse-line {
       height: 1px;
-      background: linear-gradient(
-        90deg,
-        rgba(91, 157, 217, 0) 0%,
-        rgba(91, 157, 217, 0.0) 10%,
-        rgba(91, 157, 217, 0.5) 35%,
-        rgba(91, 157, 217, 1) 50%,
-        rgba(91, 157, 217, 0.5) 65%,
-        rgba(91, 157, 217, 0) 90%
-      );
-      background-size: 200% 100%;
-      animation: pulseSlide 6s ease-in-out infinite;
-      filter: drop-shadow(0 0 6px rgba(91, 157, 217, 0.5));
+      background: linear-gradient(90deg,
+        rgba(0,173,239,0) 0%, rgba(0,173,239,0) 18%,
+        rgba(0,173,239,0.45) 38%, rgba(0,173,239,0.95) 50%,
+        rgba(0,173,239,0.45) 62%, rgba(0,173,239,0) 82%, rgba(0,173,239,0) 100%);
+      background-size: 220% 100%;
+      animation: pulseSlide 7s ease-in-out infinite;
+      filter: drop-shadow(0 0 6px rgba(0,173,239,0.5));
     }
     @keyframes pulseSlide {
       0%, 100% { background-position: 0% 0%; opacity: 0.7; }
       50% { background-position: 100% 0%; opacity: 1; }
     }
 
-    /* Breathing dot */
-    .dot-pulse {
-      position: relative;
-      width: 8px; height: 8px; border-radius: 999px;
-      background: #5b9dd9;
-      box-shadow: 0 0 10px rgba(91, 157, 217, 0.7);
-    }
-    .dot-pulse::after {
-      content: "";
-      position: absolute; inset: -6px; border-radius: 999px;
-      border: 1px solid rgba(91, 157, 217, 0.6);
-      animation: ringPulse 2.4s ease-out infinite;
-    }
-    @keyframes ringPulse {
-      0% { transform: scale(0.6); opacity: 0.9; }
-      100% { transform: scale(2.2); opacity: 0; }
-    }
-    .dot-green {
-      width: 6px; height: 6px; border-radius: 999px;
-      background: #4ade80;
-      box-shadow: 0 0 8px rgba(74, 222, 128, 0.6);
-    }
-
-    /* ----- Image slot placeholders ----- */
-    .image-slot {
-      position: relative;
-      overflow: hidden;
-      background:
-        radial-gradient(120% 80% at 30% 20%, rgba(91, 157, 217, 0.08), transparent 60%),
-        radial-gradient(140% 80% at 80% 90%, rgba(255, 255, 255, 0.04), transparent 60%),
-        linear-gradient(135deg, #0a0a0a 0%, #181818 50%, #0a0a0a 100%);
-      isolation: isolate;
-    }
-    .image-slot::before {
-      content: "";
-      position: absolute; inset: 0;
-      background-image:
-        repeating-linear-gradient(135deg, rgba(255,255,255,0.012) 0 1px, transparent 1px 6px);
-      pointer-events: none;
-    }
-    .image-slot::after {
-      content: attr(data-label);
-      position: absolute;
-      bottom: 10px; right: 12px;
-      font-size: 9px;
-      letter-spacing: 0.18em;
+    /* ---------- Live pills ---------- */
+    .live-pill {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 5px 11px;
+      border-radius: 999px;
+      background: rgba(0,173,239,0.07);
+      border: 1px solid rgba(0,173,239,0.28);
+      font-size: 9.5px;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
-      color: rgba(168, 174, 182, 0.45);
-      font-weight: 500;
-      pointer-events: none;
+      color: #cfe9f8;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
     }
-    .image-slot[data-tone="warm"] {
-      background:
-        radial-gradient(110% 70% at 50% 60%, rgba(217, 142, 91, 0.12), transparent 65%),
-        radial-gradient(80% 60% at 80% 30%, rgba(91, 157, 217, 0.05), transparent 60%),
-        linear-gradient(180deg, #0a0a0a 0%, #1a1410 60%, #0a0a0a 100%);
+    .live-pill .dot {
+      width: 5px; height: 5px; border-radius: 999px;
+      background: #00ADEF;
+      box-shadow: 0 0 8px rgba(0,173,239,0.85);
+      animation: dotBlink 2.4s ease-in-out infinite;
     }
-    .image-slot[data-tone="studio"] {
-      background:
-        radial-gradient(80% 60% at 50% 70%, rgba(255, 255, 255, 0.06), transparent 65%),
-        radial-gradient(120% 90% at 50% 30%, rgba(91, 157, 217, 0.06), transparent 70%),
-        linear-gradient(180deg, #050505 0%, #1a1a1a 50%, #050505 100%);
+    .live-pill.ai {
+      background: rgba(167,139,250,0.07);
+      border-color: rgba(167,139,250,0.32);
+      color: #e0d6ff;
     }
-    .image-slot[data-tone="desert"] {
-      background:
-        radial-gradient(110% 70% at 50% 70%, rgba(220, 165, 100, 0.18), transparent 60%),
-        linear-gradient(180deg, #0a0805 0%, #1a140d 60%, #0a0805 100%);
+    .live-pill.ai .dot {
+      background: #A78BFA;
+      box-shadow: 0 0 8px rgba(167,139,250,0.85);
     }
-    .image-slot[data-tone="night"] {
-      background:
-        radial-gradient(110% 70% at 50% 50%, rgba(91, 157, 217, 0.18), transparent 65%),
-        linear-gradient(180deg, #04060a 0%, #0d1726 50%, #04060a 100%);
-    }
-    .image-slot[data-tone="cool"] {
-      background:
-        radial-gradient(110% 70% at 30% 70%, rgba(120, 180, 220, 0.12), transparent 65%),
-        linear-gradient(135deg, #050a14 0%, #0d1620 50%, #04080e 100%);
+    @keyframes dotBlink {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.55; transform: scale(0.85); }
     }
 
-    /* Mercedes star - SVG inline below in markup */
+    /* ---------- Heartbeat ---------- */
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 0 4px rgba(0,173,239,0.18), 0 0 16px rgba(0,173,239,0.7); }
+      50% { transform: scale(1.18); box-shadow: 0 0 0 8px rgba(0,173,239,0.10), 0 0 26px rgba(0,173,239,1); }
+    }
 
-    /* Step indicator */
-    .step-num {
-      display: inline-flex; align-items: center; justify-content: center;
-      width: 22px; height: 22px; border-radius: 999px;
+    /* ---------- Numerical hierarchy ---------- */
+    .stat-display {
+      font-weight: 200;
+      letter-spacing: -0.04em;
+      line-height: 0.92;
+      font-feature-settings: "tnum";
+    }
+    .stat-label {
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      font-size: 10px;
+      color: #7a808a;
+    }
+
+    /* ---------- Display headlines (sans only) ---------- */
+    .display {
+      font-weight: 200;
+      letter-spacing: -0.03em;
+      line-height: 1.0;
+    }
+    .display-soft {
+      font-weight: 300;
+      letter-spacing: -0.02em;
+      color: rgba(255,255,255,0.6);
+    }
+
+    /* ---------- Buttons ---------- */
+    .btn-pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 22px;
+      border-radius: 999px;
+      font-size: 13px; font-weight: 500;
+      transition: all .25s ease;
+    }
+    .btn-glass {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(0,173,239,0.45);
+      color: #fff;
+      backdrop-filter: blur(20px) saturate(160%);
+      box-shadow: 0 0 0 1px rgba(0,173,239,0.05), 0 0 32px -10px rgba(0,173,239,0.4);
+    }
+    .btn-glass:hover {
+      border-color: rgba(0,173,239,0.7);
+      background: rgba(0,173,239,0.08);
+      box-shadow: 0 0 0 1px rgba(0,173,239,0.1), 0 0 40px -10px rgba(0,173,239,0.6);
+    }
+    .btn-glass-ai {
+      background: rgba(167,139,250,0.05);
+      border: 1px solid rgba(167,139,250,0.45);
+      color: #fff;
+      backdrop-filter: blur(20px) saturate(160%);
+      box-shadow: 0 0 0 1px rgba(167,139,250,0.06), 0 0 32px -10px rgba(167,139,250,0.4);
+    }
+    .btn-glass-ai:hover {
+      border-color: rgba(167,139,250,0.7);
+      background: rgba(167,139,250,0.10);
+      box-shadow: 0 0 0 1px rgba(167,139,250,0.1), 0 0 40px -10px rgba(167,139,250,0.6);
+    }
+    .btn-primary {
+      background: #00ADEF;
+      color: #06080d;
+      box-shadow: 0 0 0 1px rgba(0,173,239,0.4), 0 0 32px rgba(0,173,239,0.4);
+    }
+    .btn-primary:hover {
+      background: #33C0F2;
+      box-shadow: 0 0 0 1px rgba(0,173,239,0.6), 0 0 40px rgba(0,173,239,0.55);
+    }
+    .btn-ghost {
+      border: 1px solid rgba(255,255,255,0.08);
+      color: #fff;
+      background: rgba(255,255,255,0.02);
+    }
+    .btn-ghost:hover {
       background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.12);
-      color: #a8aeb6; font-size: 11px;
-    }
-    .step-active .step-num {
-      background: rgba(91, 157, 217, 0.18);
-      border-color: rgba(91, 157, 217, 0.6);
-      color: #fff;
-      box-shadow: 0 0 12px rgba(91, 157, 217, 0.4);
-    }
-    .step-active .step-label {
-      color: #fff;
-    }
-    .step-active::after {
-      content: "";
-      display: block;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, #5b9dd9 50%, transparent);
-      margin-top: 8px;
+      border-color: rgba(255,255,255,0.18);
     }
 
-    /* Color swatches */
+    /* ---------- Swatches ---------- */
     .swatch {
       width: 28px; height: 28px; border-radius: 999px;
       cursor: pointer;
-      border: 1px solid rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.18);
       position: relative;
       transition: transform .2s ease;
     }
     .swatch:hover { transform: translateY(-1px); }
     .swatch.active {
-      box-shadow: 0 0 0 2px #000, 0 0 0 3px #5b9dd9;
+      box-shadow: 0 0 0 2px #06080d, 0 0 0 3px #00ADEF;
     }
     .swatch-now {
       position: absolute; bottom: -5px; right: -5px;
-      width: 12px; height: 12px; transform: rotate(45deg);
-      background: #5b9dd9;
-      box-shadow: 0 0 8px rgba(91, 157, 217, 0.7);
+      width: 10px; height: 10px; transform: rotate(45deg);
+      background: #00ADEF;
+      box-shadow: 0 0 8px rgba(0, 173, 239, 0.7);
     }
 
-    /* Match score ring */
-    .match-ring {
-      --p: 94;
-      width: 56px; height: 56px; border-radius: 999px;
-      background:
-        conic-gradient(#5b9dd9 calc(var(--p) * 1%), rgba(255,255,255,0.08) 0);
-      display: grid; place-items: center;
-      box-shadow: 0 0 16px rgba(91, 157, 217, 0.25);
-    }
-    .match-ring > div {
-      width: 46px; height: 46px; border-radius: 999px;
-      background: #0a0a0a;
-      display: grid; place-items: center;
-      font-size: 13px; font-weight: 600;
-    }
-
-    /* Buttons */
-    .btn-pill {
+    /* ---------- Option chip ---------- */
+    .opt-chip {
       display: inline-flex; align-items: center; gap: 8px;
-      padding: 10px 18px; border-radius: 999px;
-      font-size: 13px; font-weight: 500;
-      transition: all .2s ease;
-    }
-    .btn-primary {
-      background: #5b9dd9;
-      color: #0a0a0a;
-      box-shadow: 0 0 0 1px rgba(91, 157, 217, 0.4), 0 0 24px rgba(91, 157, 217, 0.35);
-    }
-    .btn-primary:hover {
-      background: #7ab8ea;
-      box-shadow: 0 0 0 1px rgba(91, 157, 217, 0.6), 0 0 32px rgba(91, 157, 217, 0.5);
-    }
-    .btn-outline {
-      border: 1px solid rgba(91, 157, 217, 0.5);
-      color: #fff;
-      background: rgba(91, 157, 217, 0.06);
-    }
-    .btn-outline:hover {
-      background: rgba(91, 157, 217, 0.14);
-      border-color: rgba(91, 157, 217, 0.8);
-    }
-    .btn-ghost {
-      border: 1px solid rgba(255,255,255,0.1);
-      color: #fff;
+      padding: 8px 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.06);
       background: rgba(255,255,255,0.02);
+      transition: all .2s ease;
+      cursor: pointer;
+      font-size: 12px;
     }
-    .btn-ghost:hover {
-      background: rgba(255,255,255,0.06);
-      border-color: rgba(255,255,255,0.2);
+    .opt-chip:hover {
+      border-color: rgba(255,255,255,0.16);
+      background: rgba(255,255,255,0.04);
+    }
+    .opt-chip.active {
+      border-color: rgba(0,173,239,0.5);
+      background: rgba(0,173,239,0.08);
+      box-shadow: 0 0 0 1px rgba(0,173,239,0.32);
     }
 
-    /* Ranges */
-    .range-bar {
-      height: 4px; border-radius: 999px;
-      background: rgba(255,255,255,0.08);
-      overflow: hidden;
+    /* ---------- Hero stage (full-width) ---------- */
+    .studio-stage { position: relative; }
+    .studio-stage > img.car {
+      position: relative; z-index: 1;
+      width: 100%; height: 100%;
+      object-fit: contain;
+      transition: filter .35s ease, transform .5s cubic-bezier(.2,.8,.2,1);
+    }
+    .studio-stage > img.car[data-paint="black"]      { filter: brightness(0.32) contrast(1.18) saturate(0.15); }
+    .studio-stage > img.car[data-paint="blue"]       { filter: brightness(0.78) saturate(2.4) hue-rotate(195deg) contrast(1.1); }
+    .studio-stage > img.car[data-paint="silverlight"]{ filter: brightness(0.86) saturate(0.55) contrast(1.05); }
+
+    /* Floor reflection */
+    .floor-glow {
+      position: absolute; left: 0; right: 0; bottom: 4%; z-index: 0;
+      height: 18%;
+      background: radial-gradient(50% 100% at 50% 0%, rgba(0,173,239,0.22), transparent 70%);
+      filter: blur(6px);
+      pointer-events: none;
+    }
+
+    /* ---------- Image slot for non-transparent thumbs (Atlas cards) ---------- */
+    .image-slot {
       position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(120% 80% at 30% 20%, rgba(0,173,239,0.06), transparent 60%),
+        linear-gradient(135deg, #0a0d14 0%, #181b22 50%, #0a0d14 100%);
     }
-    .range-bar > span {
-      display: block; height: 100%;
-      background: linear-gradient(90deg, #4ade80 0%, #84e8a8 100%);
-      box-shadow: 0 0 10px rgba(74, 222, 128, 0.45);
+    .image-slot > img.slot-img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      z-index: 1;
+      display: block;
     }
-
-    /* Sparkles glow */
-    .ai-glow {
-      box-shadow: 0 0 0 1px rgba(91, 157, 217, 0.35), 0 0 32px rgba(91, 157, 217, 0.18);
-    }
-
-    /* Editorial type */
-    .display {
-      font-weight: 200;
-      letter-spacing: -0.03em;
-      line-height: 1.02;
-    }
-
-    /* Section dividers */
-    .chapter-rule {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12) 50%, transparent);
+    .image-slot.contain > img.slot-img { object-fit: contain; }
+    .image-slot.studio-thumb > img.slot-img {
+      -webkit-mask-image: radial-gradient(85% 75% at 50% 55%, #000 55%, transparent 100%);
+              mask-image: radial-gradient(85% 75% at 50% 55%, #000 55%, transparent 100%);
     }
 
-    /* Channel tile active glow */
-    .channel-active {
-      border-color: rgba(91, 157, 217, 0.5) !important;
-      background: linear-gradient(180deg, rgba(91, 157, 217, 0.08), rgba(91, 157, 217, 0.02)) !important;
-      box-shadow: 0 0 0 1px rgba(91, 157, 217, 0.35), 0 0 32px rgba(91, 157, 217, 0.18);
-    }
-
-    /* Production timeline line */
+    /* ---------- Production timeline ---------- */
     .timeline-track {
       position: absolute;
       left: 0; right: 0; top: 50%;
       transform: translateY(-50%);
       height: 1px;
       background: linear-gradient(90deg,
-        rgba(91, 157, 217, 0) 0%,
-        rgba(91, 157, 217, 0.6) 8%,
-        rgba(91, 157, 217, 1) 25%,
-        rgba(91, 157, 217, 0.55) 50%,
-        rgba(91, 157, 217, 0.4) 75%,
-        rgba(91, 157, 217, 0.2) 92%,
-        rgba(91, 157, 217, 0) 100%);
-      filter: drop-shadow(0 0 6px rgba(91, 157, 217, 0.6));
+        rgba(0,173,239,0) 0%, rgba(0,173,239,0.6) 8%,
+        rgba(0,173,239,1) 25%, rgba(0,173,239,0.55) 50%,
+        rgba(0,173,239,0.4) 75%, rgba(0,173,239,0.2) 92%,
+        rgba(0,173,239,0) 100%);
+      filter: drop-shadow(0 0 6px rgba(0,173,239,0.6));
     }
     .node {
       width: 12px; height: 12px; border-radius: 999px;
-      background: #0a0a0a;
-      border: 1px solid rgba(91, 157, 217, 0.6);
+      background: #06080d;
+      border: 1px solid rgba(0,173,239,0.6);
       position: relative; z-index: 1;
     }
     .node-active {
-      background: #5b9dd9;
-      box-shadow: 0 0 0 4px rgba(91, 157, 217, 0.18), 0 0 16px rgba(91, 157, 217, 0.7);
+      background: #00ADEF;
+      animation: heartbeat 2.4s ease-in-out infinite;
     }
     .node-active::after {
-      content: ""; position: absolute; inset: -6px;
+      content: ""; position: absolute; inset: -8px;
       border-radius: 999px;
-      border: 1px solid rgba(91, 157, 217, 0.5);
+      border: 1px solid rgba(0,173,239,0.4);
       animation: ringPulse 2.4s ease-out infinite;
     }
-    .node-done {
-      background: rgba(91, 157, 217, 0.4);
+    @keyframes ringPulse {
+      0% { transform: scale(0.6); opacity: 0.9; }
+      100% { transform: scale(2.6); opacity: 0; }
     }
 
-    /* Thumbnail hover */
-    .scene-thumb {
+    /* ---------- Sliders ---------- */
+    .slider {
+      -webkit-appearance: none; appearance: none;
+      width: 100%; height: 4px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 999px;
+      outline: none;
+    }
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none; appearance: none;
+      width: 14px; height: 14px;
+      border-radius: 999px;
+      background: #fff;
+      border: 2px solid #00ADEF;
+      box-shadow: 0 0 12px rgba(0,173,239,0.55);
       cursor: pointer;
-      transition: transform .25s ease, border-color .25s ease;
     }
-    .scene-thumb:hover { transform: translateY(-2px); }
-    .scene-thumb.active { border-color: rgba(91, 157, 217, 0.8); box-shadow: 0 0 0 1px rgba(91, 157, 217, 0.6), 0 0 16px rgba(91, 157, 217, 0.35); }
 
-    /* Tab underline */
-    .tab.active { color: #fff; }
-    .tab.active::after {
-      content: ""; display: block; height: 1px;
-      background: #5b9dd9; box-shadow: 0 0 8px rgba(91,157,217,0.7);
-      margin-top: 10px;
+    /* ---------- Range bars ---------- */
+    .range-bar {
+      height: 4px; border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      overflow: hidden;
     }
-    .tab { color: #a8aeb6; padding-bottom: 0; }
+    .range-bar > span {
+      display: block; height: 100%;
+      background: linear-gradient(90deg, #00ADEF 0%, #33C0F2 100%);
+      box-shadow: 0 0 10px rgba(0,173,239,0.45);
+      transition: width .35s ease;
+    }
+    .range-bar.green > span {
+      background: linear-gradient(90deg, #4ade80 0%, #84e8a8 100%);
+      box-shadow: 0 0 10px rgba(74, 222, 128, 0.45);
+    }
 
-    /* Subtle hover for rows */
+    /* ---------- Channel tile (Cronus) ---------- */
+    .channel-active {
+      border-color: rgba(0, 173, 239, 0.5) !important;
+      background: linear-gradient(180deg, rgba(0, 173, 239, 0.08), rgba(0, 173, 239, 0.02)) !important;
+      box-shadow: 0 0 0 1px rgba(0, 173, 239, 0.32), 0 0 32px rgba(0, 173, 239, 0.16);
+    }
+
+    /* ---------- Persistent "Your build" chip (fixed) ---------- */
+    .build-chip {
+      position: fixed;
+      left: 28px; bottom: 28px;
+      z-index: 55;
+      display: flex; align-items: center; gap: 16px;
+      padding: 12px 18px;
+      border-radius: 16px;
+      background: rgba(15,17,28,0.68);
+      border: 1px solid rgba(255,255,255,0.07);
+      backdrop-filter: blur(36px) saturate(180%);
+      -webkit-backdrop-filter: blur(36px) saturate(180%);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.06),
+        0 18px 50px -10px rgba(0,0,0,0.6);
+      transition: transform .25s ease;
+    }
+    .build-chip .stat-block { line-height: 1; }
+    .build-chip .stat-block .num { font-size: 18px; font-weight: 300; letter-spacing: -0.02em; }
+    .build-chip .stat-block .lbl { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: #7a808a; margin-top: 4px; }
+    .build-chip .sep { width: 1px; height: 28px; background: rgba(255,255,255,0.08); }
+    .build-chip .pulse {
+      width: 6px; height: 6px; border-radius: 999px;
+      background: #00ADEF;
+      box-shadow: 0 0 8px rgba(0,173,239,0.8);
+      animation: dotBlink 2.4s ease-in-out infinite;
+    }
+    .flash {
+      animation: flashChip .9s ease-out;
+    }
+    @keyframes flashChip {
+      0% { box-shadow: 0 0 0 0 rgba(0,173,239,0.5), 0 18px 50px -10px rgba(0,0,0,0.6); }
+      40% { box-shadow: 0 0 0 6px rgba(0,173,239,0.0), 0 0 28px rgba(0,173,239,0.4); }
+      100% { box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 18px 50px -10px rgba(0,0,0,0.6); }
+    }
+
+    /* ---------- Floating Cronus widget ---------- */
+    .cronus-widget {
+      position: fixed;
+      right: 28px; bottom: 28px;
+      width: 360px;
+      border-radius: 22px;
+      padding: 18px;
+      background:
+        radial-gradient(110% 80% at 0% 0%, rgba(167,139,250,0.22) 0%, transparent 55%),
+        rgba(15,17,28,0.74);
+      border: 1px solid rgba(255,255,255,0.07);
+      backdrop-filter: blur(40px) saturate(180%);
+      -webkit-backdrop-filter: blur(40px) saturate(180%);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.07),
+        0 24px 60px -12px rgba(0,0,0,0.7),
+        0 0 60px -10px rgba(167,139,250,0.18);
+      z-index: 60;
+    }
+    .cronus-widget .corner-glow {
+      position: absolute; inset: 0;
+      border-radius: 22px; pointer-events: none;
+      background:
+        radial-gradient(34% 50% at 0% 0%, rgba(167,139,250,0.20), transparent 70%);
+    }
+    .cw-avatar {
+      width: 38px; height: 38px; border-radius: 999px;
+      background:
+        radial-gradient(60% 60% at 30% 30%, rgba(167,139,250,0.55), transparent 70%),
+        linear-gradient(135deg, #2a2540, #14111e);
+      border: 1px solid rgba(255,255,255,0.08);
+      position: relative;
+      flex-shrink: 0;
+    }
+    .cw-avatar::after {
+      content: ""; position: absolute;
+      bottom: -1px; right: -1px;
+      width: 11px; height: 11px; border-radius: 999px;
+      background: #4ade80;
+      border: 2px solid #0f111c;
+      box-shadow: 0 0 6px rgba(74,222,128,0.6);
+    }
+    .cw-channel {
+      flex: 1;
+      height: 36px;
+      border-radius: 10px;
+      display: grid; place-items: center;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.05);
+      cursor: pointer;
+      transition: all .2s ease;
+    }
+    .cw-channel:hover {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.14);
+    }
+    .cw-channel.active {
+      background: rgba(0,173,239,0.10);
+      border-color: rgba(0,173,239,0.55);
+      box-shadow: 0 0 0 1px rgba(0,173,239,0.32);
+    }
+    .cw-channel.active i { color: #00ADEF; }
+    .sync-dot {
+      width: 5px; height: 5px; border-radius: 999px;
+      background: #00ADEF;
+      box-shadow: 0 0 8px rgba(0,173,239,0.85);
+      animation: sync 3.2s ease-in-out infinite;
+    }
+    @keyframes sync {
+      0%, 100% { opacity: 0.45; }
+      50% { opacity: 1; }
+    }
+
+    /* ---------- Cronus expanded overlay ---------- */
+    .cronus-overlay {
+      position: fixed; inset: 0;
+      background: rgba(2,4,10,0.65);
+      backdrop-filter: blur(8px);
+      z-index: 70;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 32px;
+    }
+    .cronus-overlay.open { display: flex; }
+    .cronus-overlay-card { width: min(960px, 100%); }
+
+    /* ---------- AI inline modal (Range / Atlas) ---------- */
+    .ai-modal {
+      display: none;
+      position: fixed; inset: 0;
+      z-index: 75;
+      background: rgba(2,4,10,0.7);
+      backdrop-filter: blur(10px);
+      align-items: center; justify-content: center;
+      padding: 32px;
+    }
+    .ai-modal.open { display: flex; }
+    .ai-modal-card {
+      width: min(720px, 100%);
+      border-radius: 24px;
+      padding: 32px;
+      background:
+        radial-gradient(70% 60% at 100% 0%, rgba(167,139,250,0.20) 0%, transparent 55%),
+        rgba(15,17,28,0.8);
+      border: 1px solid rgba(255,255,255,0.07);
+      backdrop-filter: blur(40px) saturate(180%);
+      -webkit-backdrop-filter: blur(40px) saturate(180%);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.07),
+        0 30px 80px -20px rgba(0,0,0,0.7);
+    }
+    .ai-step { display: none; }
+    .ai-step.active { display: block; }
+
+    /* Spec separator */
+    .spec-sep + .spec-sep { border-left: 1px solid rgba(255,255,255,0.06); }
+
+    /* Hover rows */
     .row-hover { transition: background-color .2s ease, border-color .2s ease; }
     .row-hover:hover {
-      background: rgba(255, 255, 255, 0.02);
-      border-color: rgba(255, 255, 255, 0.14);
-    }
-
-    /* Spec-tile separator */
-    .spec-sep + .spec-sep { border-left: 1px solid rgba(255,255,255,0.08); }
-
-    /* Diamond marker */
-    .diamond {
-      display: inline-block;
-      width: 7px; height: 7px;
-      transform: rotate(45deg);
-      background: #5b9dd9;
-      box-shadow: 0 0 6px rgba(91, 157, 217, 0.7);
+      background: rgba(255,255,255,0.025);
+      border-color: rgba(255,255,255,0.14);
     }
 
     /* Sparkline */
-    .sparkline path { filter: drop-shadow(0 0 4px rgba(91, 157, 217, 0.45)); }
+    .sparkline path { filter: drop-shadow(0 0 4px rgba(0, 173, 239, 0.45)); }
+    .graph-glow path { filter: drop-shadow(0 0 4px rgba(0,173,239,0.4)); }
 
-    /* Subtle inner glow on big panels */
-    .glow-edge {
-      position: relative;
+    /* Win/loss */
+    .win  { color: #4ade80; }
+    .lose { color: #f7a08a; }
+
+    /* Hotspot */
+    .hotspot {
+      position: absolute;
+      width: 28px; height: 28px;
+      border-radius: 999px;
+      background: rgba(0,173,239,0.18);
+      border: 1px solid rgba(0,173,239,0.6);
+      backdrop-filter: blur(8px);
+      cursor: pointer;
+      display: grid; place-items: center;
+      transition: all .25s ease;
     }
-    .glow-edge::before {
-      content: "";
-      position: absolute; inset: 0;
-      border-radius: inherit;
-      background: radial-gradient(120% 80% at 50% 0%, rgba(91, 157, 217, 0.08), transparent 60%);
-      pointer-events: none;
+    .hotspot::before {
+      content: ""; position: absolute; inset: -6px;
+      border-radius: 999px;
+      border: 1px solid rgba(0,173,239,0.4);
+      animation: ringPulse 2.6s ease-out infinite;
     }
+    .hotspot:hover { background: rgba(0,173,239,0.32); transform: scale(1.1); }
+    .hotspot::after {
+      content: ""; width: 6px; height: 6px; border-radius: 999px;
+      background: #00ADEF;
+      box-shadow: 0 0 8px rgba(0,173,239,0.9);
+    }
+    .hotspot-label {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      left: 36px; white-space: nowrap;
+      font-size: 11px;
+      padding: 5px 10px; border-radius: 8px;
+      background: rgba(15,17,28,0.85);
+      border: 1px solid rgba(0,173,239,0.3);
+      backdrop-filter: blur(12px);
+      opacity: 0; pointer-events: none;
+      transition: opacity .2s ease;
+    }
+    .hotspot:hover .hotspot-label, .hotspot:focus .hotspot-label { opacity: 1; }
 
     /* Anchor offset */
     section[id] { scroll-margin-top: 60px; }
 
-    /* Hide on small screens — this is a pitch desktop artifact */
+    /* Responsive */
     @media (max-width: 900px) {
       .desktop-only { display: none; }
+      .cronus-widget { width: calc(100vw - 32px); right: 16px; bottom: 16px; }
+      .build-chip { display: none; }
+    }
+    @media (max-width: 1100px) {
+      .lg-stack-2 { grid-template-columns: 1fr !important; }
     }
   </style>
 </head>
 <body class="bg-ink text-white">
 
-  <!-- ==================== PERSISTENT PULSE BAR ==================== -->
+  <!-- ==================== TOP PULSE BAR ==================== -->
   <div class="fixed top-0 left-0 right-0 z-50 pointer-events-none">
     <div class="pulse-line"></div>
     <div class="flex justify-end pr-6 pt-2">
-      <div class="flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] text-muted/80">
-        <span class="dot-pulse" style="width:5px;height:5px;"></span>
+      <div class="flex items-center gap-2 text-[9.5px] uppercase tracking-[0.28em] text-muted/70 font-light">
+        <span class="block w-1 h-1 rounded-full bg-accent" style="box-shadow: 0 0 6px rgba(0,173,239,0.8);"></span>
         Adapting to you
       </div>
     </div>
   </div>
 
-  <!-- ==================== CHAPTER 1 — DISCOVER ==================== -->
-  <section id="discover" class="relative">
+  <!-- ==================== HEADER ==================== -->
+  <header class="relative z-30 px-8 pt-10 pb-4">
+    <div class="grid grid-cols-3 items-center">
+      <nav class="flex items-center gap-7 text-[12px] tracking-wide text-muted">
+        <a href="#" class="hover:text-white transition">Models</a>
+        <a href="#" class="hover:text-white transition">Shop</a>
+        <a href="#" class="hover:text-white transition">Service</a>
+        <a href="#" class="hover:text-white transition flex items-center gap-1">More
+          <i data-lucide="chevron-down" class="w-3 h-3"></i>
+        </a>
+      </nav>
 
-    <!-- ===== Header ===== -->
-    <header class="relative z-30 px-8 pt-10 pb-4">
-      <div class="grid grid-cols-3 items-center">
-        <!-- Left utility nav -->
-        <nav class="flex items-center gap-7 text-[12px] tracking-wide text-muted">
-          <a href="#" class="hover:text-white transition">Models</a>
-          <a href="#" class="hover:text-white transition">Shop</a>
-          <a href="#" class="hover:text-white transition">Service</a>
-          <a href="#" class="hover:text-white transition flex items-center gap-1">More
-            <i data-lucide="chevron-down" class="w-3 h-3"></i>
-          </a>
-        </nav>
-
-        <!-- Centered Mercedes star + GLC -->
-        <div class="flex flex-col items-center gap-2">
-          <!-- Mercedes star (inline SVG) -->
-          <svg viewBox="0 0 100 100" class="w-7 h-7" aria-label="Mercedes-Benz">
-            <circle cx="50" cy="50" r="48" fill="none" stroke="#fff" stroke-width="2"/>
-            <g stroke="#fff" stroke-width="2" stroke-linecap="round">
-              <line x1="50" y1="50" x2="50" y2="6"/>
-              <line x1="50" y1="50" x2="88" y2="72"/>
-              <line x1="50" y1="50" x2="12" y2="72"/>
-            </g>
-          </svg>
-          <div class="flex items-center gap-2">
-            <span class="text-[15px] tracking-[0.32em] font-medium">GLC</span>
-            <span class="text-[9px] uppercase tracking-[0.22em] px-2 py-[2px] rounded-full border border-accent/40 text-accent bg-accent/5">Electric</span>
-          </div>
-        </div>
-
-        <!-- Right icons -->
-        <div class="flex items-center justify-end gap-5 text-muted">
-          <button class="hover:text-white transition" aria-label="Search"><i data-lucide="search" class="w-4 h-4"></i></button>
-          <button class="hover:text-white transition" aria-label="Region"><i data-lucide="globe" class="w-4 h-4"></i></button>
-          <button class="hover:text-white transition" aria-label="Account"><i data-lucide="user" class="w-4 h-4"></i></button>
-          <button class="hover:text-white transition relative" aria-label="Basket">
-            <i data-lucide="shopping-bag" class="w-4 h-4"></i>
-            <span class="absolute -top-1 -right-1 text-[8px] bg-accent text-black rounded-full w-3.5 h-3.5 grid place-items-center font-semibold">1</span>
-          </button>
+      <div class="flex flex-col items-center gap-2">
+        <svg viewBox="0 0 100 100" class="w-7 h-7" aria-label="Mercedes-Benz">
+          <circle cx="50" cy="50" r="48" fill="none" stroke="#fff" stroke-width="2"/>
+          <g stroke="#fff" stroke-width="2" stroke-linecap="round">
+            <line x1="50" y1="50" x2="50" y2="6"/>
+            <line x1="50" y1="50" x2="88" y2="72"/>
+            <line x1="50" y1="50" x2="12" y2="72"/>
+          </g>
+        </svg>
+        <div class="flex items-center gap-2">
+          <span class="text-[15px] tracking-[0.32em] font-medium">GLC</span>
+          <span class="text-[9px] uppercase tracking-[0.22em] px-2 py-[2px] rounded-full border border-accent/40 text-accent bg-accent/5">Electric</span>
         </div>
       </div>
-    </header>
 
-    <!-- ===== Generative Hero ===== -->
-    <div class="px-8">
-      <!-- IMAGE: Dubai Marina hero render — generated by AI for current user, golden hour, 1920×1080. Show GLC parked at marina with Burj Khalifa silhouette behind. -->
-      <div id="hero-slot" class="image-slot rounded-2xl hairline" data-tone="warm" data-label="Hero · Dubai Marina · 17:42"
-           style="height: calc(100vh - 130px); min-height: 580px;">
-
-        <!-- Floating headline -->
-        <div class="absolute top-10 left-12 max-w-md">
-          <div class="text-[10px] uppercase tracking-[0.3em] text-muted/80 mb-3 flex items-center gap-2">
-            <span class="diamond"></span> Generated for you
-          </div>
-          <h1 class="display text-white text-[64px] leading-[0.95]">The new GLC,<br/><span class="text-muted/80">in your light.</span></h1>
-          <p class="mt-5 text-[13px] text-muted leading-relaxed max-w-sm">
-            One continuous surface — discover, configure, match, and hand off — without ever starting over.
-          </p>
-        </div>
-
-        <!-- Bottom-left caption -->
-        <div class="absolute bottom-8 left-8 flex items-center gap-3 text-[11px] tracking-wide text-muted/90">
-          <span class="diamond"></span>
-          <span class="text-white/90">Generated for you</span>
-          <span class="opacity-50">·</span>
-          <span>Dubai Marina</span>
-          <span class="opacity-50">·</span>
-          <span>17:42 light</span>
-          <span class="opacity-50">·</span>
-          <a href="#" class="underline underline-offset-4 decoration-white/20 hover:decoration-accent hover:text-white transition">View previous</a>
-        </div>
-
-        <!-- Bottom-right scene cluster -->
-        <div class="absolute bottom-8 right-8 flex flex-col items-end gap-3">
-          <div class="flex items-center gap-3" id="scene-thumbs">
-            <button class="scene-thumb hairline rounded-md image-slot active" data-tone="cool" data-label="Driveway" data-scene="driveway"
-                    style="width:56px;height:56px;border-radius:8px;"></button>
-            <button class="scene-thumb hairline rounded-md image-slot" data-tone="desert" data-label="AlUla" data-scene="alula"
-                    style="width:56px;height:56px;border-radius:8px;"></button>
-            <button class="scene-thumb hairline rounded-md image-slot" data-tone="studio" data-label="Studio" data-scene="showroom"
-                    style="width:56px;height:56px;border-radius:8px;"></button>
-          </div>
-          <span class="text-[10px] uppercase tracking-[0.22em] text-muted/60">Other scenes</span>
-        </div>
-
-        <!-- Subtle vignette -->
-        <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(120% 80% at 50% 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.5) 100%);"></div>
+      <div class="flex items-center justify-end gap-5 text-muted">
+        <button class="hover:text-white transition" aria-label="Search"><i data-lucide="search" class="w-4 h-4"></i></button>
+        <button class="hover:text-white transition" aria-label="Region"><i data-lucide="globe" class="w-4 h-4"></i></button>
+        <button class="hover:text-white transition" aria-label="Account"><i data-lucide="user" class="w-4 h-4"></i></button>
+        <button class="hover:text-white transition relative" aria-label="Basket">
+          <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+          <span class="absolute -top-1 -right-1 text-[8px] bg-accent text-black rounded-full w-3.5 h-3.5 grid place-items-center font-semibold">1</span>
+        </button>
       </div>
     </div>
+  </header>
 
-    <!-- Scroll cue -->
-    <div class="flex flex-col items-center gap-2 py-8 text-muted/60">
-      <span class="text-[9px] uppercase tracking-[0.32em]">Continue</span>
-      <i data-lucide="chevron-down" class="w-4 h-4 animate-bounce"></i>
+  <!-- ==================== HERO — full-width product reveal ==================== -->
+  <section id="hero" class="relative">
+    <div class="atmo-hero">
+      <div class="px-8 pt-2 pb-16">
+        <div class="relative rounded-3xl overflow-hidden hairline" style="height: 880px;">
+
+          <!-- Layered ambient washes -->
+          <div class="absolute inset-0 pointer-events-none" style="
+            background:
+              radial-gradient(40% 55% at 22% 28%, rgba(167,139,250,0.22), transparent 70%),
+              radial-gradient(40% 55% at 80% 70%, rgba(0,173,239,0.20), transparent 70%);
+          "></div>
+
+          <!-- Floor glow -->
+          <div class="floor-glow"></div>
+
+          <!-- Big car render -->
+          <div class="absolute inset-0 studio-stage">
+            <img id="hero-car" class="car" src="assets/cars/glc-hero-studio.webp" alt="Mercedes-Benz GLC with EQ Technology"
+                 style="transform: scale(1.32); transform-origin: center 62%;" />
+          </div>
+
+          <!-- Top-left editorial -->
+          <div class="absolute top-12 left-14 max-w-md z-10">
+            <div class="live-pill mb-5">
+              <span class="dot"></span> The new GLC · Electric
+            </div>
+            <h1 class="display text-white text-[80px]">Defined<br/>by you.</h1>
+            <p class="display-soft text-[20px] mt-3 max-w-sm">A studio reveal.<br/>Made instantly responsive.</p>
+          </div>
+
+          <!-- Top-right floating glass chips: Paint / Wheels / Interior -->
+          <div class="absolute top-12 right-12 z-10 flex flex-col gap-3 w-[280px]">
+
+            <div class="glass-chip rounded-2xl p-4">
+              <div class="flex items-center justify-between mb-3">
+                <div class="stat-label">Paint</div>
+                <div class="text-[11px] truncate ml-3" id="paint-name">High-tech silver</div>
+              </div>
+              <div class="flex items-center gap-3" id="hero-swatches">
+                <button class="swatch active" data-paint="silver" data-name="High-tech silver" data-price="0" style="background: linear-gradient(135deg,#d8dde3,#a6acb4);">
+                  <span class="swatch-now"></span>
+                </button>
+                <button class="swatch" data-paint="black" data-name="Obsidian black" data-price="2400" style="background:#0a0a0a"></button>
+                <button class="swatch" data-paint="blue" data-name="Spectral blue" data-price="2800" style="background: linear-gradient(135deg,#3567a3,#162b50);"></button>
+                <button class="swatch" data-paint="silverlight" data-name="Selenite grey" data-price="1900" style="background: linear-gradient(135deg,#b6bcc2,#828990);"></button>
+              </div>
+            </div>
+
+            <div class="glass-chip rounded-2xl p-4">
+              <div class="flex items-center justify-between mb-3">
+                <div class="stat-label">Wheels</div>
+                <div class="text-[11px]" id="wheel-name">20" Aero</div>
+              </div>
+              <div class="grid grid-cols-2 gap-2" id="hero-wheels">
+                <button class="opt-chip active justify-center" data-wheel="20-aero" data-name='20" Aero' data-price="0" data-range="0">
+                  <i data-lucide="circle-dot" class="w-3.5 h-3.5"></i>20" Aero
+                </button>
+                <button class="opt-chip justify-center" data-wheel="19-twin" data-name='19" Twin' data-price="-1200" data-range="12">
+                  <i data-lucide="circle" class="w-3.5 h-3.5"></i>19" Twin
+                </button>
+              </div>
+            </div>
+
+            <div class="glass-chip rounded-2xl p-4">
+              <div class="flex items-center justify-between mb-3">
+                <div class="stat-label">Interior</div>
+                <div class="text-[11px]" id="interior-name">Black leather</div>
+              </div>
+              <div class="grid grid-cols-2 gap-2" id="hero-interiors">
+                <button class="opt-chip active justify-center" data-interior="black" data-name="Black leather" data-price="0">
+                  <i data-lucide="armchair" class="w-3.5 h-3.5"></i>Black
+                </button>
+                <button class="opt-chip justify-center" data-interior="macchiato" data-name="Macchiato nappa" data-price="3200">
+                  <i data-lucide="armchair" class="w-3.5 h-3.5"></i>Macchiato
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom-left: live readouts -->
+          <div class="absolute bottom-14 left-14 z-10 flex items-end gap-12">
+            <div>
+              <div class="stat-label">Your build</div>
+              <div class="stat-display text-[52px] mt-1.5"><span id="hero-price">AED 257,556</span></div>
+              <div class="mt-2"><span class="live-pill"><span class="dot"></span>Live</span></div>
+            </div>
+            <div>
+              <div class="stat-label">Predicted range</div>
+              <div class="stat-display text-[52px] mt-1.5"><span id="hero-range">471</span> <span class="text-[18px] text-muted-2">km</span></div>
+              <div class="mt-2"><span class="live-pill"><span class="dot"></span>WLTP</span></div>
+            </div>
+          </div>
+
+          <!-- Bottom-right: Configure fully -->
+          <div class="absolute bottom-14 right-14 z-10 flex flex-col items-end gap-3">
+            <a href="#" class="btn-pill btn-glass">Configure fully <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i></a>
+            <a href="#" class="text-[11px] text-muted-2 hover:text-accent transition flex items-center gap-1.5">Open in Forge <i data-lucide="arrow-right" class="w-3 h-3"></i></a>
+          </div>
+
+        </div>
+      </div>
     </div>
   </section>
 
-  <div class="chapter-rule mx-8"></div>
+  <!-- ==================== FEATURE · RANGE & CHARGING ==================== -->
+  <section id="range" class="relative">
+    <div class="atmo-range">
+      <div class="px-8 py-28">
+        <div class="max-w-7xl mx-auto">
 
-  <!-- ==================== CHAPTER 2 — CONFIGURE (Forge) ==================== -->
-  <section id="configure" class="relative px-8 py-24">
+          <div class="flex items-center gap-3 mb-12">
+            <span class="live-pill"><span class="dot"></span>Range &amp; charging</span>
+          </div>
 
-    <!-- Editorial header -->
-    <div class="max-w-6xl mb-12">
-      <div class="text-[10px] uppercase tracking-[0.32em] text-accent mb-4 flex items-center gap-2">
-        <span class="diamond"></span> Chapter 02 · Forge
+          <div class="grid grid-cols-12 gap-10 items-center">
+
+            <div class="col-span-12 lg:col-span-5">
+              <h2 class="display text-[88px]">Drive further.</h2>
+              <h2 class="display text-[88px] text-white/65 mt-1">Charge faster.</h2>
+              <p class="mt-6 text-[14px] text-muted/85 leading-relaxed max-w-md">
+                800-volt architecture. The longest stops on a long day are the ones you choose to take.
+              </p>
+
+              <!-- AI opt-in CTA + add-to-build CTA -->
+              <div class="mt-8 flex flex-wrap items-center gap-3">
+                <button id="ai-range-open" class="btn-pill btn-glass-ai">
+                  <i data-lucide="sparkles" class="w-3.5 h-3.5 text-ai"></i>
+                  Get my personalized range
+                </button>
+                <button class="btn-pill btn-glass add-to-build" data-name="Enhanced Charging Package" data-price="4200" data-range="0">
+                  <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                  Add Enhanced Charging
+                </button>
+              </div>
+              <a href="#" class="mt-5 inline-flex items-center gap-1.5 text-[11px] text-muted-2 hover:text-accent transition">Open in full configurator <i data-lucide="arrow-right" class="w-3 h-3"></i></a>
+            </div>
+
+            <div class="col-span-12 lg:col-span-7 relative">
+              <div class="relative rounded-3xl overflow-hidden hairline" style="height: 540px; background:
+                radial-gradient(60% 50% at 50% 70%, rgba(0,173,239,0.22) 0%, transparent 60%),
+                linear-gradient(180deg, #0c1322 0%, #060912 100%);
+              ">
+                <img src="assets/cars/glc-side-studio.webp" class="absolute inset-0 w-full h-full object-contain"
+                     style="object-position: 50% 60%; transform: scale(1.05);" alt="GLC side"/>
+                <div class="absolute bottom-0 left-0 right-0 h-1/3 pointer-events-none"
+                     style="background: linear-gradient(180deg, transparent, rgba(6,9,18,0.85) 80%);"></div>
+
+                <div class="absolute top-10 left-10 right-10 flex items-start justify-between">
+                  <div>
+                    <div class="stat-display text-[120px]">471</div>
+                    <div class="stat-label mt-2">WLTP range · km</div>
+                  </div>
+                  <div class="text-right">
+                    <div class="stat-display text-[68px]">22<span class="text-[28px] text-muted-2"> min</span></div>
+                    <div class="stat-label mt-2">10–80% · DC fast</div>
+                    <div class="mt-4 stat-display text-[44px]">800<span class="text-[20px] text-muted-2"> V</span></div>
+                    <div class="stat-label mt-2">Architecture</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <h2 class="display text-[68px]">Configure it as you think.</h2>
-      <p class="mt-5 text-[15px] text-muted max-w-xl leading-relaxed">
-        Every change is recomputed across price, range, delivery and matching inventory in real time — no funnel, no resubmissions.
-      </p>
     </div>
+  </section>
 
-    <!-- Forge panel -->
-    <div class="glass glow-edge rounded-3xl overflow-hidden">
+  <!-- ==================== FEATURE · DRIVE PILOT ==================== -->
+  <section id="pilot" class="relative">
+    <div class="atmo-pilot">
+      <div class="px-8 py-28">
+        <div class="max-w-7xl mx-auto">
 
-      <!-- Top bar -->
-      <div class="flex items-center justify-between px-8 py-6 border-b border-line">
-        <div>
-          <div class="text-[22px] font-light tracking-display">GLC 400 4MATIC <span class="text-muted">with EQ Technology</span></div>
-          <div class="flex items-center gap-2 mt-2 text-[12px] text-muted">
-            <span class="dot-green"></span>
-            <span class="text-[#7ddc9c]">All systems nominal</span>
-            <span class="opacity-40">·</span>
-            <span>Last recomputed 0.4s ago</span>
-          </div>
-        </div>
-
-        <!-- Step indicator -->
-        <ol class="hidden lg:flex items-center gap-7 text-[12px]">
-          <li class="flex items-center gap-2 text-muted"><span class="step-num">1</span><span class="step-label">Model</span></li>
-          <li class="step-active flex items-center gap-2"><span class="step-num">2</span><span class="step-label">Exterior</span></li>
-          <li class="flex items-center gap-2 text-muted"><span class="step-num">3</span><span class="step-label">Wheels</span></li>
-          <li class="flex items-center gap-2 text-muted"><span class="step-num">4</span><span class="step-label">Interior</span></li>
-          <li class="flex items-center gap-2 text-muted"><span class="step-num">5</span><span class="step-label">Packages</span></li>
-          <li class="flex items-center gap-2 text-muted"><span class="step-num">6</span><span class="step-label">Summary</span></li>
-        </ol>
-
-        <!-- Right actions -->
-        <div class="flex items-center gap-3">
-          <button class="btn-pill btn-ghost"><i data-lucide="bookmark" class="w-3.5 h-3.5"></i>Save build</button>
-          <button class="btn-pill btn-ghost"><i data-lucide="share-2" class="w-3.5 h-3.5"></i>Share</button>
-          <button class="btn-pill btn-primary">Book a test drive <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></button>
-        </div>
-      </div>
-
-      <!-- Main grid -->
-      <div class="grid grid-cols-12 gap-6 p-8">
-
-        <!-- Studio render -->
-        <div class="col-span-12 lg:col-span-7 relative">
-          <!-- IMAGE: GLC studio render, exterior, high-tech silver metallic, dark studio background, 3/4 angle, 1400×900 -->
-          <div class="image-slot rounded-2xl hairline" data-tone="studio" data-label="Studio render · GLC 400 4MATIC"
-               style="aspect-ratio: 16/10;">
-            <!-- left toggles -->
-            <div class="absolute top-4 left-4 flex flex-col gap-2">
-              <button class="hairline rounded-lg w-12 h-12 grid place-items-center text-[10px] tracking-widest text-muted hover:text-white hover:border-white/20 transition glass-soft">
-                <div class="flex flex-col items-center gap-0.5">
-                  <i data-lucide="rotate-3d" class="w-4 h-4"></i>
-                  <span>360°</span>
-                </div>
-              </button>
-              <button class="hairline rounded-lg w-12 h-12 grid place-items-center text-[10px] tracking-widest text-muted hover:text-white hover:border-white/20 transition glass-soft">
-                <div class="flex flex-col items-center gap-0.5">
-                  <i data-lucide="user" class="w-4 h-4"></i>
-                  <span>View</span>
-                </div>
-              </button>
-            </div>
-
-            <!-- bottom dots indicator -->
-            <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2">
-              <span class="w-1.5 h-1.5 rounded-full bg-white/20"></span>
-              <span class="w-1.5 h-1.5 rounded-full bg-white/20"></span>
-              <span class="w-1.5 h-1.5 rounded-full bg-white/20"></span>
-              <span class="w-1.5 h-1.5 rounded-full bg-white/20"></span>
-              <span class="w-1.5 h-1.5 rounded-full bg-white/20"></span>
-              <span class="w-1.5 h-1.5 rounded-full bg-accent shadow-[0_0_8px_rgba(91,157,217,0.7)]"></span>
-              <span class="w-1.5 h-1.5 rounded-full bg-white/20"></span>
-            </div>
+          <div class="flex items-center gap-3 mb-12">
+            <span class="live-pill ai"><span class="dot"></span>Drive Pilot</span>
           </div>
 
-          <!-- AI Recommendations card under studio -->
-          <div class="glass-soft ai-glow rounded-2xl mt-5 p-5">
-            <div class="flex items-center justify-between mb-4">
-              <div class="flex items-center gap-2.5">
-                <div class="w-7 h-7 rounded-lg grid place-items-center bg-accent/15 border border-accent/30">
-                  <i data-lucide="sparkles" class="w-3.5 h-3.5 text-accent"></i>
+          <div class="grid grid-cols-12 gap-10 items-center">
+
+            <div class="col-span-12 lg:col-span-7 relative">
+              <div class="relative rounded-3xl overflow-hidden hairline" style="height: 540px; background:
+                radial-gradient(50% 60% at 30% 30%, rgba(167,139,250,0.30) 0%, transparent 65%),
+                radial-gradient(50% 60% at 80% 80%, rgba(0,173,239,0.16) 0%, transparent 65%),
+                linear-gradient(180deg, #0a0d1c 0%, #060912 100%);
+              ">
+                <img src="assets/cars/glc-front-studio.webp" class="absolute inset-0 w-full h-full object-contain"
+                     style="object-position: 50% 65%; transform: scale(1.04); filter: brightness(0.94);" alt="GLC front" />
+
+                <div class="absolute bottom-0 left-0 right-0 h-1/2 pointer-events-none" style="
+                  background: radial-gradient(50% 80% at 50% 100%, rgba(0,173,239,0.20) 0%, transparent 70%);
+                "></div>
+                <div class="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
+                  <div class="flex items-end gap-2">
+                    <div class="w-1 h-3 bg-accent/70 rounded-full"></div>
+                    <div class="w-1 h-5 bg-accent/85 rounded-full"></div>
+                    <div class="w-1 h-7 bg-accent rounded-full" style="box-shadow: 0 0 8px rgba(0,173,239,0.7);"></div>
+                    <div class="w-1 h-5 bg-accent/85 rounded-full"></div>
+                    <div class="w-1 h-3 bg-accent/70 rounded-full"></div>
+                  </div>
+                  <div class="text-[9px] uppercase tracking-[0.22em] text-accent/85">Lane locked · L3 active</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-span-12 lg:col-span-5">
+              <h2 class="display text-[88px]">Hands off.</h2>
+              <h2 class="display text-[88px] text-white/65 mt-1">Mind on.</h2>
+              <p class="mt-6 text-[14px] text-muted/85 leading-relaxed max-w-md">
+                Conditional automation up to 95 km/h on qualified highways. Eyes off, legally.
+              </p>
+
+              <div class="mt-10 grid grid-cols-2 gap-x-8 gap-y-6">
+                <div>
+                  <div class="stat-display text-[64px]">L3</div>
+                  <div class="stat-label mt-2">SAE level</div>
                 </div>
                 <div>
-                  <div class="text-[13px] font-medium">AI Recommendations</div>
-                  <div class="text-[11px] text-muted">Recommended to complete this build</div>
+                  <div class="stat-display text-[64px]">95<span class="text-[22px] text-muted-2"> km/h</span></div>
+                  <div class="stat-label mt-2">Top speed · qualified</div>
                 </div>
               </div>
-              <button class="btn-pill btn-outline text-[12px]">Apply all (3) <i data-lucide="plus" class="w-3 h-3"></i></button>
-            </div>
 
-            <div class="grid grid-cols-3 gap-3">
-              <!-- Rec 1 -->
-              <div class="glass-soft rounded-xl p-3 flex items-center gap-3 row-hover">
-                <!-- IMAGE: Panoramic sunroof thumbnail, 80×80 -->
-                <div class="image-slot rounded-md flex-shrink-0" data-tone="cool" data-label="" style="width:48px;height:48px;"></div>
-                <div class="flex-1 min-w-0">
-                  <div class="text-[12px] font-medium truncate">Panoramic sunroof</div>
-                  <div class="text-[10px] text-muted">+ AED 8,400</div>
-                </div>
-                <button class="w-7 h-7 rounded-full hairline grid place-items-center hover:bg-accent/15 hover:border-accent/40 transition">
+              <div class="mt-8 flex flex-wrap items-center gap-3">
+                <button class="btn-pill btn-glass add-to-build" data-name="Drive Pilot Plus" data-price="11800" data-range="0">
                   <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                  Add Drive Pilot Plus
                 </button>
               </div>
-              <!-- Rec 2 -->
-              <div class="glass-soft rounded-xl p-3 flex items-center gap-3 row-hover">
-                <!-- IMAGE: Burmester 3D speaker grille thumbnail, 80×80 -->
-                <div class="image-slot rounded-md flex-shrink-0" data-tone="studio" data-label="" style="width:48px;height:48px;"></div>
-                <div class="flex-1 min-w-0">
-                  <div class="text-[12px] font-medium truncate">Burmester® 3D surround sound</div>
-                  <div class="text-[10px] text-muted">+ AED 12,200</div>
-                </div>
-                <button class="w-7 h-7 rounded-full hairline grid place-items-center hover:bg-accent/15 hover:border-accent/40 transition">
-                  <i data-lucide="plus" class="w-3.5 h-3.5"></i>
-                </button>
-              </div>
-              <!-- Rec 3 -->
-              <div class="glass-soft rounded-xl p-3 flex items-center gap-3 row-hover">
-                <!-- IMAGE: Night Package badging thumbnail, 80×80 -->
-                <div class="image-slot rounded-md flex-shrink-0" data-tone="night" data-label="" style="width:48px;height:48px;"></div>
-                <div class="flex-1 min-w-0">
-                  <div class="text-[12px] font-medium truncate">Night Package</div>
-                  <div class="text-[10px] text-muted">+ AED 6,900</div>
-                </div>
-                <button class="w-7 h-7 rounded-full hairline grid place-items-center hover:bg-accent/15 hover:border-accent/40 transition">
-                  <i data-lucide="plus" class="w-3.5 h-3.5"></i>
-                </button>
-              </div>
-            </div>
-
-            <p class="mt-4 text-[11px] text-muted leading-relaxed">
-              These options pair well with <span class="text-white/80">High-tech silver metallic</span>, <span class="text-white/80">black leather</span>, and the <span class="text-white/80">EQ Premium Package</span>.
-            </p>
-          </div>
-        </div>
-
-        <!-- Right side rows -->
-        <div class="col-span-12 lg:col-span-5 flex flex-col gap-3">
-          <!-- Paint -->
-          <div class="glass-soft rounded-2xl p-5 row-hover">
-            <div class="flex items-center justify-between">
-              <div>
-                <div class="text-[11px] uppercase tracking-[0.18em] text-muted">Paint</div>
-                <div class="text-[14px] mt-1">High-tech silver metallic</div>
-              </div>
-              <div class="flex items-center gap-3">
-                <!-- IMAGE: Paint chip thumb, silver metallic, 64×64 -->
-                <div class="image-slot rounded-md" data-tone="studio" data-label="" style="width:44px;height:44px;"></div>
-                <i data-lucide="chevron-right" class="w-4 h-4 text-muted"></i>
-              </div>
-            </div>
-            <!-- Swatches -->
-            <div class="mt-4 flex items-center gap-3" id="swatches">
-              <button class="swatch" style="background:#1a1a1a"></button>
-              <button class="swatch active" style="background: linear-gradient(135deg,#d8dde3,#a6acb4);"></button>
-              <button class="swatch" style="background: linear-gradient(135deg,#fafafa,#dadada);">
-                <span class="swatch-now"></span>
-              </button>
-              <button class="swatch" style="background:#0c0c0c"></button>
-              <button class="swatch" style="background: linear-gradient(135deg,#5a86b3,#274a7a);"></button>
-              <button class="swatch" style="background: linear-gradient(135deg,#3567a3,#162b50);">
-                <span class="swatch-now"></span>
-              </button>
-              <button class="swatch" style="background:#0a1730"></button>
-              <span class="ml-auto text-[10px] text-muted flex items-center gap-1.5">
-                <span class="diamond"></span> Available now
-              </span>
+              <a href="#" class="mt-5 inline-flex items-center gap-1.5 text-[11px] text-muted-2 hover:text-accent transition">Open in full configurator <i data-lucide="arrow-right" class="w-3 h-3"></i></a>
             </div>
           </div>
-
-          <!-- Wheels -->
-          <div class="glass-soft rounded-2xl p-5 row-hover flex items-center justify-between">
-            <div>
-              <div class="text-[11px] uppercase tracking-[0.18em] text-muted">Wheels</div>
-              <div class="text-[14px] mt-1">20" Aero 5-spoke</div>
-            </div>
-            <div class="flex items-center gap-3">
-              <!-- IMAGE: Wheel thumb, 5-spoke aero, 64×64 -->
-              <div class="image-slot rounded-md grid place-items-center" data-tone="studio" data-label="" style="width:44px;height:44px;">
-                <i data-lucide="circle-dot" class="w-5 h-5 text-white/70"></i>
-              </div>
-              <i data-lucide="chevron-right" class="w-4 h-4 text-muted"></i>
-            </div>
-          </div>
-
-          <!-- Interior -->
-          <div class="glass-soft rounded-2xl p-5 row-hover flex items-center justify-between">
-            <div>
-              <div class="text-[11px] uppercase tracking-[0.18em] text-muted">Interior</div>
-              <div class="text-[14px] mt-1">Black leather</div>
-            </div>
-            <div class="flex items-center gap-3">
-              <!-- IMAGE: Interior thumb, dark leather, 64×64 -->
-              <div class="image-slot rounded-md grid place-items-center" data-tone="night" data-label="" style="width:44px;height:44px;">
-                <i data-lucide="armchair" class="w-5 h-5 text-white/70"></i>
-              </div>
-              <i data-lucide="chevron-right" class="w-4 h-4 text-muted"></i>
-            </div>
-          </div>
-
-          <!-- Packages -->
-          <div class="glass-soft rounded-2xl p-5 row-hover flex items-center justify-between">
-            <div>
-              <div class="text-[11px] uppercase tracking-[0.18em] text-muted">Packages</div>
-              <div class="text-[14px] mt-1">EQ Premium Package</div>
-            </div>
-            <div class="flex items-center gap-3">
-              <div class="image-slot rounded-md grid place-items-center" data-tone="cool" data-label="" style="width:44px;height:44px;">
-                <i data-lucide="hexagon" class="w-5 h-5 text-accent"></i>
-              </div>
-              <i data-lucide="chevron-right" class="w-4 h-4 text-muted"></i>
-            </div>
-          </div>
-
-          <!-- Driver Assistance -->
-          <div class="glass-soft rounded-2xl p-5 row-hover flex items-center justify-between">
-            <div>
-              <div class="text-[11px] uppercase tracking-[0.18em] text-muted">Driver Assistance</div>
-              <div class="text-[14px] mt-1">Drive Pilot &amp; Parking Package</div>
-            </div>
-            <div class="flex items-center gap-3">
-              <div class="image-slot rounded-md grid place-items-center" data-tone="cool" data-label="" style="width:44px;height:44px;">
-                <i data-lucide="steering-wheel" class="w-5 h-5 text-[#7ddc9c]"></i>
-              </div>
-              <i data-lucide="chevron-right" class="w-4 h-4 text-muted"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Summary bar -->
-      <div class="border-t border-line px-8 py-6 grid grid-cols-12 gap-6 items-center">
-        <div class="col-span-3">
-          <div class="text-[11px] uppercase tracking-[0.18em] text-muted">Your build</div>
-          <div class="text-[28px] font-light tracking-display mt-1">AED 257,556</div>
-          <div class="text-[10px] text-muted mt-1 flex items-center gap-1">Total price incl. VAT <i data-lucide="info" class="w-3 h-3"></i></div>
-        </div>
-
-        <div class="col-span-3">
-          <div class="text-[11px] uppercase tracking-[0.18em] text-muted">Range (WLTP)</div>
-          <div class="text-[28px] font-light tracking-display mt-1">470 km</div>
-          <div class="range-bar mt-2"><span style="width: 78%;"></span></div>
-          <div class="text-[10px] text-muted mt-1.5">Electric range</div>
-        </div>
-
-        <div class="col-span-3">
-          <div class="text-[11px] uppercase tracking-[0.18em] text-muted">Delivery estimate</div>
-          <div class="text-[20px] font-light tracking-display mt-1">Oct 2026 — Jan 2027</div>
-          <div class="text-[10px] text-muted mt-2 flex items-center gap-1.5"><i data-lucide="calendar" class="w-3 h-3"></i> Standard delivery</div>
-        </div>
-
-        <div class="col-span-3 flex items-start gap-4">
-          <div class="flex-1">
-            <div class="text-[11px] uppercase tracking-[0.18em] text-muted mb-2">Selected highlights</div>
-            <ul class="space-y-1 text-[12px]">
-              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3 h-3 text-[#7ddc9c]"></i>High-tech silver metallic paint</li>
-              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3 h-3 text-[#7ddc9c]"></i>20" Aero 5-spoke wheels</li>
-              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3 h-3 text-[#7ddc9c]"></i>Black leather interior</li>
-              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3 h-3 text-[#7ddc9c]"></i>EQ Premium Package</li>
-            </ul>
-            <a href="#" class="inline-block mt-2 text-[11px] text-accent hover:text-accent-2 transition">View summary →</a>
-          </div>
-          <!-- IMAGE: Rear-view thumbnail of GLC, 80×60 -->
-          <div class="image-slot rounded-md" data-tone="studio" data-label="" style="width:74px;height:54px;"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Spec tiles -->
-    <div class="grid grid-cols-4 mt-5 glass-soft rounded-2xl overflow-hidden">
-      <div class="spec-sep px-6 py-5 flex items-center gap-4">
-        <i data-lucide="zap" class="w-5 h-5 text-accent"></i>
-        <div>
-          <div class="text-[20px] font-light">408 hp</div>
-          <div class="text-[10px] uppercase tracking-[0.2em] text-muted">System output</div>
-        </div>
-      </div>
-      <div class="spec-sep px-6 py-5 flex items-center gap-4">
-        <i data-lucide="gauge" class="w-5 h-5 text-accent"></i>
-        <div>
-          <div class="text-[20px] font-light">4.9 s</div>
-          <div class="text-[10px] uppercase tracking-[0.2em] text-muted">0–100 km/h</div>
-        </div>
-      </div>
-      <div class="spec-sep px-6 py-5 flex items-center gap-4">
-        <i data-lucide="battery-full" class="w-5 h-5 text-accent"></i>
-        <div>
-          <div class="text-[20px] font-light">80 kWh</div>
-          <div class="text-[10px] uppercase tracking-[0.2em] text-muted">Battery capacity</div>
-        </div>
-      </div>
-      <div class="spec-sep px-6 py-5 flex items-center gap-4">
-        <i data-lucide="snowflake" class="w-5 h-5 text-accent"></i>
-        <div>
-          <div class="text-[20px] font-light">4MATIC</div>
-          <div class="text-[10px] uppercase tracking-[0.2em] text-muted">All-wheel drive</div>
         </div>
       </div>
     </div>
   </section>
 
-  <div class="chapter-rule mx-8"></div>
+  <!-- ==================== FEATURE · CABIN / INTERIOR ==================== -->
+  <section id="interior" class="relative">
+    <div class="atmo-cabin">
+      <div class="px-8 py-28">
+        <div class="max-w-7xl mx-auto">
 
-  <!-- ==================== CHAPTER 3 — BUY ==================== -->
-  <section id="buy" class="relative px-8 py-24">
-
-    <!-- Editorial header -->
-    <div class="max-w-6xl mb-12">
-      <div class="text-[10px] uppercase tracking-[0.32em] text-accent mb-4 flex items-center gap-2">
-        <span class="diamond"></span> Chapter 03 · Atlas
-      </div>
-      <h2 class="display text-[68px]">Buy on your terms.</h2>
-      <p class="mt-5 text-[15px] text-muted max-w-xl leading-relaxed">
-        Live inventory matched to your build. Trade-in valued from photos. Financing modeled per your scenario — all on the same surface.
-      </p>
-    </div>
-
-    <!-- Atlas Match Strip -->
-    <div class="mb-10">
-      <div class="flex items-end justify-between mb-5">
-        <div>
-          <div class="text-[11px] uppercase tracking-[0.22em] text-muted flex items-center gap-2"><span class="diamond"></span> Atlas · Live inventory</div>
-          <h3 class="text-[28px] font-light tracking-display mt-2">Skip the wait — <span class="text-muted">3 GLCs matching your build, available now</span></h3>
-        </div>
-        <a href="#" class="text-[12px] text-accent hover:text-accent-2 transition">See all 47 nearby →</a>
-      </div>
-
-      <div class="grid grid-cols-3 gap-5">
-        <!-- Match card 1 -->
-        <article class="glass rounded-2xl overflow-hidden">
-          <!-- IMAGE: GLC silver, dealer photo, 600×360 -->
-          <div class="image-slot relative" data-tone="studio" data-label="MB Sheikh Zayed Rd"
-               style="aspect-ratio: 16/10;">
-            <div class="absolute top-4 left-4">
-              <div class="match-ring" style="--p:94;"><div>94%</div></div>
-            </div>
-            <div class="absolute bottom-3 left-3 text-[10px] text-muted/90 uppercase tracking-widest">Match score</div>
+          <div class="flex items-center gap-3 mb-12">
+            <span class="live-pill ai"><span class="dot"></span>The cabin</span>
           </div>
-          <div class="p-5">
-            <div class="flex items-center justify-between text-[12px] text-muted">
-              <div class="flex items-center gap-1.5"><i data-lucide="map-pin" class="w-3 h-3"></i>MB Sheikh Zayed Rd</div>
-              <div>4.2 km away</div>
-            </div>
-            <div class="text-[14px] mt-2">Available <span class="text-white">May 28</span></div>
-            <div class="text-[11px] text-muted mt-3 leading-relaxed">
-              Identical build except <span class="text-white/90">19" wheels</span> instead of 20".
-            </div>
-            <div class="mt-3 flex items-center justify-between">
-              <div class="text-[12px] text-[#7ddc9c]">−AED 2,400</div>
-              <div class="text-[10px] text-muted">vs your build</div>
-            </div>
-            <button class="btn-pill btn-outline w-full justify-center mt-4">Switch to this build <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></button>
-          </div>
-        </article>
 
-        <!-- Match card 2 -->
-        <article class="glass rounded-2xl overflow-hidden">
-          <!-- IMAGE: GLC obsidian black, dealer photo, 600×360 -->
-          <div class="image-slot relative" data-tone="night" data-label="MB Jebel Ali"
-               style="aspect-ratio: 16/10;">
-            <div class="absolute top-4 left-4">
-              <div class="match-ring" style="--p:89;"><div>89%</div></div>
-            </div>
-            <div class="absolute bottom-3 left-3 text-[10px] text-muted/90 uppercase tracking-widest">Match score</div>
-          </div>
-          <div class="p-5">
-            <div class="flex items-center justify-between text-[12px] text-muted">
-              <div class="flex items-center gap-1.5"><i data-lucide="map-pin" class="w-3 h-3"></i>MB Jebel Ali</div>
-              <div>22 km away</div>
-            </div>
-            <div class="text-[14px] mt-2">Available <span class="text-white">June 4</span></div>
-            <div class="text-[11px] text-muted mt-3 leading-relaxed">
-              Same wheels &amp; package — <span class="text-white/90">obsidian black</span> instead of silver.
-            </div>
-            <div class="mt-3 flex items-center justify-between">
-              <div class="text-[12px] text-white">+AED 1,100</div>
-              <div class="text-[10px] text-muted">vs your build</div>
-            </div>
-            <button class="btn-pill btn-ghost w-full justify-center mt-4">Switch to this build <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></button>
-          </div>
-        </article>
+          <div class="grid grid-cols-12 gap-10 items-center">
 
-        <!-- Match card 3 -->
-        <article class="glass rounded-2xl overflow-hidden">
-          <!-- IMAGE: GLC blue, dealer photo, 600×360 -->
-          <div class="image-slot relative" data-tone="cool" data-label="MB Abu Dhabi"
-               style="aspect-ratio: 16/10;">
-            <div class="absolute top-4 left-4">
-              <div class="match-ring" style="--p:81;"><div>81%</div></div>
-            </div>
-            <div class="absolute bottom-3 left-3 text-[10px] text-muted/90 uppercase tracking-widest">Match score</div>
-          </div>
-          <div class="p-5">
-            <div class="flex items-center justify-between text-[12px] text-muted">
-              <div class="flex items-center gap-1.5"><i data-lucide="map-pin" class="w-3 h-3"></i>MB Abu Dhabi</div>
-              <div>140 km away</div>
-            </div>
-            <div class="text-[14px] mt-2">Available <span class="text-white">May 22</span></div>
-            <div class="text-[11px] text-muted mt-3 leading-relaxed">
-              <span class="text-white/90">Spectral blue</span>, AMG line, no Burmester — pickup ready.
-            </div>
-            <div class="mt-3 flex items-center justify-between">
-              <div class="text-[12px] text-[#7ddc9c]">−AED 5,800</div>
-              <div class="text-[10px] text-muted">vs your build</div>
-            </div>
-            <button class="btn-pill btn-ghost w-full justify-center mt-4">Switch to this build <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></button>
-          </div>
-        </article>
-      </div>
-    </div>
+            <div class="col-span-12 lg:col-span-5">
+              <h2 class="display text-[88px]">Less screen.</h2>
+              <h2 class="display text-[88px] text-white/65 mt-1">More sense.</h2>
+              <p class="mt-6 text-[14px] text-muted/85 leading-relaxed max-w-md">
+                One ribbon of glass. Burmester 4D — built for the room, not the spec sheet.
+              </p>
 
-    <!-- Trade-in + Financing -->
-    <div class="grid grid-cols-12 gap-5">
-
-      <!-- Trade-in -->
-      <div class="col-span-12 lg:col-span-7 glass rounded-2xl p-7">
-        <div class="flex items-center justify-between mb-5">
-          <div>
-            <div class="text-[10px] uppercase tracking-[0.22em] text-muted">Trade-in</div>
-            <h4 class="text-[22px] font-light tracking-display mt-1">Your 2021 BMW X3 xDrive30e</h4>
-          </div>
-          <div class="flex items-center gap-2 text-[11px] text-muted">
-            <span class="dot-green"></span> Live valuation
-          </div>
-        </div>
-
-        <div class="grid grid-cols-12 gap-5 items-stretch">
-          <!-- IMAGE: BMW X3 xDrive30e in mineral grey, 3/4 angle, customer's car (auto-pulled from records), 700×460 -->
-          <div class="col-span-5 image-slot rounded-xl hairline" data-tone="cool" data-label="Your BMW X3" style="min-height: 200px;"></div>
-
-          <div class="col-span-7 flex flex-col justify-between">
-            <div>
-              <div class="flex items-baseline gap-3">
-                <div class="text-[36px] font-light tracking-display">AED 142,800</div>
-                <div class="text-[12px] text-[#7ddc9c]">+AED 3,400 vs last week</div>
+              <div class="mt-10 grid grid-cols-2 gap-x-8 gap-y-6">
+                <div>
+                  <div class="stat-display text-[64px]">17.7<span class="text-[20px] text-muted-2"> "</span></div>
+                  <div class="stat-label mt-2">MBUX Hyperscreen</div>
+                </div>
+                <div>
+                  <div class="stat-display text-[64px]">21</div>
+                  <div class="stat-label mt-2">Burmester 4D · speakers</div>
+                </div>
               </div>
-              <div class="text-[11px] text-muted mt-1">Live valuation · 30-day window</div>
 
-              <!-- Sparkline -->
-              <svg class="sparkline mt-4" viewBox="0 0 320 60" width="100%" height="60" preserveAspectRatio="none">
-                <defs>
-                  <linearGradient id="spark" x1="0" x2="0" y1="0" y2="1">
-                    <stop offset="0%" stop-color="#5b9dd9" stop-opacity="0.4"/>
-                    <stop offset="100%" stop-color="#5b9dd9" stop-opacity="0"/>
-                  </linearGradient>
-                </defs>
-                <path d="M 0 38 L 20 36 L 40 40 L 60 32 L 80 34 L 100 28 L 120 30 L 140 22 L 160 26 L 180 18 L 200 22 L 220 16 L 240 20 L 260 14 L 280 18 L 300 12 L 320 14"
-                      fill="none" stroke="#5b9dd9" stroke-width="1.5"/>
-                <path d="M 0 38 L 20 36 L 40 40 L 60 32 L 80 34 L 100 28 L 120 30 L 140 22 L 160 26 L 180 18 L 200 22 L 220 16 L 240 20 L 260 14 L 280 18 L 300 12 L 320 14 L 320 60 L 0 60 Z"
-                      fill="url(#spark)"/>
-                <circle cx="320" cy="14" r="3" fill="#5b9dd9"/>
-                <circle cx="320" cy="14" r="6" fill="none" stroke="#5b9dd9" stroke-opacity="0.5"/>
-              </svg>
+              <div class="mt-8 flex flex-wrap items-center gap-3">
+                <button class="btn-pill btn-glass add-to-build" data-name="Burmester 4D Sound" data-price="12200" data-range="0">
+                  <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                  Add Burmester 4D
+                </button>
+              </div>
+              <a href="#" class="mt-5 inline-flex items-center gap-1.5 text-[11px] text-muted-2 hover:text-accent transition">Open in full configurator <i data-lucide="arrow-right" class="w-3 h-3"></i></a>
+            </div>
 
-              <div class="grid grid-cols-3 mt-3 text-[11px] text-muted">
-                <div>30 days ago<br/><span class="text-white/80">AED 139,400</span></div>
-                <div>15 days ago<br/><span class="text-white/80">AED 141,200</span></div>
-                <div>Today<br/><span class="text-white">AED 142,800</span></div>
+            <div class="col-span-12 lg:col-span-7 relative">
+              <div class="relative rounded-3xl overflow-hidden hairline" style="height: 540px; background: #0a0d14;">
+                <img src="assets/cars/glc-detail-1.webp" alt="GLC interior with MBUX Hyperscreen"
+                     class="absolute inset-0 w-full h-full object-cover"
+                     style="object-position: 50% 60%; filter: brightness(0.95) saturate(1.05);"/>
+                <div class="absolute inset-0 pointer-events-none"
+                     style="background: linear-gradient(180deg, rgba(6,9,18,0.32) 0%, transparent 30%, rgba(6,9,18,0.5) 100%);"></div>
+
+                <div class="hotspot" style="top: 50%; left: 38%;" tabindex="0">
+                  <div class="hotspot-label">17.7" Hyperscreen · zero glare</div>
+                </div>
+                <div class="hotspot" style="top: 38%; left: 27%;" tabindex="0">
+                  <div class="hotspot-label">Driver display · MBUX</div>
+                </div>
+                <div class="hotspot" style="top: 70%; left: 60%;" tabindex="0">
+                  <div class="hotspot-label">Aluminium centre console</div>
+                </div>
+                <div class="hotspot" style="top: 28%; left: 50%;" tabindex="0">
+                  <div class="hotspot-label">Panoramic glass roof</div>
+                </div>
               </div>
             </div>
-
-            <div class="flex items-center justify-between mt-5">
-              <div class="text-[11px] text-muted flex items-center gap-1.5"><span class="diamond"></span> How was this calculated?</div>
-              <button class="btn-pill btn-outline">Apply trade-in <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></button>
-            </div>
           </div>
         </div>
-
-        <div class="hairline mt-5 pt-4 text-[11px] text-muted leading-relaxed">
-          Subtle: applied trade-in lowers your effective price to <span class="text-white/90">AED 114,756</span> — your monthly drops by ~AED 1,640.
-        </div>
-      </div>
-
-      <!-- Financing -->
-      <div class="col-span-12 lg:col-span-5 glass rounded-2xl p-7 flex flex-col">
-        <div class="flex items-center justify-between mb-5">
-          <div>
-            <div class="text-[10px] uppercase tracking-[0.22em] text-muted">Personalized financing</div>
-            <h4 class="text-[22px] font-light tracking-display mt-1">Modeled to your scenario</h4>
-          </div>
-        </div>
-
-        <!-- Tabs -->
-        <div class="flex items-center gap-7 text-[13px] border-b border-line pb-3 mb-5" id="finance-tabs">
-          <button class="tab" data-tab="cash">Cash</button>
-          <button class="tab active" data-tab="lease">Lease</button>
-          <button class="tab" data-tab="finance">Finance</button>
-          <span class="ml-auto text-[10px] uppercase tracking-[0.18em] text-muted">UAE · AED</span>
-        </div>
-
-        <!-- Big monthly -->
-        <div>
-          <div class="text-[11px] uppercase tracking-[0.18em] text-muted">Monthly</div>
-          <div class="flex items-baseline gap-3 mt-1">
-            <div class="text-[52px] font-light tracking-display leading-none" id="monthly-figure">AED 4,890</div>
-            <div class="text-[12px] text-muted">/month</div>
-          </div>
-          <div class="text-[11px] text-muted mt-2">incl. VAT · service plan included</div>
-        </div>
-
-        <!-- Param chips -->
-        <div class="grid grid-cols-3 gap-2 mt-6">
-          <button class="glass-soft rounded-lg p-3 text-left row-hover">
-            <div class="text-[9px] uppercase tracking-[0.18em] text-muted">Term</div>
-            <div class="text-[14px] mt-0.5 flex items-center justify-between">36 mo <i data-lucide="chevron-down" class="w-3 h-3 text-muted"></i></div>
-          </button>
-          <button class="glass-soft rounded-lg p-3 text-left row-hover">
-            <div class="text-[9px] uppercase tracking-[0.18em] text-muted">Mileage</div>
-            <div class="text-[14px] mt-0.5 flex items-center justify-between">25,000 km <i data-lucide="chevron-down" class="w-3 h-3 text-muted"></i></div>
-          </button>
-          <button class="glass-soft rounded-lg p-3 text-left row-hover">
-            <div class="text-[9px] uppercase tracking-[0.18em] text-muted">Down</div>
-            <div class="text-[14px] mt-0.5 flex items-center justify-between">15% <i data-lucide="chevron-down" class="w-3 h-3 text-muted"></i></div>
-          </button>
-        </div>
-
-        <!-- AI insight -->
-        <div class="mt-5 flex items-start gap-2.5 text-[12px] text-muted leading-relaxed">
-          <span class="diamond mt-1.5"></span>
-          <p><span class="text-white/90">Going to 48 months drops the monthly to AED 3,920</span> but adds AED 6,800 over the term. With your trade-in applied, effective monthly is AED 3,250.</p>
-        </div>
-
-        <button class="btn-pill btn-primary w-full justify-center mt-auto pt-4 mt-7">Continue with this lease <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></button>
       </div>
     </div>
   </section>
 
-  <div class="chapter-rule mx-8"></div>
+  <!-- ==================== FEATURE · AIRMATIC + REAR-AXLE STEERING ==================== -->
+  <section id="airmatic" class="relative">
+    <div class="atmo-airmatic">
+      <div class="px-8 py-28">
+        <div class="max-w-7xl mx-auto">
 
-  <!-- ==================== CHAPTER 4 — OWN + HANDOFF ==================== -->
-  <section id="own" class="relative px-8 py-24">
-
-    <!-- Editorial header -->
-    <div class="max-w-6xl mb-12">
-      <div class="text-[10px] uppercase tracking-[0.32em] text-accent mb-4 flex items-center gap-2">
-        <span class="diamond"></span> Chapter 04 · Living with it
-      </div>
-      <h2 class="display text-[68px]">Your week with this GLC.</h2>
-      <p class="mt-5 text-[15px] text-muted max-w-xl leading-relaxed">
-        Modeled from your calendar, recent trips and home charging setup — five real moments of ownership, before you sign anything.
-      </p>
-    </div>
-
-    <!-- Lifestyle moments -->
-    <div class="relative">
-      <div class="overflow-x-auto no-scrollbar -mx-8 px-8" id="moments-strip">
-        <div class="flex gap-5" style="width: max-content;">
-          <!-- Moment 1 -->
-          <article class="glass rounded-2xl overflow-hidden flex-shrink-0" style="width: 320px;">
-            <!-- IMAGE: Morning school run, mother loading kids into GLC, suburban Dubai, 600×400 -->
-            <div class="image-slot relative" data-tone="warm" data-label="School run · 07:40" style="aspect-ratio: 4/3;">
-              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-accent absolute top-3 right-3"></i>
-            </div>
-            <div class="p-5">
-              <div class="text-[11px] uppercase tracking-[0.22em] text-muted">Tuesday · 07:40</div>
-              <h5 class="text-[18px] font-light mt-1.5">School run, Mirdif</h5>
-              <p class="text-[11px] text-muted mt-2 leading-relaxed">12 km · ISOFIX both rears · cabin pre-cooled to 22°C from your phone.</p>
-            </div>
-          </article>
-
-          <!-- Moment 2 -->
-          <article class="glass rounded-2xl overflow-hidden flex-shrink-0" style="width: 320px;">
-            <!-- IMAGE: Home AC charger plugged in to GLC at night, 600×400 -->
-            <div class="image-slot relative" data-tone="night" data-label="Home charging · 23:10" style="aspect-ratio: 4/3;">
-              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-accent absolute top-3 right-3"></i>
-            </div>
-            <div class="p-5">
-              <div class="text-[11px] uppercase tracking-[0.22em] text-muted">Tuesday · 23:10</div>
-              <h5 class="text-[18px] font-light mt-1.5">Home, 11 kW wallbox</h5>
-              <p class="text-[11px] text-muted mt-2 leading-relaxed">8% → 100% by 06:30 · costs AED 14 at off-peak DEWA rates.</p>
-            </div>
-          </article>
-
-          <!-- Moment 3 -->
-          <article class="glass rounded-2xl overflow-hidden flex-shrink-0" style="width: 320px;">
-            <!-- IMAGE: GLC at Kite Beach at sunset, surfboards, 600×400 -->
-            <div class="image-slot relative" data-tone="warm" data-label="Beach run · Sat 17:00" style="aspect-ratio: 4/3;">
-              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-accent absolute top-3 right-3"></i>
-            </div>
-            <div class="p-5">
-              <div class="text-[11px] uppercase tracking-[0.22em] text-muted">Saturday · 17:00</div>
-              <h5 class="text-[18px] font-light mt-1.5">Kite Beach</h5>
-              <p class="text-[11px] text-muted mt-2 leading-relaxed">36 km round trip · roof rails fitted · ventilated seats on the way back.</p>
-            </div>
-          </article>
-
-          <!-- Moment 4 -->
-          <article class="glass rounded-2xl overflow-hidden flex-shrink-0" style="width: 320px;">
-            <!-- IMAGE: GLC on AlUla red rock highway, golden hour, 600×400 -->
-            <div class="image-slot relative" data-tone="desert" data-label="AlUla trip · weekend" style="aspect-ratio: 4/3;">
-              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-accent absolute top-3 right-3"></i>
-            </div>
-            <div class="p-5">
-              <div class="text-[11px] uppercase tracking-[0.22em] text-muted">Long weekend</div>
-              <h5 class="text-[18px] font-light mt-1.5">AlUla road trip</h5>
-              <p class="text-[11px] text-muted mt-2 leading-relaxed">1,180 km loop · 3 fast-charge stops planned · suggested overnight at Habitas.</p>
-            </div>
-          </article>
-
-          <!-- Moment 5 -->
-          <article class="glass rounded-2xl overflow-hidden flex-shrink-0" style="width: 320px;">
-            <!-- IMAGE: GLC at gym garage, evening, 600×400 -->
-            <div class="image-slot relative" data-tone="cool" data-label="Gym · 19:30" style="aspect-ratio: 4/3;">
-              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-accent absolute top-3 right-3"></i>
-            </div>
-            <div class="p-5">
-              <div class="text-[11px] uppercase tracking-[0.22em] text-muted">Thursday · 19:30</div>
-              <h5 class="text-[18px] font-light mt-1.5">Warehouse Gym</h5>
-              <p class="text-[11px] text-muted mt-2 leading-relaxed">7.4 kW DC charger on-site · 38 min to top up while you train.</p>
-            </div>
-          </article>
-
-          <!-- spacer -->
-          <div class="flex-shrink-0" style="width: 32px;"></div>
-        </div>
-      </div>
-      <div class="mt-3 flex items-center gap-4 text-[11px] text-muted">
-        <span class="flex items-center gap-1.5"><span class="diamond"></span> Modeled from your calendar &amp; recent trips</span>
-        <span class="opacity-50">·</span>
-        <a href="#" class="hover:text-white transition">Tune the model →</a>
-        <span class="ml-auto flex items-center gap-2">
-          <button class="hairline rounded-full w-8 h-8 grid place-items-center hover:border-white/20 transition" onclick="document.getElementById('moments-strip').scrollBy({left:-340,behavior:'smooth'})"><i data-lucide="chevron-left" class="w-3.5 h-3.5"></i></button>
-          <button class="hairline rounded-full w-8 h-8 grid place-items-center hover:border-white/20 transition" onclick="document.getElementById('moments-strip').scrollBy({left:340,behavior:'smooth'})"><i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></button>
-        </span>
-      </div>
-    </div>
-
-    <!-- Production Timeline -->
-    <div class="mt-24">
-      <div class="flex items-end justify-between mb-8">
-        <div>
-          <div class="text-[10px] uppercase tracking-[0.22em] text-muted flex items-center gap-2"><span class="diamond"></span> Live</div>
-          <h3 class="text-[34px] font-light tracking-display mt-2">Your car's journey.</h3>
-        </div>
-        <div class="text-[11px] text-muted max-w-[280px] text-right">A live notification arrives at every milestone — VIN, factory pass, ship tracking, customs, handover.</div>
-      </div>
-
-      <!-- Timeline visual -->
-      <div class="glass rounded-2xl p-10">
-        <div class="relative flex items-center justify-between min-h-[180px]">
-          <!-- Track -->
-          <div class="timeline-track"></div>
-
-          <!-- Bremen plant icon (left) -->
-          <div class="relative z-10 flex flex-col items-center gap-2 -ml-4">
-            <div class="w-14 h-14 rounded-xl glass-soft hairline grid place-items-center">
-              <i data-lucide="factory" class="w-6 h-6 text-white/80"></i>
-            </div>
-            <div class="text-[10px] uppercase tracking-[0.18em] text-muted text-center">Bremen<br/>plant</div>
+          <div class="flex items-center gap-3 mb-12">
+            <span class="live-pill"><span class="dot"></span>AIRMATIC · suspension</span>
           </div>
 
-          <!-- Milestones -->
-          <div class="flex-1 flex items-center justify-evenly relative">
-            <!-- Build start (active) -->
-            <div class="flex flex-col items-center gap-3">
-              <div class="node node-active"></div>
-              <div class="text-center">
-                <div class="text-[12px] text-white">Build start</div>
-                <div class="text-[10px] text-muted mt-0.5">May 22</div>
-                <div class="text-[9px] text-accent mt-1 uppercase tracking-[0.2em]">Active</div>
-              </div>
-            </div>
-            <!-- Quality check -->
-            <div class="flex flex-col items-center gap-3">
-              <div class="node"></div>
-              <div class="text-center">
-                <div class="text-[12px] text-muted">Quality check</div>
-                <div class="text-[10px] text-muted/60 mt-0.5">Jun 18</div>
-              </div>
-            </div>
-            <!-- Ship -->
-            <div class="flex flex-col items-center gap-3">
-              <div class="node"></div>
-              <div class="text-center">
-                <div class="text-[12px] text-muted">Ship</div>
-                <div class="text-[10px] text-muted/60 mt-0.5">Jun 30</div>
-              </div>
-            </div>
-            <!-- Arrive Jebel Ali -->
-            <div class="flex flex-col items-center gap-3">
-              <div class="node"></div>
-              <div class="text-center">
-                <div class="text-[12px] text-muted">Arrive Jebel Ali</div>
-                <div class="text-[10px] text-muted/60 mt-0.5">Aug 14</div>
-              </div>
-            </div>
-            <!-- Handover -->
-            <div class="flex flex-col items-center gap-3">
-              <div class="node"></div>
-              <div class="text-center">
-                <div class="text-[12px] text-muted">Handover</div>
-                <div class="text-[10px] text-muted/60 mt-0.5">Sep 02</div>
-              </div>
-            </div>
-          </div>
+          <div class="grid grid-cols-12 gap-10 items-center">
 
-          <!-- MB Dubai showroom icon (right) -->
-          <div class="relative z-10 flex flex-col items-center gap-2 -mr-4">
-            <div class="w-14 h-14 rounded-xl glass-soft hairline grid place-items-center" style="border-color: rgba(91,157,217,0.4); box-shadow: 0 0 24px rgba(91,157,217,0.15);">
-              <i data-lucide="store" class="w-6 h-6 text-accent"></i>
-            </div>
-            <div class="text-[10px] uppercase tracking-[0.18em] text-muted text-center">MB Dubai<br/>showroom</div>
-          </div>
-        </div>
+            <div class="col-span-12 lg:col-span-7 relative order-2 lg:order-1">
+              <div class="relative rounded-3xl overflow-hidden hairline" style="height: 540px; background:
+                radial-gradient(50% 70% at 30% 60%, rgba(0,173,239,0.20) 0%, transparent 60%),
+                radial-gradient(40% 60% at 80% 30%, rgba(167,139,250,0.16) 0%, transparent 60%),
+                linear-gradient(180deg, #0a0d1c 0%, #06080d 100%);
+              ">
+                <img src="assets/cars/glc-rear34-studio2.webp" class="absolute inset-0 w-full h-full object-contain"
+                     style="object-position: 50% 65%; transform: scale(1.06);" alt="GLC rear · brake lights" />
 
-        <div class="mt-8 pt-6 border-t border-line flex items-center justify-between text-[11px] text-muted">
-          <div class="flex items-center gap-2"><span class="dot-pulse" style="width:5px;height:5px;"></span> Last update 4 minutes ago — VIN assigned WDC2533541F098221</div>
-          <a href="#" class="text-accent hover:text-accent-2 transition">Notification preferences →</a>
-        </div>
-      </div>
-    </div>
+                <!-- Motion lines suggesting cornering -->
+                <svg class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none">
+                  <defs>
+                    <linearGradient id="motionLine" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0%" stop-color="rgba(0,173,239,0)"/>
+                      <stop offset="50%" stop-color="rgba(0,173,239,0.5)"/>
+                      <stop offset="100%" stop-color="rgba(0,173,239,0)"/>
+                    </linearGradient>
+                  </defs>
+                  <line x1="0" y1="78" x2="100" y2="76" stroke="url(#motionLine)" stroke-width="0.15"/>
+                  <line x1="0" y1="84" x2="100" y2="80" stroke="url(#motionLine)" stroke-width="0.2"/>
+                  <line x1="0" y1="90" x2="100" y2="84" stroke="url(#motionLine)" stroke-width="0.18"/>
+                </svg>
 
-    <!-- Cronus Handoff -->
-    <div class="mt-24">
-      <div class="max-w-3xl mb-8">
-        <div class="text-[10px] uppercase tracking-[0.32em] text-accent mb-4 flex items-center gap-2"><span class="diamond"></span> Cronus · Handoff</div>
-        <h3 class="text-[44px] font-light tracking-display leading-tight">When you're ready, we'll handle the handoff.</h3>
-      </div>
-
-      <div class="glass rounded-3xl p-8">
-        <div class="text-[11px] uppercase tracking-[0.22em] text-muted mb-3 flex items-center gap-2">
-          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-accent"></i> How would you like to continue?
-        </div>
-
-        <div class="grid grid-cols-3 gap-4 mt-4" id="cronus-tiles">
-
-          <!-- Tile: Schedule test drive -->
-          <button class="channel-tile glass-soft rounded-2xl p-5 text-left row-hover hairline" data-channel="testdrive">
-            <div class="flex items-center justify-between">
-              <div class="w-9 h-9 rounded-lg grid place-items-center bg-white/5 border border-line">
-                <i data-lucide="calendar-check" class="w-4 h-4"></i>
-              </div>
-              <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-muted"></i>
-            </div>
-            <div class="text-[15px] mt-4">Schedule test drive</div>
-            <div class="text-[11px] text-muted mt-1">Earliest slot: tomorrow 11:00</div>
-          </button>
-
-          <!-- Tile: Get a call (active, expanded) -->
-          <button class="channel-tile glass-soft rounded-2xl p-5 text-left hairline channel-active" data-channel="call">
-            <div class="flex items-center justify-between">
-              <div class="w-9 h-9 rounded-lg grid place-items-center bg-accent/15 border border-accent/30">
-                <i data-lucide="phone" class="w-4 h-4 text-accent"></i>
-              </div>
-              <span class="text-[10px] uppercase tracking-[0.2em] text-accent">Selected</span>
-            </div>
-            <div class="text-[15px] mt-4">Get a call</div>
-            <div class="text-[11px] text-muted mt-1">From your assigned advisor</div>
-
-            <!-- Inline expansion -->
-            <div class="mt-5 pt-5 border-t border-line">
-              <div class="flex items-center gap-3">
-                <!-- IMAGE: Sarah, MB Dubai advisor avatar, 64×64 -->
-                <div class="image-slot rounded-full hairline relative" data-tone="warm" data-label="" style="width:44px;height:44px;border-radius:999px;">
-                  <span class="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-[#7ddc9c] border-2 border-[#0a0a0a]"></span>
+                <div class="absolute bottom-12 left-12 flex items-end gap-10">
+                  <div>
+                    <div class="stat-display text-[68px]">4.5°</div>
+                    <div class="stat-label mt-2">Rear-axle steering</div>
+                  </div>
+                  <div>
+                    <div class="stat-display text-[68px]">5</div>
+                    <div class="stat-label mt-2">Drive modes · live</div>
+                  </div>
                 </div>
-                <div class="min-w-0">
-                  <div class="text-[13px]">Sarah from MB Dubai</div>
-                  <div class="text-[11px] text-muted flex items-center gap-1.5">
-                    <span class="dot-pulse" style="width:5px;height:5px;"></span>
-                    will call you in <span class="text-white">~12 min</span>
+              </div>
+            </div>
+
+            <div class="col-span-12 lg:col-span-5 order-1 lg:order-2">
+              <h2 class="display text-[88px]">Built for</h2>
+              <h2 class="display text-[88px] text-white/65 mt-1">control.</h2>
+              <p class="mt-6 text-[14px] text-muted/85 leading-relaxed max-w-md">
+                AIRMATIC adapts moment to moment. Rear-axle steering shrinks the GLC in the city, settles it on the highway.
+              </p>
+
+              <div class="mt-8 flex flex-wrap items-center gap-3">
+                <button class="btn-pill btn-glass add-to-build" data-name="AIRMATIC + RAS" data-price="9800" data-range="0">
+                  <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                  Add to your build
+                </button>
+              </div>
+              <a href="#" class="mt-5 inline-flex items-center gap-1.5 text-[11px] text-muted-2 hover:text-accent transition">Open in full configurator <i data-lucide="arrow-right" class="w-3 h-3"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FEATURE · SKY CONTROL ROOF ==================== -->
+  <section id="roof" class="relative">
+    <div class="atmo-roof">
+      <div class="px-8 py-28">
+        <div class="max-w-7xl mx-auto">
+
+          <div class="flex items-center gap-3 mb-12">
+            <span class="live-pill"><span class="dot"></span>Sky Control · roof</span>
+          </div>
+
+          <div class="grid grid-cols-12 gap-10 items-center">
+
+            <div class="col-span-12 lg:col-span-5">
+              <h2 class="display text-[88px]">Sky inside.</h2>
+              <p class="mt-6 text-[14px] text-muted/85 leading-relaxed max-w-md">
+                Electrochromic glass — five zones, instant tint. Open the sky or close it without touching anything.
+              </p>
+
+              <div class="mt-10 grid grid-cols-2 gap-x-8 gap-y-6">
+                <div>
+                  <div class="stat-display text-[64px]">5</div>
+                  <div class="stat-label mt-2">Shading zones</div>
+                </div>
+                <div>
+                  <div class="stat-display text-[64px]">1<span class="text-[22px] text-muted-2"> sec</span></div>
+                  <div class="stat-label mt-2">Tint response</div>
+                </div>
+              </div>
+
+              <div class="mt-8 flex flex-wrap items-center gap-3">
+                <button class="btn-pill btn-glass add-to-build" data-name="Sky Control panoramic roof" data-price="8400" data-range="-3">
+                  <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                  Add panoramic roof
+                </button>
+              </div>
+              <a href="#" class="mt-5 inline-flex items-center gap-1.5 text-[11px] text-muted-2 hover:text-accent transition">Open in full configurator <i data-lucide="arrow-right" class="w-3 h-3"></i></a>
+            </div>
+
+            <div class="col-span-12 lg:col-span-7 relative">
+              <div class="relative rounded-3xl overflow-hidden hairline" style="height: 540px; background: #0a0d14;">
+                <img src="assets/cars/glc-detail-2.webp" alt="GLC panoramic glass roof"
+                     class="absolute inset-0 w-full h-full object-cover"
+                     style="object-position: 50% 30%; filter: brightness(1.0) saturate(1.05);"/>
+                <div class="absolute inset-0 pointer-events-none"
+                     style="background:
+                       radial-gradient(60% 40% at 50% 0%, rgba(167,139,250,0.18), transparent 60%),
+                       linear-gradient(180deg, rgba(6,9,18,0.18) 0%, transparent 25%, rgba(6,9,18,0.55) 100%);"></div>
+
+                <div class="absolute top-8 left-8">
+                  <span class="live-pill ai"><span class="dot"></span>Tint · 60%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FEATURE · MERCEDES ME CHARGE ==================== -->
+  <section id="me-charge" class="relative">
+    <div class="atmo-charge">
+      <div class="px-8 py-28">
+        <div class="max-w-7xl mx-auto">
+
+          <div class="flex items-center gap-3 mb-12">
+            <span class="live-pill"><span class="dot"></span>Mercedes me Charge</span>
+          </div>
+
+          <div class="grid grid-cols-12 gap-10 items-center">
+
+            <div class="col-span-12 lg:col-span-7 relative order-2 lg:order-1">
+              <div class="relative rounded-3xl overflow-hidden hairline" style="height: 540px; background:
+                radial-gradient(50% 60% at 50% 60%, rgba(0,173,239,0.25), transparent 60%),
+                linear-gradient(180deg, #061020 0%, #060912 100%);
+              ">
+                <!-- Stylized network: GLC center + radiating dots -->
+                <svg class="absolute inset-0 w-full h-full" viewBox="0 0 800 540" preserveAspectRatio="xMidYMid meet">
+                  <defs>
+                    <radialGradient id="netCenter" cx="50%" cy="50%" r="50%">
+                      <stop offset="0%" stop-color="rgba(0,173,239,0.15)"/>
+                      <stop offset="100%" stop-color="rgba(0,173,239,0)"/>
+                    </radialGradient>
+                  </defs>
+                  <circle cx="400" cy="270" r="240" fill="url(#netCenter)"/>
+                  <!-- concentric rings -->
+                  <circle cx="400" cy="270" r="80"  fill="none" stroke="rgba(0,173,239,0.15)" stroke-width="1"/>
+                  <circle cx="400" cy="270" r="140" fill="none" stroke="rgba(0,173,239,0.10)" stroke-width="1"/>
+                  <circle cx="400" cy="270" r="200" fill="none" stroke="rgba(0,173,239,0.06)" stroke-width="1"/>
+                  <!-- station dots -->
+                  <g fill="#00ADEF">
+                    <circle cx="200" cy="180" r="2"/>
+                    <circle cx="630" cy="120" r="2.5"/>
+                    <circle cx="540" cy="220" r="2"/>
+                    <circle cx="280" cy="320" r="2"/>
+                    <circle cx="700" cy="380" r="2.5"/>
+                    <circle cx="160" cy="420" r="2"/>
+                    <circle cx="600" cy="430" r="2"/>
+                    <circle cx="260" cy="100" r="2"/>
+                    <circle cx="100" cy="240" r="2"/>
+                    <circle cx="720" cy="240" r="2.5"/>
+                    <circle cx="400" cy="60" r="2"/>
+                    <circle cx="400" cy="500" r="2"/>
+                    <circle cx="80" cy="80" r="2"/>
+                    <circle cx="660" cy="500" r="2"/>
+                  </g>
+                </svg>
+
+                <img src="assets/cars/glc-front-studio.webp" class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[55%]"
+                     style="filter: brightness(0.95);" alt="GLC center" />
+
+                <!-- Charging connector indicator -->
+                <div class="absolute bottom-12 left-12 flex items-end gap-10">
+                  <div>
+                    <div class="stat-display text-[68px]">700K+</div>
+                    <div class="stat-label mt-2">Stations · global</div>
+                  </div>
+                  <div>
+                    <div class="stat-display text-[68px]">1</div>
+                    <div class="stat-label mt-2">Tap · one invoice</div>
+                  </div>
+                </div>
+
+                <div class="absolute top-8 right-8">
+                  <span class="live-pill"><span class="dot"></span>Plug &amp; charge</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-span-12 lg:col-span-5 order-1 lg:order-2">
+              <h2 class="display text-[88px]">Charge</h2>
+              <h2 class="display text-[88px] text-white/65 mt-1">anywhere.</h2>
+              <p class="mt-6 text-[14px] text-muted/85 leading-relaxed max-w-md">
+                One account, one tap, one invoice — across IONITY, EnBW, Shell Recharge and ADNOC.
+              </p>
+
+              <div class="mt-8 flex flex-wrap items-center gap-3">
+                <button class="btn-pill btn-glass add-to-build" data-name="Mercedes me Charge — 12 mo" data-price="0" data-range="0">
+                  <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                  Add 12 months free
+                </button>
+              </div>
+              <a href="#" class="mt-5 inline-flex items-center gap-1.5 text-[11px] text-muted-2 hover:text-accent transition">Open in full configurator <i data-lucide="arrow-right" class="w-3 h-3"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TCO CALCULATOR ==================== -->
+  <section id="tco" class="relative">
+    <div class="atmo-tco">
+      <div class="px-8 py-28">
+        <div class="max-w-7xl mx-auto">
+
+          <div class="flex items-center gap-3 mb-12">
+            <span class="live-pill"><span class="dot"></span>Cost · 5 years</span>
+          </div>
+
+          <div class="grid grid-cols-12 gap-10 items-end mb-10">
+            <div class="col-span-12 lg:col-span-7">
+              <h2 class="display text-[64px]">What it really costs</h2>
+              <h2 class="display text-[64px] text-white/65 mt-1">to own.</h2>
+            </div>
+            <div class="col-span-12 lg:col-span-5">
+              <div class="stat-display text-[110px] leading-none">
+                AED <span id="tco-total">271,400</span>
+              </div>
+              <div class="stat-label mt-3">Total · 5 years · all-in</div>
+            </div>
+          </div>
+
+          <div class="glass-premium rounded-3xl p-7">
+            <div class="grid grid-cols-12 gap-7">
+
+              <div class="col-span-12 lg:col-span-4 flex flex-col gap-5">
+                <div>
+                  <div class="stat-label mb-2">Term</div>
+                  <div class="grid grid-cols-3 gap-2" id="tco-term">
+                    <button class="opt-chip justify-center" data-term="3">3 yr</button>
+                    <button class="opt-chip justify-center active" data-term="5">5 yr</button>
+                    <button class="opt-chip justify-center" data-term="7">7 yr</button>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="flex items-center justify-between mb-2">
+                    <div class="stat-label">Annual km</div>
+                    <div class="text-[13px]"><span id="tco-km-out">22,000</span></div>
+                  </div>
+                  <input id="tco-km" type="range" min="8000" max="40000" step="1000" value="22000" class="slider"/>
+                </div>
+
+                <div>
+                  <div class="flex items-center justify-between mb-2">
+                    <div class="stat-label">Charging at home</div>
+                    <div class="text-[13px]"><span id="tco-home-out">80</span>%</div>
+                  </div>
+                  <input id="tco-home" type="range" min="20" max="100" step="5" value="80" class="slider"/>
+                </div>
+
+                <div class="mt-4 pt-4 border-t border-line">
+                  <div class="text-[10px] text-muted-2 leading-relaxed">
+                    Energy AED 0.23/kWh home · 0.65/kWh public. Resale curve from regional listings.
                   </div>
                 </div>
               </div>
 
-              <!-- Briefing chips -->
-              <div class="mt-4">
-                <div class="text-[10px] uppercase tracking-[0.2em] text-muted mb-2">Sarah will be briefed on</div>
-                <div class="flex flex-wrap gap-1.5">
-                  <span class="text-[10px] px-2.5 py-1 rounded-full hairline bg-white/[0.02] flex items-center gap-1.5"><i data-lucide="settings-2" class="w-2.5 h-2.5"></i>Your config (silver, 20", EQ Premium)</span>
-                  <span class="text-[10px] px-2.5 py-1 rounded-full hairline bg-white/[0.02] flex items-center gap-1.5"><i data-lucide="key" class="w-2.5 h-2.5"></i>Test drive interest (weekend)</span>
-                  <span class="text-[10px] px-2.5 py-1 rounded-full hairline bg-white/[0.02] flex items-center gap-1.5"><i data-lucide="map" class="w-2.5 h-2.5"></i>AlUla trip scenario viewed</span>
+              <div class="col-span-12 lg:col-span-8">
+                <div class="flex items-end justify-between flex-wrap gap-4 mb-6">
+                  <div>
+                    <div class="stat-label">Monthly · all-in</div>
+                    <div class="stat-display text-[44px] mt-1" id="tco-monthly">AED 4,523</div>
+                  </div>
+                  <div class="text-right">
+                    <div class="stat-label">vs equivalent ICE GLC</div>
+                    <div class="stat-display text-[44px] mt-1 win">save AED <span id="tco-savings">38,400</span></div>
+                  </div>
+                </div>
+
+                <svg id="tco-graph" class="graph-glow" viewBox="0 0 720 200" width="100%" height="200" preserveAspectRatio="none">
+                  <defs>
+                    <linearGradient id="tcoEvFill" x1="0" x2="0" y1="0" y2="1">
+                      <stop offset="0%" stop-color="#00ADEF" stop-opacity="0.22"/>
+                      <stop offset="100%" stop-color="#00ADEF" stop-opacity="0"/>
+                    </linearGradient>
+                  </defs>
+                  <line x1="0" y1="40" x2="720" y2="40" stroke="rgba(255,255,255,0.06)"/>
+                  <line x1="0" y1="100" x2="720" y2="100" stroke="rgba(255,255,255,0.06)"/>
+                  <line x1="0" y1="160" x2="720" y2="160" stroke="rgba(255,255,255,0.06)"/>
+                  <path id="tco-ev-fill" fill="url(#tcoEvFill)" d=""/>
+                  <path id="tco-ice-line" fill="none" stroke="#f7a08a" stroke-width="1.5" stroke-dasharray="4 4" d=""/>
+                  <path id="tco-ev-line" fill="none" stroke="#00ADEF" stroke-width="1.75" d=""/>
+                  <g id="tco-x-labels" font-family="Inter" font-size="9" fill="#7a808a"></g>
+                </svg>
+
+                <div class="flex items-center gap-5 text-[10px] text-muted-2 mt-3">
+                  <span class="flex items-center gap-1.5"><span class="w-2 h-[2px] bg-accent inline-block"></span>GLC EQ</span>
+                  <span class="flex items-center gap-1.5"><span class="w-2 h-[2px] inline-block" style="background:#f7a08a"></span>ICE GLC</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="chapter-rule mx-8"></div>
+
+  <!-- ==================== ATLAS — INVENTORY MATCH ==================== -->
+  <section id="atlas" class="relative">
+    <div class="atmo-tco">
+      <div class="px-8 py-24">
+        <div class="max-w-7xl mx-auto">
+
+          <div class="flex items-end justify-between mb-10 flex-wrap gap-4">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <span class="live-pill"><span class="dot"></span>Atlas · live inventory</span>
+              </div>
+              <h2 class="display text-[56px]">Skip the wait.</h2>
+            </div>
+            <div class="flex items-center gap-3">
+              <button id="ai-atlas-open" class="btn-pill btn-glass-ai">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5 text-ai"></i>
+                Find configs like mine
+              </button>
+              <a href="#" class="text-[12px] text-accent hover:text-accent-2 transition">See all 47 →</a>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-3 gap-5">
+
+            <article class="glass-premium rounded-2xl overflow-hidden">
+              <div class="image-slot studio-thumb relative" style="aspect-ratio: 16/10;">
+                <img class="slot-img" src="assets/cars/glc-front34.webp" alt="GLC obsidian black" />
+                <div class="absolute top-4 left-4 z-10">
+                  <span class="live-pill"><span class="dot"></span>Available May 28</span>
+                </div>
+              </div>
+              <div class="p-5">
+                <div class="flex items-center justify-between text-[11px] text-muted">
+                  <div class="flex items-center gap-1.5"><i data-lucide="map-pin" class="w-3 h-3"></i>MB Sheikh Zayed Rd</div>
+                  <div>4.2 km</div>
+                </div>
+                <div class="text-[14px] mt-2.5">Obsidian black · 19" wheels</div>
+                <div class="flex items-center justify-between mt-4">
+                  <div class="text-[12px] win">−AED 2,400</div>
+                  <button class="btn-pill btn-glass text-[12px]" style="padding: 6px 14px;">Reserve <i data-lucide="arrow-right" class="w-3 h-3"></i></button>
+                </div>
+              </div>
+            </article>
+
+            <article class="glass-premium rounded-2xl overflow-hidden">
+              <div class="image-slot studio-thumb relative" style="aspect-ratio: 16/10;">
+                <img class="slot-img" src="assets/cars/glc-color-silver.webp" alt="GLC selenite grey" />
+                <div class="absolute top-4 left-4 z-10">
+                  <span class="live-pill"><span class="dot"></span>Available June 4</span>
+                </div>
+              </div>
+              <div class="p-5">
+                <div class="flex items-center justify-between text-[11px] text-muted">
+                  <div class="flex items-center gap-1.5"><i data-lucide="map-pin" class="w-3 h-3"></i>MB Jebel Ali</div>
+                  <div>22 km</div>
+                </div>
+                <div class="text-[14px] mt-2.5">Selenite grey · 20" Aero</div>
+                <div class="flex items-center justify-between mt-4">
+                  <div class="text-[12px] text-white">+AED 1,100</div>
+                  <button class="btn-pill btn-ghost text-[12px]" style="padding: 6px 14px;">Reserve <i data-lucide="arrow-right" class="w-3 h-3"></i></button>
+                </div>
+              </div>
+            </article>
+
+            <article class="glass-premium rounded-2xl overflow-hidden">
+              <div class="image-slot studio-thumb relative" style="aspect-ratio: 16/10;">
+                <img class="slot-img" src="assets/cars/glc-color-blue.webp" alt="GLC spectral blue" />
+                <div class="absolute top-4 left-4 z-10">
+                  <span class="live-pill"><span class="dot"></span>Available May 22</span>
+                </div>
+              </div>
+              <div class="p-5">
+                <div class="flex items-center justify-between text-[11px] text-muted">
+                  <div class="flex items-center gap-1.5"><i data-lucide="map-pin" class="w-3 h-3"></i>MB Abu Dhabi</div>
+                  <div>140 km</div>
+                </div>
+                <div class="text-[14px] mt-2.5">Spectral blue · AMG line</div>
+                <div class="flex items-center justify-between mt-4">
+                  <div class="text-[12px] win">−AED 5,800</div>
+                  <button class="btn-pill btn-ghost text-[12px]" style="padding: 6px 14px;">Reserve <i data-lucide="arrow-right" class="w-3 h-3"></i></button>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="chapter-rule mx-8"></div>
+
+  <!-- ==================== TRADE-IN ==================== -->
+  <section id="trade" class="relative">
+    <div class="atmo-tco">
+      <div class="px-8 py-24">
+        <div class="max-w-7xl mx-auto">
+
+          <div class="grid grid-cols-12 gap-8 items-end mb-10">
+            <div class="col-span-12 lg:col-span-7">
+              <div class="flex items-center gap-3 mb-4">
+                <span class="live-pill"><span class="dot"></span>Trade-in · valued live</span>
+              </div>
+              <h2 class="display text-[56px]">Your X3,</h2>
+              <h2 class="display text-[56px] text-white/65 mt-1">fairly read.</h2>
+            </div>
+            <div class="col-span-12 lg:col-span-5 text-right">
+              <div class="stat-display text-[88px] leading-none">AED 142,800</div>
+              <div class="stat-label mt-3 win flex items-center gap-2 justify-end">+AED 3,400 · 7 days</div>
+            </div>
+          </div>
+
+          <div class="glass-premium rounded-2xl p-7">
+            <div class="grid grid-cols-12 gap-6 items-center">
+              <div class="col-span-3 stat-label">2021 BMW X3 xDrive30e · 47k km</div>
+
+              <div class="col-span-6">
+                <svg class="sparkline" viewBox="0 0 320 50" width="100%" height="50" preserveAspectRatio="none">
+                  <defs>
+                    <linearGradient id="spark" x1="0" x2="0" y1="0" y2="1">
+                      <stop offset="0%" stop-color="#00ADEF" stop-opacity="0.4"/>
+                      <stop offset="100%" stop-color="#00ADEF" stop-opacity="0"/>
+                    </linearGradient>
+                  </defs>
+                  <path d="M 0 32 L 20 30 L 40 34 L 60 26 L 80 28 L 100 22 L 120 24 L 140 16 L 160 20 L 180 12 L 200 16 L 220 10 L 240 14 L 260 8 L 280 12 L 300 6 L 320 8"
+                        fill="none" stroke="#00ADEF" stroke-width="1.5"/>
+                  <path d="M 0 32 L 20 30 L 40 34 L 60 26 L 80 28 L 100 22 L 120 24 L 140 16 L 160 20 L 180 12 L 200 16 L 220 10 L 240 14 L 260 8 L 280 12 L 300 6 L 320 8 L 320 50 L 0 50 Z"
+                        fill="url(#spark)"/>
+                  <circle cx="320" cy="8" r="3" fill="#00ADEF"/>
+                </svg>
+              </div>
+
+              <div class="col-span-3 flex items-center justify-end">
+                <button class="btn-pill btn-glass">Apply trade-in <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></button>
+              </div>
+            </div>
+            <div class="mt-5 pt-5 border-t border-line text-[11px] text-muted-2">
+              Effective price after trade-in: <span class="text-white/95">AED 114,756</span>.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="chapter-rule mx-8"></div>
+
+  <!-- ==================== PRODUCTION TIMELINE ==================== -->
+  <section id="timeline" class="relative">
+    <div class="atmo-tco">
+      <div class="px-8 py-24">
+        <div class="max-w-7xl mx-auto">
+
+          <div class="grid grid-cols-12 gap-8 items-end mb-10">
+            <div class="col-span-12 lg:col-span-7">
+              <div class="flex items-center gap-3 mb-4">
+                <span class="live-pill"><span class="dot"></span>In production · Bremen</span>
+              </div>
+              <h2 class="display text-[56px]">Your car's journey.</h2>
+            </div>
+            <div class="col-span-12 lg:col-span-5 text-right">
+              <div class="stat-display text-[44px] leading-none">May 22 → Sep 02</div>
+              <div class="stat-label mt-3">Build start → handover</div>
+            </div>
+          </div>
+
+          <div class="glass-premium rounded-2xl p-10">
+            <div class="relative flex items-center justify-between min-h-[160px]">
+              <div class="timeline-track"></div>
+
+              <div class="relative z-10 flex flex-col items-center gap-2 -ml-4">
+                <div class="w-14 h-14 rounded-xl glass-soft hairline grid place-items-center">
+                  <i data-lucide="factory" class="w-6 h-6 text-white/80"></i>
+                </div>
+                <div class="text-[10px] uppercase tracking-[0.18em] text-muted text-center">Bremen<br/>plant</div>
+              </div>
+
+              <div class="flex-1 flex items-center justify-evenly relative">
+                <div class="flex flex-col items-center gap-3">
+                  <div class="node node-active"></div>
+                  <div class="text-center">
+                    <div class="text-[12px] text-white">Build start</div>
+                    <div class="text-[10px] text-muted-2 mt-0.5">May 22</div>
+                    <div class="text-[9px] text-accent mt-1 uppercase tracking-[0.2em]">Active</div>
+                  </div>
+                </div>
+                <div class="flex flex-col items-center gap-3">
+                  <div class="node"></div>
+                  <div class="text-center"><div class="text-[12px] text-muted">Quality check</div><div class="text-[10px] text-muted-2 mt-0.5">Jun 18</div></div>
+                </div>
+                <div class="flex flex-col items-center gap-3">
+                  <div class="node"></div>
+                  <div class="text-center"><div class="text-[12px] text-muted">Ship</div><div class="text-[10px] text-muted-2 mt-0.5">Jun 30</div></div>
+                </div>
+                <div class="flex flex-col items-center gap-3">
+                  <div class="node"></div>
+                  <div class="text-center"><div class="text-[12px] text-muted">Arrive Jebel Ali</div><div class="text-[10px] text-muted-2 mt-0.5">Aug 14</div></div>
+                </div>
+                <div class="flex flex-col items-center gap-3">
+                  <div class="node"></div>
+                  <div class="text-center"><div class="text-[12px] text-muted">Handover</div><div class="text-[10px] text-muted-2 mt-0.5">Sep 02</div></div>
                 </div>
               </div>
 
-              <div class="mt-4 text-[10px] text-muted leading-relaxed flex items-start gap-1.5">
-                <span class="diamond mt-1"></span>
-                <span>Sarah sees everything you've explored — no need to re-explain. You can interrupt or reschedule the call any time.</span>
+              <div class="relative z-10 flex flex-col items-center gap-2 -mr-4">
+                <div class="w-14 h-14 rounded-xl glass-soft hairline grid place-items-center" style="border-color: rgba(0,173,239,0.4); box-shadow: 0 0 24px rgba(0,173,239,0.15);">
+                  <i data-lucide="store" class="w-6 h-6 text-accent"></i>
+                </div>
+                <div class="text-[10px] uppercase tracking-[0.18em] text-muted text-center">MB Dubai<br/>showroom</div>
               </div>
             </div>
-          </button>
 
-          <!-- Tile: WhatsApp -->
-          <button class="channel-tile glass-soft rounded-2xl p-5 text-left row-hover hairline" data-channel="whatsapp">
-            <div class="flex items-center justify-between">
-              <div class="w-9 h-9 rounded-lg grid place-items-center bg-white/5 border border-line">
-                <i data-lucide="message-circle" class="w-4 h-4"></i>
-              </div>
-              <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-muted"></i>
+            <div class="mt-8 pt-6 border-t border-line flex items-center justify-between text-[11px] text-muted-2">
+              <div class="flex items-center gap-2"><span class="dot-pulse" style="width:5px;height:5px;"></span> VIN assigned WDC2533541F098221 · 4 min ago</div>
+              <a href="#" class="text-accent hover:text-accent-2 transition">Notification preferences →</a>
             </div>
-            <div class="text-[15px] mt-4">Continue on WhatsApp</div>
-            <div class="text-[11px] text-muted mt-1">Pick up exactly where you left off</div>
-          </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="chapter-rule mx-8"></div>
+
+  <!-- ==================== CRONUS HANDOFF (full card) ==================== -->
+  <section id="cronus" class="relative">
+    <div class="atmo-cronus">
+      <div class="px-8 py-24">
+        <div class="max-w-7xl mx-auto">
+
+          <div class="grid grid-cols-12 gap-8 items-end mb-12">
+            <div class="col-span-12 lg:col-span-7">
+              <div class="flex items-center gap-3 mb-4">
+                <span class="live-pill ai"><span class="dot"></span>Cronus · handoff</span>
+              </div>
+              <h2 class="display text-[56px]">When you're ready,</h2>
+              <h2 class="display text-[56px] text-white/65 mt-1">we handle the rest.</h2>
+            </div>
+            <div class="col-span-12 lg:col-span-5">
+              <p class="text-[14px] text-muted/85 leading-relaxed">
+                Your full session travels with whoever picks up — human or AI.
+              </p>
+            </div>
+          </div>
+
+          <div class="glass-premium rounded-3xl p-7">
+            <div class="text-[10px] uppercase tracking-[0.22em] text-muted mb-5 flex items-center gap-2">
+              <i data-lucide="sparkles" class="w-3 h-3 text-ai"></i> How would you like to continue?
+            </div>
+
+            <div class="grid grid-cols-3 gap-5" id="cronus-tiles">
+
+              <button class="channel-tile glass-soft rounded-2xl p-7 text-left hairline channel-active flex flex-col" data-channel="ai-call">
+                <div class="flex items-start justify-between mb-6">
+                  <div class="w-14 h-14 rounded-2xl grid place-items-center bg-accent/15 border border-accent/30" style="box-shadow: 0 0 24px rgba(0,173,239,0.18);">
+                    <i data-lucide="phone" class="w-6 h-6 text-accent"></i>
+                  </div>
+                  <span class="live-pill"><span class="dot"></span>Selected</span>
+                </div>
+                <div class="display text-[24px] leading-tight">Talk now</div>
+                <div class="mt-2 flex items-center gap-2 text-[12px]">
+                  <span class="text-white">Instant</span>
+                  <span class="text-muted-2">·</span>
+                  <span class="text-muted">Trusted AI advisor</span>
+                </div>
+                <p class="text-[12px] text-muted/85 mt-4 leading-relaxed">
+                  Always on. Hands off to a human at MB Dubai whenever you ask.
+                </p>
+                <div class="mt-auto pt-5 flex items-center gap-2 text-[11px] text-accent">
+                  <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                  <span>Pick up · 0s wait</span>
+                </div>
+              </button>
+
+              <button class="channel-tile glass-soft rounded-2xl p-7 text-left row-hover hairline flex flex-col" data-channel="testdrive">
+                <div class="flex items-start justify-between mb-6">
+                  <div class="w-14 h-14 rounded-2xl grid place-items-center bg-white/5 border border-line">
+                    <i data-lucide="calendar-check" class="w-6 h-6"></i>
+                  </div>
+                  <i data-lucide="arrow-up-right" class="w-4 h-4 text-muted-2"></i>
+                </div>
+                <div class="display text-[24px] leading-tight">Schedule test drive</div>
+                <div class="mt-2 flex items-center gap-2 text-[12px]">
+                  <span class="text-white">Tomorrow 11:00</span>
+                  <span class="text-muted-2">·</span>
+                  <span class="text-muted">earliest slot</span>
+                </div>
+                <p class="text-[12px] text-muted/85 mt-4 leading-relaxed">
+                  We'll prep this exact build at MB Sheikh Zayed Rd.
+                </p>
+                <div class="mt-auto pt-5 flex items-center gap-2 text-[11px] text-muted-2">
+                  3 slots · this week
+                </div>
+              </button>
+
+              <button class="channel-tile glass-soft rounded-2xl p-7 text-left row-hover hairline flex flex-col" data-channel="whatsapp">
+                <div class="flex items-start justify-between mb-6">
+                  <div class="w-14 h-14 rounded-2xl grid place-items-center bg-white/5 border border-line">
+                    <i data-lucide="message-circle" class="w-6 h-6"></i>
+                  </div>
+                  <i data-lucide="arrow-up-right" class="w-4 h-4 text-muted-2"></i>
+                </div>
+                <div class="display text-[24px] leading-tight">Continue on WhatsApp</div>
+                <div class="mt-2 flex items-center gap-2 text-[12px]">
+                  <span class="text-white">Async</span>
+                  <span class="text-muted-2">·</span>
+                  <span class="text-muted">your time</span>
+                </div>
+                <p class="text-[12px] text-muted/85 mt-4 leading-relaxed">
+                  Same advisor — through your existing thread.
+                </p>
+                <div class="mt-auto pt-5 flex items-center gap-2 text-[11px] text-muted-2">
+                  Typical reply · &lt; 4 min
+                </div>
+              </button>
+            </div>
+
+            <div class="mt-6 rounded-2xl hairline p-6"
+                 style="background: linear-gradient(180deg, rgba(167,139,250,0.06), rgba(167,139,250,0) 80%);">
+              <div class="flex items-start gap-5">
+                <div class="w-10 h-10 rounded-xl grid place-items-center bg-ai/15 border border-ai/30 flex-shrink-0">
+                  <i data-lucide="sparkles" class="w-5 h-5 text-ai"></i>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="text-[11px] uppercase tracking-[0.22em] text-muted mb-3">Whoever picks up sees</div>
+                  <div class="flex flex-wrap gap-2" id="briefing-chips-full">
+                    <span class="text-[11px] px-3 py-1.5 rounded-full hairline bg-white/[0.02] flex items-center gap-1.5"><i data-lucide="settings-2" class="w-3 h-3 text-accent"></i>Your config</span>
+                    <span class="text-[11px] px-3 py-1.5 rounded-full hairline bg-white/[0.02] flex items-center gap-1.5"><i data-lucide="bar-chart-3" class="w-3 h-3 text-accent"></i>Range &amp; TCO inputs</span>
+                    <span class="text-[11px] px-3 py-1.5 rounded-full hairline bg-white/[0.02] flex items-center gap-1.5"><i data-lucide="repeat-2" class="w-3 h-3 text-accent"></i>Trade-in · AED 142,800</span>
+                    <span class="text-[11px] px-3 py-1.5 rounded-full hairline bg-white/[0.02] flex items-center gap-1.5"><i data-lucide="map-pin" class="w-3 h-3 text-accent"></i>3 stock matches</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ==================== Footer ==================== -->
-  <footer class="border-t border-line px-8 py-10">
+  <footer class="border-t border-line px-8 py-10 mt-2">
     <div class="grid grid-cols-12 gap-8 text-[11px] text-muted">
       <div class="col-span-3">
         <svg viewBox="0 0 100 100" class="w-5 h-5 mb-3">
@@ -1347,99 +1686,568 @@
           </g>
         </svg>
         <div class="text-white text-[12px]">Mercedes-Benz Middle East</div>
-        <div class="mt-2 text-[10px]">Dealer pitch artifact · Continuous Surface concept</div>
+        <div class="mt-2 text-[10px]">Continuous Surface · pitch artifact</div>
       </div>
       <div class="col-span-9 grid grid-cols-4 gap-6">
         <div>
           <div class="text-white/70 mb-2 uppercase tracking-[0.18em] text-[10px]">Surface</div>
-          <ul class="space-y-1">
-            <li>Discover</li><li>Forge</li><li>Atlas</li><li>Cronus</li>
-          </ul>
+          <ul class="space-y-1"><li>Discover</li><li>Forge</li><li>Atlas</li><li>Cronus</li></ul>
         </div>
         <div>
           <div class="text-white/70 mb-2 uppercase tracking-[0.18em] text-[10px]">Models</div>
-          <ul class="space-y-1">
-            <li>GLC</li><li>EQE SUV</li><li>EQS SUV</li><li>G-Class</li>
-          </ul>
+          <ul class="space-y-1"><li>GLC</li><li>EQE SUV</li><li>EQS SUV</li><li>G-Class</li></ul>
         </div>
         <div>
           <div class="text-white/70 mb-2 uppercase tracking-[0.18em] text-[10px]">Service</div>
-          <ul class="space-y-1">
-            <li>Service plans</li><li>Bookings</li><li>Trade-in</li><li>Charging</li>
-          </ul>
+          <ul class="space-y-1"><li>Service plans</li><li>Bookings</li><li>Trade-in</li><li>Charging</li></ul>
         </div>
         <div>
           <div class="text-white/70 mb-2 uppercase tracking-[0.18em] text-[10px]">Legal</div>
-          <ul class="space-y-1">
-            <li>Privacy</li><li>Imprint</li><li>Cookie settings</li><li>Provider</li>
-          </ul>
+          <ul class="space-y-1"><li>Privacy</li><li>Imprint</li><li>Cookie settings</li><li>Provider</li></ul>
         </div>
       </div>
     </div>
-    <div class="mt-10 pt-6 border-t border-line text-[10px] text-muted/70 flex items-center justify-between">
-      <div>© 2026 Mercedes-Benz · Pitch artifact, not a production page</div>
-      <div class="flex items-center gap-4">
-        <span class="flex items-center gap-1.5"><span class="dot-pulse" style="width:4px;height:4px;"></span>Adapting to you</span>
-      </div>
+    <div class="mt-10 pt-6 border-t border-line text-[10px] text-muted-2 flex items-center justify-between">
+      <div>© 2026 Mercedes-Benz · pitch artifact, not a production page</div>
     </div>
   </footer>
 
+  <!-- ==================== PERSISTENT 'Your build' CHIP ==================== -->
+  <div id="build-chip" class="build-chip">
+    <div class="stat-block">
+      <div class="num"><span id="bc-price">AED 257,556</span></div>
+      <div class="lbl">Your build</div>
+    </div>
+    <div class="sep"></div>
+    <div class="stat-block">
+      <div class="num"><span id="bc-range">471</span> <span class="text-[12px] text-muted-2">km</span></div>
+      <div class="lbl">WLTP</div>
+    </div>
+    <span class="pulse ml-1"></span>
+  </div>
+
+  <!-- ==================== FLOATING CRONUS WIDGET ==================== -->
+  <div id="cronus-widget" class="cronus-widget">
+    <div class="corner-glow"></div>
+
+    <!-- Top row: sparkle square + Available pill -->
+    <div class="flex items-start justify-between mb-4">
+      <div class="w-8 h-8 rounded-lg grid place-items-center"
+           style="background: rgba(167,139,250,0.12); border: 1px solid rgba(167,139,250,0.32);">
+        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-ai"></i>
+      </div>
+      <span class="live-pill ai"><span class="dot"></span>Available</span>
+    </div>
+
+    <!-- Avatar + name -->
+    <div class="flex items-center gap-3 mb-3">
+      <div class="cw-avatar"></div>
+      <div class="min-w-0">
+        <div class="text-[13px] font-medium leading-tight">Sarah · MB Dubai</div>
+        <div class="text-[11px] text-muted-2 mt-0.5">Trusted AI advisor · 2 min reply</div>
+      </div>
+    </div>
+
+    <!-- Briefing strip — reflects build -->
+    <div class="text-[10.5px] text-muted-2 leading-relaxed mb-3" id="cw-briefing">
+      Briefed on your config · <span class="text-white/85" id="cw-brief-summary">20" Aero · Black leather · EQ Premium</span>
+    </div>
+
+    <!-- Channel toggles -->
+    <div class="flex items-center gap-2 mb-3" id="cw-channels">
+      <button class="cw-channel active" data-channel="phone" title="Voice"><i data-lucide="phone" class="w-3.5 h-3.5"></i></button>
+      <button class="cw-channel" data-channel="whatsapp" title="WhatsApp"><i data-lucide="message-circle" class="w-3.5 h-3.5"></i></button>
+      <button class="cw-channel" data-channel="calendar" title="Schedule"><i data-lucide="calendar" class="w-3.5 h-3.5"></i></button>
+    </div>
+
+    <!-- Main CTA + sync -->
+    <button id="cronus-open" class="btn-pill btn-glass w-full justify-center text-[13px] mb-3">
+      <i id="cw-cta-icon" data-lucide="phone" class="w-3.5 h-3.5"></i>
+      <span id="cw-cta-label">Talk now</span>
+    </button>
+
+    <div class="flex items-center gap-2 text-[10px] text-muted-2">
+      <span class="sync-dot"></span>
+      Live config sync
+    </div>
+  </div>
+
+  <!-- ==================== CRONUS OVERLAY ==================== -->
+  <div id="cronus-overlay" class="cronus-overlay">
+    <div class="cronus-overlay-card glass-premium rounded-3xl p-8 relative">
+      <button id="cronus-close" class="absolute top-5 right-5 w-9 h-9 rounded-full hairline grid place-items-center hover:bg-white/5 transition">
+        <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
+
+      <div class="flex items-center gap-3 mb-4">
+        <span class="live-pill ai"><span class="dot"></span>Cronus</span>
+      </div>
+      <div class="display text-[36px] leading-tight">Pick a channel.</div>
+      <p class="text-[12.5px] text-muted/85 mt-2 leading-relaxed max-w-md">
+        Your full session travels with whoever picks up — human or AI.
+      </p>
+
+      <div class="grid grid-cols-3 gap-4 mt-6">
+        <button class="channel-tile glass-soft rounded-2xl p-5 text-left hairline channel-active flex flex-col">
+          <div class="flex items-start justify-between mb-4">
+            <div class="w-12 h-12 rounded-xl grid place-items-center bg-accent/15 border border-accent/30">
+              <i data-lucide="phone" class="w-5 h-5 text-accent"></i>
+            </div>
+            <span class="live-pill"><span class="dot"></span>0s wait</span>
+          </div>
+          <div class="text-[16px]">Talk now</div>
+          <div class="text-[11px] text-muted-2 mt-1">Instant · trusted AI advisor</div>
+        </button>
+
+        <button class="channel-tile glass-soft rounded-2xl p-5 text-left row-hover hairline flex flex-col">
+          <div class="flex items-start justify-between mb-4">
+            <div class="w-12 h-12 rounded-xl grid place-items-center bg-white/5 border border-line">
+              <i data-lucide="calendar-check" class="w-5 h-5"></i>
+            </div>
+            <i data-lucide="arrow-up-right" class="w-4 h-4 text-muted-2"></i>
+          </div>
+          <div class="text-[16px]">Test drive</div>
+          <div class="text-[11px] text-muted-2 mt-1">Tomorrow 11:00 · earliest</div>
+        </button>
+
+        <button class="channel-tile glass-soft rounded-2xl p-5 text-left row-hover hairline flex flex-col">
+          <div class="flex items-start justify-between mb-4">
+            <div class="w-12 h-12 rounded-xl grid place-items-center bg-white/5 border border-line">
+              <i data-lucide="message-circle" class="w-5 h-5"></i>
+            </div>
+            <i data-lucide="arrow-up-right" class="w-4 h-4 text-muted-2"></i>
+          </div>
+          <div class="text-[16px]">WhatsApp</div>
+          <div class="text-[11px] text-muted-2 mt-1">Same thread · async</div>
+        </button>
+      </div>
+
+      <div class="mt-5 pt-5 border-t border-line text-[11px] text-muted-2 flex items-center gap-2">
+        <i data-lucide="sparkles" class="w-3 h-3 text-ai"></i>
+        Whoever picks up sees your config, calculator inputs, comparisons and trade-in.
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== AI · PERSONALIZED RANGE MODAL ==================== -->
+  <div id="ai-range-modal" class="ai-modal">
+    <div class="ai-modal-card relative">
+      <button class="ai-close absolute top-5 right-5 w-9 h-9 rounded-full hairline grid place-items-center hover:bg-white/5 transition">
+        <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
+
+      <div class="live-pill ai mb-4"><span class="dot"></span>AI · Personalized range</div>
+      <div class="display text-[36px] leading-tight">Three quick questions.</div>
+      <p class="text-[12.5px] text-muted/85 mt-2 leading-relaxed max-w-md">
+        We'll model your range against the typical Dubai resident profile.
+      </p>
+
+      <!-- Step 1 -->
+      <div class="ai-step active mt-7" data-step="1">
+        <div class="stat-label mb-3">1 of 3 · Daily kilometres</div>
+        <div class="grid grid-cols-4 gap-2" id="ai-r1">
+          <button class="opt-chip justify-center" data-val="30">~30 km</button>
+          <button class="opt-chip justify-center active" data-val="60">~60 km</button>
+          <button class="opt-chip justify-center" data-val="100">~100 km</button>
+          <button class="opt-chip justify-center" data-val="180">~180 km</button>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="ai-step mt-7" data-step="2">
+        <div class="stat-label mb-3">2 of 3 · Climate</div>
+        <div class="grid grid-cols-3 gap-2" id="ai-r2">
+          <button class="opt-chip justify-center" data-val="cold">Cold · 5°C</button>
+          <button class="opt-chip justify-center" data-val="mild">Mild · 22°C</button>
+          <button class="opt-chip justify-center active" data-val="hot">Hot · 38°C</button>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="ai-step mt-7" data-step="3">
+        <div class="stat-label mb-3">3 of 3 · Charging access</div>
+        <div class="grid grid-cols-3 gap-2" id="ai-r3">
+          <button class="opt-chip justify-center active" data-val="home">Home wallbox</button>
+          <button class="opt-chip justify-center" data-val="mixed">Mixed</button>
+          <button class="opt-chip justify-center" data-val="public">Public only</button>
+        </div>
+      </div>
+
+      <!-- Result -->
+      <div class="ai-step mt-7" data-step="result">
+        <div class="stat-label mb-3">Your personalized estimate</div>
+        <div class="grid grid-cols-2 gap-6">
+          <div>
+            <div class="stat-display text-[68px]"><span id="ai-r-range">372</span><span class="text-[16px] text-muted-2"> km</span></div>
+            <div class="stat-label mt-2">Realistic range</div>
+          </div>
+          <div>
+            <div class="stat-display text-[68px]"><span id="ai-r-charges">2</span></div>
+            <div class="stat-label mt-2">Charges · per week</div>
+          </div>
+        </div>
+        <div class="mt-6 p-5 rounded-2xl hairline" style="background: rgba(167,139,250,0.05);">
+          <div class="flex items-start gap-3 text-[12.5px] text-muted leading-relaxed">
+            <i data-lucide="sparkles" class="w-4 h-4 text-ai flex-shrink-0 mt-0.5"></i>
+            <p id="ai-r-narrative">In hot Dubai conditions and your typical 60 km commute, expect ~372 km on a fresh charge — about two plug-ins a week on the home wallbox. Cost: roughly AED 22 / week.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="mt-8 pt-6 border-t border-line flex items-center justify-between">
+        <div class="text-[10px] text-muted-2 uppercase tracking-[0.2em]" id="ai-r-progress">Step 1 of 3</div>
+        <div class="flex items-center gap-2">
+          <button id="ai-r-back" class="btn-pill btn-ghost text-[12px]" style="display:none;">Back</button>
+          <button id="ai-r-next" class="btn-pill btn-glass-ai text-[12px]">Next <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== AI · FIND CONFIGS LIKE MINE ==================== -->
+  <div id="ai-atlas-modal" class="ai-modal">
+    <div class="ai-modal-card relative">
+      <button class="ai-close absolute top-5 right-5 w-9 h-9 rounded-full hairline grid place-items-center hover:bg-white/5 transition">
+        <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
+
+      <div class="live-pill ai mb-4"><span class="dot"></span>AI · Owner patterns</div>
+      <div class="display text-[36px] leading-tight">Configurations like yours.</div>
+      <p class="text-[12.5px] text-muted/85 mt-2 leading-relaxed max-w-md">
+        Three anonymized owners with similar browsing patterns. What they picked, and why.
+      </p>
+
+      <div class="mt-6 grid grid-cols-1 gap-3">
+        <div class="rounded-2xl hairline p-5" style="background: rgba(255,255,255,0.02);">
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-full flex-shrink-0" style="background: linear-gradient(135deg,#1e293b,#0f172a); border: 1px solid rgba(255,255,255,0.08);"></div>
+            <div class="flex-1">
+              <div class="text-[13px]">Owner A · 35 km daily · weekend AlUla</div>
+              <div class="text-[11px] text-muted-2 mt-1">Obsidian black · 20" Aero · EQ Premium · Burmester</div>
+              <div class="text-[11px] text-muted/85 mt-2 leading-relaxed">Picked range over performance package — said the long highway weekends mattered more than 0–100 time.</div>
+            </div>
+          </div>
+        </div>
+        <div class="rounded-2xl hairline p-5" style="background: rgba(255,255,255,0.02);">
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-full flex-shrink-0" style="background: linear-gradient(135deg,#1f3461,#0f1730); border: 1px solid rgba(255,255,255,0.08);"></div>
+            <div class="flex-1">
+              <div class="text-[13px]">Owner B · 80 km commute · Sheikh Zayed daily</div>
+              <div class="text-[11px] text-muted-2 mt-1">Spectral blue · 19" Twin · EQ Premium</div>
+              <div class="text-[11px] text-muted/85 mt-2 leading-relaxed">Took the smaller wheel for range. "12 extra km a day adds up across the year."</div>
+            </div>
+          </div>
+        </div>
+        <div class="rounded-2xl hairline p-5" style="background: rgba(255,255,255,0.02);">
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-full flex-shrink-0" style="background: linear-gradient(135deg,#3a3245,#1a1620); border: 1px solid rgba(255,255,255,0.08);"></div>
+            <div class="flex-1">
+              <div class="text-[13px]">Owner C · 22 km daily · school run + airport</div>
+              <div class="text-[11px] text-muted-2 mt-1">High-tech silver · 20" Aero · all packages</div>
+              <div class="text-[11px] text-muted/85 mt-2 leading-relaxed">Top spec: "I didn't want to be reminded I'd skipped something every time I sat in it."</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-6 pt-5 border-t border-line text-[11px] text-muted-2 flex items-center gap-2">
+        <i data-lucide="lock" class="w-3 h-3"></i>
+        Aggregated cohort data · no personal information.
+      </div>
+    </div>
+  </div>
+
   <!-- ==================== SCRIPTS ==================== -->
   <script>
-    // Lucide
     lucide.createIcons();
 
-    // Hero scene swap
-    const heroSlot = document.getElementById('hero-slot');
-    const sceneTones = {
-      driveway: { tone: 'cool',   label: 'Driveway · 06:50' },
-      alula:    { tone: 'desert', label: 'AlUla road · 16:20' },
-      showroom: { tone: 'studio', label: 'Showroom · neutral' },
+    // ============== STATE ==============
+    const BASE_PRICE = 257556;
+    const BASE_RANGE = 471;
+
+    const heroState = {
+      paint:    { name: "High-tech silver", code: "silver", price: 0 },
+      wheel:    { name: '20" Aero', price: 0, rangeDelta: 0 },
+      interior: { name: "Black leather", price: 0 },
     };
-    document.querySelectorAll('#scene-thumbs .scene-thumb').forEach((t) => {
-      t.addEventListener('click', () => {
-        const scene = t.dataset.scene;
-        document.querySelectorAll('#scene-thumbs .scene-thumb').forEach((x) => x.classList.remove('active'));
-        t.classList.add('active');
-        const cfg = sceneTones[scene];
-        if (cfg) {
-          heroSlot.dataset.tone = cfg.tone;
-          heroSlot.dataset.label = cfg.label;
-          // Force a tiny re-paint by toggling a class
-          heroSlot.classList.remove('image-slot');
-          void heroSlot.offsetWidth;
-          heroSlot.classList.add('image-slot');
-        }
-      });
-    });
+    const buildExtras = []; // { name, price, range }
 
-    // Color swatches
-    document.querySelectorAll('#swatches .swatch').forEach((s) => {
+    function totalPrice() {
+      return BASE_PRICE + heroState.paint.price + heroState.wheel.price + heroState.interior.price
+           + buildExtras.reduce((a, e) => a + e.price, 0);
+    }
+    function totalRange() {
+      return BASE_RANGE + heroState.wheel.rangeDelta + buildExtras.reduce((a, e) => a + e.range, 0);
+    }
+
+    function updateAll() {
+      const p = totalPrice(), r = totalRange();
+      const pStr = "AED " + p.toLocaleString('en-US');
+      // Hero
+      document.getElementById('hero-price').textContent = pStr;
+      document.getElementById('hero-range').textContent = r;
+      const car = document.getElementById('hero-car');
+      car.dataset.paint = heroState.paint.code;
+      document.getElementById('paint-name').textContent = heroState.paint.name;
+      document.getElementById('wheel-name').textContent = heroState.wheel.name;
+      document.getElementById('interior-name').textContent = heroState.interior.name;
+      // Build chip
+      document.getElementById('bc-price').textContent = pStr;
+      document.getElementById('bc-range').textContent = r;
+      // Cronus widget briefing
+      const briefBits = [heroState.wheel.name, heroState.interior.name, ...buildExtras.map(e => e.name)].slice(0, 4);
+      document.getElementById('cw-brief-summary').textContent = briefBits.join(' · ');
+    }
+
+    function flashChip() {
+      const c = document.getElementById('build-chip');
+      c.classList.remove('flash');
+      void c.offsetWidth;
+      c.classList.add('flash');
+    }
+
+    // ============== HERO CONFIGURATOR ==============
+    document.querySelectorAll('#hero-swatches .swatch').forEach((s) => {
       s.addEventListener('click', () => {
-        document.querySelectorAll('#swatches .swatch').forEach((x) => x.classList.remove('active'));
+        document.querySelectorAll('#hero-swatches .swatch').forEach((x) => x.classList.remove('active'));
         s.classList.add('active');
+        heroState.paint = { name: s.dataset.name, code: s.dataset.paint, price: parseInt(s.dataset.price, 10) || 0 };
+        updateAll(); flashChip();
+      });
+    });
+    document.querySelectorAll('#hero-wheels .opt-chip').forEach((b) => {
+      b.addEventListener('click', () => {
+        document.querySelectorAll('#hero-wheels .opt-chip').forEach((x) => x.classList.remove('active'));
+        b.classList.add('active');
+        heroState.wheel = { name: b.dataset.name, price: parseInt(b.dataset.price, 10) || 0, rangeDelta: parseInt(b.dataset.range, 10) || 0 };
+        updateAll(); flashChip();
+      });
+    });
+    document.querySelectorAll('#hero-interiors .opt-chip').forEach((b) => {
+      b.addEventListener('click', () => {
+        document.querySelectorAll('#hero-interiors .opt-chip').forEach((x) => x.classList.remove('active'));
+        b.classList.add('active');
+        heroState.interior = { name: b.dataset.name, price: parseInt(b.dataset.price, 10) || 0 };
+        updateAll(); flashChip();
       });
     });
 
-    // Finance tabs
-    const monthly = document.getElementById('monthly-figure');
-    const figures = { cash: 'AED 257,556', lease: 'AED 4,890', finance: 'AED 3,640' };
-    document.querySelectorAll('#finance-tabs .tab').forEach((t) => {
-      t.addEventListener('click', () => {
-        document.querySelectorAll('#finance-tabs .tab').forEach((x) => x.classList.remove('active'));
-        t.classList.add('active');
-        const k = t.dataset.tab;
-        if (figures[k]) monthly.textContent = figures[k];
+    // ============== ADD-TO-BUILD CTAs ==============
+    document.querySelectorAll('.add-to-build').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const name  = btn.dataset.name;
+        const price = parseInt(btn.dataset.price, 10) || 0;
+        const range = parseInt(btn.dataset.range, 10) || 0;
+
+        const idx = buildExtras.findIndex(e => e.name === name);
+        if (idx >= 0) {
+          // toggle off (remove)
+          buildExtras.splice(idx, 1);
+          btn.classList.remove('btn-primary');
+          btn.classList.add('btn-glass');
+          const span = btn.querySelector('span.added');
+          if (span) span.remove();
+          btn.querySelector('i[data-lucide="check"]')?.replaceWith(makeIcon('plus'));
+        } else {
+          buildExtras.push({ name, price, range });
+          btn.classList.remove('btn-glass');
+          btn.classList.add('btn-primary');
+          btn.querySelector('i[data-lucide="plus"]')?.replaceWith(makeIcon('check'));
+        }
+        updateAll(); flashChip();
+      });
+    });
+    function makeIcon(name) {
+      const i = document.createElement('i');
+      i.setAttribute('data-lucide', name);
+      i.className = 'w-3.5 h-3.5';
+      requestAnimationFrame(() => lucide.createIcons());
+      return i;
+    }
+
+    // ============== TCO CALCULATOR ==============
+    const tcoTermBtns = document.querySelectorAll('#tco-term .opt-chip');
+    const tcoKm = document.getElementById('tco-km');
+    const tcoHome = document.getElementById('tco-home');
+    let tcoTerm = 5;
+
+    const EV_PRICE = 257556, EV_MAINT = 3100, EV_INS = 5600, EV_KWH_PER_KM = 0.21;
+    const HOME_T = 0.23, PUBLIC_T = 0.65;
+    const EV_RES = { 3: 0.62, 5: 0.45, 7: 0.30 };
+    const ICE_PRICE = 270000, ICE_MAINT = 5500, ICE_INS = 6200, ICE_L_PER_KM = 0.095, ICE_FUEL = 2.95;
+    const ICE_RES = { 3: 0.65, 5: 0.50, 7: 0.36 };
+
+    function tcoCompute() {
+      const km = parseInt(tcoKm.value, 10);
+      const homePct = parseInt(tcoHome.value, 10) / 100;
+      document.getElementById('tco-km-out').textContent = km.toLocaleString('en-US');
+      document.getElementById('tco-home-out').textContent = parseInt(tcoHome.value, 10);
+
+      const evKwh    = km * EV_KWH_PER_KM * tcoTerm;
+      const evRate   = homePct * HOME_T + (1 - homePct) * PUBLIC_T;
+      const evEnergy = Math.round(evKwh * evRate);
+      const evMaint  = EV_MAINT * tcoTerm;
+      const evIns    = EV_INS * tcoTerm;
+      const evRes    = Math.round(EV_PRICE * EV_RES[tcoTerm]);
+      const evTotal  = EV_PRICE + evEnergy + evMaint + evIns - evRes;
+
+      const iceFuel  = Math.round(km * ICE_L_PER_KM * tcoTerm * ICE_FUEL);
+      const iceMaint = ICE_MAINT * tcoTerm;
+      const iceIns   = ICE_INS * tcoTerm;
+      const iceRes   = Math.round(ICE_PRICE * ICE_RES[tcoTerm]);
+      const iceTotal = ICE_PRICE + iceFuel + iceMaint + iceIns - iceRes;
+
+      document.getElementById('tco-total').textContent   = evTotal.toLocaleString('en-US');
+      document.getElementById('tco-monthly').textContent = 'AED ' + Math.round(evTotal / (tcoTerm * 12)).toLocaleString('en-US');
+      document.getElementById('tco-savings').textContent = Math.max(0, iceTotal - evTotal).toLocaleString('en-US');
+
+      const W = 720, padL = 30, padR = 10, innerW = W - padL - padR;
+      const xFor = (yr) => padL + (yr / tcoTerm) * innerW;
+      const maxY = Math.max(evTotal + evRes, iceTotal + iceRes) * 1.05;
+      const yFor = (v) => 40 + ((maxY - v) / maxY) * 130;
+
+      const evPts = [{ yr: 0, v: EV_PRICE }];
+      const icePts = [{ yr: 0, v: ICE_PRICE }];
+      for (let yr = 1; yr <= tcoTerm; yr++) {
+        const f = yr / tcoTerm;
+        evPts.push({ yr, v: EV_PRICE + (evEnergy + evMaint + evIns) * f });
+        icePts.push({ yr, v: ICE_PRICE + (iceFuel + iceMaint + iceIns) * f });
+      }
+      const path = (pts) => pts.map((p, i) => (i === 0 ? `M ${xFor(p.yr).toFixed(1)} ${yFor(p.v).toFixed(1)}` : `L ${xFor(p.yr).toFixed(1)} ${yFor(p.v).toFixed(1)}`)).join(' ');
+      const evLine = path(evPts);
+      const iceLine = path(icePts);
+      document.getElementById('tco-ev-line').setAttribute('d', evLine);
+      document.getElementById('tco-ev-fill').setAttribute('d', evLine + ` L ${xFor(tcoTerm).toFixed(1)} 180 L ${xFor(0).toFixed(1)} 180 Z`);
+      document.getElementById('tco-ice-line').setAttribute('d', iceLine);
+
+      const labels = document.getElementById('tco-x-labels');
+      labels.innerHTML = '';
+      for (let yr = 0; yr <= tcoTerm; yr++) {
+        const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        t.setAttribute('x', xFor(yr)); t.setAttribute('y', 195); t.setAttribute('text-anchor', 'middle');
+        t.textContent = 'Y' + yr; labels.appendChild(t);
+      }
+    }
+    tcoTermBtns.forEach((b) => {
+      b.addEventListener('click', () => {
+        tcoTermBtns.forEach((x) => x.classList.remove('active'));
+        b.classList.add('active');
+        tcoTerm = parseInt(b.dataset.term, 10);
+        tcoCompute();
+      });
+    });
+    tcoKm.addEventListener('input', tcoCompute);
+    tcoHome.addEventListener('input', tcoCompute);
+    tcoCompute();
+
+    // ============== CRONUS WIDGET — channel toggles ==============
+    const channelMap = {
+      phone:    { icon: 'phone',          label: 'Talk now' },
+      whatsapp: { icon: 'message-circle', label: 'Message now' },
+      calendar: { icon: 'calendar',       label: 'Schedule call' },
+    };
+    document.querySelectorAll('#cw-channels .cw-channel').forEach((c) => {
+      c.addEventListener('click', () => {
+        document.querySelectorAll('#cw-channels .cw-channel').forEach((x) => x.classList.remove('active'));
+        c.classList.add('active');
+        const k = c.dataset.channel;
+        const m = channelMap[k];
+        document.getElementById('cw-cta-label').textContent = m.label;
+        const ic = document.getElementById('cw-cta-icon');
+        ic.setAttribute('data-lucide', m.icon);
+        lucide.createIcons();
+        // Re-grab in case createIcons replaced it
+        const newIc = document.querySelector('#cronus-open svg');
+        if (newIc) newIc.id = 'cw-cta-icon';
       });
     });
 
-    // Cronus channel tiles
+    // ============== CRONUS overlay ==============
+    const overlay = document.getElementById('cronus-overlay');
+    document.getElementById('cronus-open').addEventListener('click', () => overlay.classList.add('open'));
+    document.getElementById('cronus-close').addEventListener('click', () => overlay.classList.remove('open'));
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('open'); });
+
     document.querySelectorAll('#cronus-tiles .channel-tile').forEach((t) => {
       t.addEventListener('click', () => {
         document.querySelectorAll('#cronus-tiles .channel-tile').forEach((x) => x.classList.remove('channel-active'));
         t.classList.add('channel-active');
       });
     });
+
+    // ============== AI · personalized range modal ==============
+    const aiR = document.getElementById('ai-range-modal');
+    document.getElementById('ai-range-open').addEventListener('click', () => {
+      aiR.classList.add('open');
+      aiRStep = 1;
+      aiRRender();
+    });
+    document.querySelectorAll('.ai-close').forEach((b) => b.addEventListener('click', (e) => {
+      e.target.closest('.ai-modal').classList.remove('open');
+    }));
+    document.querySelectorAll('.ai-modal').forEach((m) => m.addEventListener('click', (e) => {
+      if (e.target === m) m.classList.remove('open');
+    }));
+
+    let aiRStep = 1;
+    const aiRState = { km: 60, climate: 'hot', charging: 'home' };
+    document.querySelectorAll('#ai-r1 .opt-chip').forEach((b) => b.addEventListener('click', () => {
+      document.querySelectorAll('#ai-r1 .opt-chip').forEach((x) => x.classList.remove('active'));
+      b.classList.add('active'); aiRState.km = parseInt(b.dataset.val, 10);
+    }));
+    document.querySelectorAll('#ai-r2 .opt-chip').forEach((b) => b.addEventListener('click', () => {
+      document.querySelectorAll('#ai-r2 .opt-chip').forEach((x) => x.classList.remove('active'));
+      b.classList.add('active'); aiRState.climate = b.dataset.val;
+    }));
+    document.querySelectorAll('#ai-r3 .opt-chip').forEach((b) => b.addEventListener('click', () => {
+      document.querySelectorAll('#ai-r3 .opt-chip').forEach((x) => x.classList.remove('active'));
+      b.classList.add('active'); aiRState.charging = b.dataset.val;
+    }));
+    function aiRRender() {
+      document.querySelectorAll('#ai-range-modal .ai-step').forEach((s) => s.classList.remove('active'));
+      const stepKey = aiRStep <= 3 ? String(aiRStep) : 'result';
+      document.querySelector(`#ai-range-modal .ai-step[data-step="${stepKey}"]`).classList.add('active');
+      document.getElementById('ai-r-back').style.display = aiRStep === 1 ? 'none' : 'inline-flex';
+      document.getElementById('ai-r-next').innerHTML = aiRStep === 3
+        ? 'Show estimate <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>'
+        : aiRStep === 4 ? 'Apply to build <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>'
+        : 'Next <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>';
+      lucide.createIcons();
+      document.getElementById('ai-r-progress').textContent = aiRStep <= 3 ? `Step ${aiRStep} of 3` : 'Result';
+
+      if (aiRStep > 3) aiRComputeResult();
+    }
+    function aiRComputeResult() {
+      const climateF = { cold: 0.75, mild: 1.00, hot: 0.88 }[aiRState.climate];
+      const chargF = { home: 1.00, mixed: 0.95, public: 0.85 }[aiRState.charging];
+      const realRange = Math.round(BASE_RANGE * climateF * chargF);
+      const charges = Math.max(1, Math.round((aiRState.km * 7) / (realRange * 0.6)));
+      document.getElementById('ai-r-range').textContent = realRange;
+      document.getElementById('ai-r-charges').textContent = charges;
+
+      const climateLabel = { cold: 'cold winters', mild: 'mild conditions', hot: 'hot Dubai conditions' }[aiRState.climate];
+      const chargLabel = { home: 'home wallbox', mixed: 'mostly home charging', public: 'public charging' }[aiRState.charging];
+      document.getElementById('ai-r-narrative').textContent =
+        `In ${climateLabel} and your typical ${aiRState.km} km a day, expect ~${realRange} km on a fresh charge — about ${charges} plug-in${charges>1?'s':''} a week on ${chargLabel}.`;
+    }
+    document.getElementById('ai-r-next').addEventListener('click', () => {
+      if (aiRStep < 4) aiRStep++;
+      else aiR.classList.remove('open');
+      aiRRender();
+    });
+    document.getElementById('ai-r-back').addEventListener('click', () => {
+      if (aiRStep > 1) aiRStep--;
+      aiRRender();
+    });
+
+    // ============== AI · find configs like mine ==============
+    document.getElementById('ai-atlas-open').addEventListener('click', () => {
+      document.getElementById('ai-atlas-modal').classList.add('open');
+    });
+
+    // initial paint
+    updateAll();
   </script>
 </body>
 </html>
