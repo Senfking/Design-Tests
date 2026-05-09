@@ -721,42 +721,94 @@
       .lg-stack-2 { grid-template-columns: 1fr !important; }
     }
 
+    /* ---------- Mobile bottom dock (combined build + talk) ---------- */
+    .mobile-dock { display: none; }
+
     /* ---------- MOBILE / TABLET (≤ 1023 px) ---------- */
     @media (max-width: 1023px) {
       .desktop-only { display: none; }
-      .build-chip { display: none; }
-      /* Hide floating Cronus widget on mobile — full Cronus card at the bottom serves the same purpose */
+      .build-chip { display: none !important; }
       .cronus-widget { display: none !important; }
 
+      /* Compact floating pill — combined build summary + Talk CTA */
+      .mobile-dock {
+        display: inline-flex !important;
+        position: fixed; right: 14px; bottom: calc(14px + env(safe-area-inset-bottom));
+        z-index: 60;
+        align-items: center;
+        gap: 10px;
+        padding: 6px 6px 6px 12px;
+        border-radius: 999px;
+        background:
+          radial-gradient(110% 80% at 0% 0%, rgba(167,139,250,0.18), transparent 60%),
+          rgba(10,12,18,0.78);
+        border: 1px solid rgba(255,255,255,0.07);
+        backdrop-filter: blur(36px) saturate(180%);
+        -webkit-backdrop-filter: blur(36px) saturate(180%);
+        box-shadow:
+          inset 0 1px 0 rgba(255,255,255,0.06),
+          0 16px 40px -10px rgba(0,0,0,0.6);
+      }
+      .mobile-dock { white-space: nowrap; max-width: calc(100vw - 28px); }
+      .mobile-dock .md-stats {
+        display: flex; align-items: center; gap: 8px;
+        font-size: 11.5px; line-height: 1;
+        white-space: nowrap;
+      }
+      .mobile-dock .md-num { font-weight: 400; letter-spacing: -0.01em; }
+      .mobile-dock .md-sep { color: rgba(255,255,255,0.18); font-weight: 300; }
+      .mobile-dock .md-range { color: #C8CCD0; }
+      .mobile-dock .md-pulse {
+        width: 5px; height: 5px; border-radius: 999px;
+        background: #00ADEF;
+        box-shadow: 0 0 6px rgba(0,173,239,0.85);
+        animation: dotBlink 2.4s ease-in-out infinite;
+        flex-shrink: 0;
+      }
+      .mobile-dock .md-cta {
+        flex-shrink: 0;
+        display: inline-flex; align-items: center; justify-content: center;
+        width: 36px; height: 36px;
+        border-radius: 999px;
+        background: rgba(0,173,239,0.14);
+        border: 1px solid rgba(0,173,239,0.6);
+        color: #fff;
+        box-shadow: 0 0 0 1px rgba(0,173,239,0.05), 0 0 18px -6px rgba(0,173,239,0.55);
+      }
+      .mobile-dock .md-cta i { width: 14px; height: 14px; }
+      .mobile-dock .md-lbl { display: none; }
+
       /* Section padding */
-      section .px-8 { padding-left: 22px !important; padding-right: 22px !important; }
-      section .py-28 { padding-top: 64px !important; padding-bottom: 64px !important; }
-      section .py-24 { padding-top: 56px !important; padding-bottom: 56px !important; }
-      section .py-20 { padding-top: 48px !important; padding-bottom: 48px !important; }
-      header.relative { padding-left: 18px !important; padding-right: 18px !important; padding-top: 32px !important; }
+      section .px-8 { padding-left: 18px !important; padding-right: 18px !important; }
+      section .py-28 { padding-top: 56px !important; padding-bottom: 56px !important; }
+      section .py-24 { padding-top: 48px !important; padding-bottom: 48px !important; }
+      section .py-20 { padding-top: 40px !important; padding-bottom: 40px !important; }
+      header.relative { padding-left: 18px !important; padding-right: 18px !important; padding-top: 28px !important; }
 
-      /* Display headline scaling */
-      .display.text-\[88px\] { font-size: 52px !important; line-height: 1.02 !important; }
-      .display.text-\[80px\] { font-size: 48px !important; line-height: 1.02 !important; }
-      .display.text-\[78px\] { font-size: 48px !important; }
-      .display.text-\[68px\] { font-size: 44px !important; }
-      .display.text-\[64px\] { font-size: 40px !important; }
-      .display.text-\[56px\] { font-size: 36px !important; }
-      .display.text-\[44px\] { font-size: 30px !important; }
-      .display.text-\[36px\] { font-size: 26px !important; }
+      /* Display headlines */
+      .display.text-\[88px\] { font-size: 48px !important; line-height: 1.02 !important; }
+      .display.text-\[80px\] { font-size: 44px !important; line-height: 1.02 !important; }
+      .display.text-\[78px\] { font-size: 44px !important; }
+      .display.text-\[68px\] { font-size: 40px !important; }
+      .display.text-\[64px\] { font-size: 36px !important; }
+      .display.text-\[56px\] { font-size: 32px !important; }
+      .display.text-\[44px\] { font-size: 28px !important; }
+      .display.text-\[36px\] { font-size: 24px !important; }
       .display.text-\[28px\] { font-size: 22px !important; }
+      .display.text-\[24px\] { font-size: 18px !important; }
 
-      /* Stat displays scaling */
-      .stat-display.text-\[120px\] { font-size: 76px !important; }
-      .stat-display.text-\[112px\] { font-size: 68px !important; }
-      .stat-display.text-\[110px\] { font-size: 64px !important; }
-      .stat-display.text-\[88px\]  { font-size: 54px !important; }
-      .stat-display.text-\[68px\]  { font-size: 44px !important; }
-      .stat-display.text-\[64px\]  { font-size: 42px !important; }
-      .stat-display.text-\[52px\]  { font-size: 36px !important; }
-      .stat-display.text-\[44px\]  { font-size: 30px !important; }
+      /* Stat displays */
+      .stat-display.text-\[120px\] { font-size: 64px !important; }
+      .stat-display.text-\[112px\] { font-size: 60px !important; }
+      .stat-display.text-\[110px\] { font-size: 58px !important; }
+      .stat-display.text-\[88px\]  { font-size: 48px !important; }
+      .stat-display.text-\[68px\]  { font-size: 40px !important; }
+      .stat-display.text-\[64px\]  { font-size: 38px !important; }
+      .stat-display.text-\[52px\]  { font-size: 32px !important; }
+      .stat-display.text-\[44px\]  { font-size: 28px !important; }
+      .stat-display.text-\[32px\]  { font-size: 22px !important; }
 
-      .display-soft.text-\[20px\] { font-size: 15px !important; }
+      .display-soft.text-\[20px\] { font-size: 14px !important; }
 
       /* Header */
       header nav { display: none !important; }
@@ -764,59 +816,93 @@
       header > div > div:nth-child(2) { align-items: flex-start !important; }
       header .flex.items-center.justify-end { gap: 14px !important; }
 
-      /* Hero — full-bleed, taller, car prominent */
+      /* ===== HERO (mobile) — tight stack ===== */
+      #hero .atmo-hero { padding: 0 !important; }
+      #hero .atmo-hero > .pt-2 { padding: 0 !important; }
       #hero .relative.rounded-3xl[style*="height: 880px"] {
         height: auto !important;
         min-height: 0 !important;
-        padding-bottom: 28px;
+        padding-bottom: 12px;
+        border-radius: 0 !important;
+        border: none !important;
       }
-      #hero .absolute.top-12.right-12 {
-        position: static !important;
-        width: 100% !important;
-        margin-top: 28px;
-        padding: 0 22px;
-        max-width: 520px;
-        margin-left: auto; margin-right: auto;
-      }
+      /* Editorial first */
       #hero .absolute.top-12.left-14 {
         position: static !important;
-        padding: 32px 22px 0 22px !important;
+        padding: 24px 18px 8px 18px !important;
         max-width: 100% !important;
         text-align: center;
       }
-      #hero .absolute.top-12.left-14 .display { text-align: center; }
-      #hero .absolute.top-12.left-14 .live-pill { margin: 0 auto 16px auto; }
+      #hero .absolute.top-12.left-14 .display { text-align: center; font-size: 42px !important; }
+      #hero .absolute.top-12.left-14 .display-soft { text-align: center; }
+      #hero .absolute.top-12.left-14 .live-pill { margin: 0 auto 14px auto; }
+      /* Car — tight stage right after editorial */
+      #hero .studio-stage {
+        position: relative !important;
+        height: 240px !important;
+        margin-bottom: 4px !important;
+      }
+      #hero .studio-stage > img.car {
+        transform: scale(1.4) !important;
+        transform-origin: center 58% !important;
+      }
+      #hero .floor-glow { bottom: 8% !important; height: 18% !important; }
+      /* Chips immediately under car */
+      #hero .absolute.top-12.right-12 {
+        position: static !important;
+        width: 100% !important;
+        margin: 0 auto;
+        padding: 4px 18px 0 18px;
+        max-width: 540px;
+      }
+      /* Readouts compact */
       #hero .absolute.bottom-14.left-14 {
         position: static !important;
-        padding: 20px 22px 0 22px !important;
+        padding: 16px 18px 4px 18px !important;
         flex-wrap: wrap;
-        gap: 28px !important;
+        gap: 22px !important;
         justify-content: center;
         text-align: center;
       }
+      #hero .stat-display.text-\[52px\] { font-size: 30px !important; }
+      /* CTAs */
       #hero .absolute.bottom-14.right-14 {
         position: static !important;
-        padding: 14px 22px 24px 22px !important;
+        padding: 6px 18px 22px 18px !important;
         align-items: center !important;
       }
-      #hero .studio-stage { position: relative !important; height: 480px; }
-      #hero .studio-stage > img.car { transform: scale(1.25) !important; transform-origin: center 60% !important; }
-      #hero .floor-glow { bottom: 0 !important; height: 22% !important; }
 
       /* Convert all 12-col grids to single column */
       .grid.grid-cols-12 > [class*="lg:col-span-"] { grid-column: span 12 / span 12 !important; }
 
-      /* 3-up grids → 1-up */
-      #atlas .grid.grid-cols-3 { grid-template-columns: 1fr !important; }
+      /* Service / Cronus 3-up → 1-up */
       #service .grid.grid-cols-3 { grid-template-columns: 1fr !important; }
-      #cronus #cronus-tiles { grid-template-columns: 1fr !important; }
+      #cronus #cronus-tiles { grid-template-columns: 1fr !important; gap: 12px !important; }
+
+      /* ===== ATLAS — horizontal carousel ===== */
+      #atlas .grid.grid-cols-3 {
+        display: flex !important;
+        grid-template-columns: none !important;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        gap: 14px !important;
+        padding-bottom: 8px;
+        margin-left: -18px; padding-left: 18px;
+        margin-right: -18px; padding-right: 18px;
+        scrollbar-width: none;
+      }
+      #atlas .grid.grid-cols-3::-webkit-scrollbar { display: none; }
+      #atlas .grid.grid-cols-3 > article {
+        flex: 0 0 78%;
+        min-width: 280px;
+        max-width: 320px;
+        scroll-snap-align: start;
+      }
 
       /* Feature module visuals */
-      section [style*="height: 540px"] { height: 380px !important; }
-      section [style*="height: 520px"] { height: 360px !important; }
-
-      /* Live readouts at hero */
-      #hero .stat-display.text-\[52px\] { font-size: 36px !important; }
+      section [style*="height: 540px"] { height: 320px !important; }
+      section [style*="height: 520px"] { height: 300px !important; }
 
       /* Footer */
       footer .grid.grid-cols-12 { grid-template-columns: 1fr !important; }
@@ -825,58 +911,81 @@
       /* TCO 2-col → 1-col */
       #tco .grid.grid-cols-2 { grid-template-columns: 1fr !important; }
 
+      /* Cronus full-card tiles — compact */
+      #cronus #cronus-tiles .channel-tile { padding: 18px !important; }
+      #cronus #cronus-tiles .channel-tile .display { font-size: 18px !important; }
+      #cronus #cronus-tiles .channel-tile .w-14 { width: 44px !important; height: 44px !important; }
+      #cronus #cronus-tiles .channel-tile .w-14 i { width: 18px !important; height: 18px !important; }
+
+      /* Service plan tier cards — compact */
+      #service .sp-plan { padding: 14px !important; }
+      #service .sp-plan .display { font-size: 22px !important; }
+
+      /* Hide top pulse line on mobile (cleaner) */
+      .pulse-line { opacity: 0.4; }
+
       /* AI modal */
-      .ai-modal { padding: 16px !important; }
-      .ai-modal-card { padding: 24px !important; }
-      .ai-modal-card .display.text-\[36px\] { font-size: 26px !important; }
+      .ai-modal { padding: 14px !important; }
+      .ai-modal-card { padding: 22px !important; }
+      .ai-modal-card .display.text-\[36px\] { font-size: 24px !important; }
       .ai-modal-card .grid.grid-cols-4 { grid-template-columns: repeat(2, 1fr) !important; }
 
       /* Cronus overlay */
-      .cronus-overlay { padding: 16px !important; }
-      .cronus-overlay-card { padding: 24px !important; }
-      .cronus-overlay-card .display.text-\[36px\] { font-size: 26px !important; }
+      .cronus-overlay { padding: 14px !important; }
+      .cronus-overlay-card { padding: 22px !important; }
+      .cronus-overlay-card .display.text-\[36px\] { font-size: 24px !important; }
       .cronus-overlay-card .grid.grid-cols-3 { grid-template-columns: 1fr !important; }
     }
 
     /* phones */
     @media (max-width: 600px) {
-      section .py-28 { padding-top: 48px !important; padding-bottom: 48px !important; }
-      section .py-24 { padding-top: 44px !important; padding-bottom: 44px !important; }
-      section .py-20 { padding-top: 36px !important; padding-bottom: 36px !important; }
+      section .py-28 { padding-top: 44px !important; padding-bottom: 44px !important; }
+      section .py-24 { padding-top: 40px !important; padding-bottom: 40px !important; }
+      section .py-20 { padding-top: 32px !important; padding-bottom: 32px !important; }
 
       .display.text-\[88px\] { font-size: 40px !important; }
-      .display.text-\[80px\] { font-size: 38px !important; }
-      .display.text-\[78px\] { font-size: 38px !important; }
-      .display.text-\[68px\] { font-size: 34px !important; }
-      .display.text-\[64px\] { font-size: 32px !important; }
-      .display.text-\[56px\] { font-size: 28px !important; }
-      .display.text-\[44px\] { font-size: 26px !important; }
+      .display.text-\[80px\] { font-size: 36px !important; }
+      .display.text-\[78px\] { font-size: 36px !important; }
+      .display.text-\[68px\] { font-size: 32px !important; }
+      .display.text-\[64px\] { font-size: 30px !important; }
+      .display.text-\[56px\] { font-size: 26px !important; }
+      .display.text-\[44px\] { font-size: 24px !important; }
 
-      .stat-display.text-\[120px\] { font-size: 56px !important; }
-      .stat-display.text-\[112px\] { font-size: 52px !important; }
-      .stat-display.text-\[110px\] { font-size: 48px !important; }
-      .stat-display.text-\[88px\]  { font-size: 44px !important; }
-      .stat-display.text-\[68px\]  { font-size: 36px !important; }
-      .stat-display.text-\[64px\]  { font-size: 32px !important; }
+      .stat-display.text-\[120px\] { font-size: 52px !important; }
+      .stat-display.text-\[112px\] { font-size: 48px !important; }
+      .stat-display.text-\[110px\] { font-size: 44px !important; }
+      .stat-display.text-\[88px\]  { font-size: 40px !important; }
+      .stat-display.text-\[68px\]  { font-size: 34px !important; }
+      .stat-display.text-\[64px\]  { font-size: 30px !important; }
 
       footer .col-span-9.grid.grid-cols-4 { grid-template-columns: 1fr !important; }
 
-      #hero .studio-stage { height: 360px; }
-      #hero .studio-stage > img.car { transform: scale(1.18) !important; }
+      #hero .absolute.top-12.left-14 .display { font-size: 38px !important; }
+      #hero .studio-stage { height: 200px !important; }
+      #hero .studio-stage > img.car { transform: scale(1.5) !important; }
 
-      section [style*="height: 540px"], section [style*="height: 520px"] { height: 280px !important; }
+      section [style*="height: 540px"], section [style*="height: 520px"] { height: 240px !important; }
+
+      #atlas .grid.grid-cols-3 > article { flex: 0 0 84%; }
     }
 
-    /* extra-narrow phones */
+    /* extra-narrow */
     @media (max-width: 420px) {
-      section .px-8 { padding-left: 16px !important; padding-right: 16px !important; }
+      section .px-8 { padding-left: 14px !important; padding-right: 14px !important; }
       .display.text-\[88px\], .display.text-\[80px\], .display.text-\[78px\] { font-size: 32px !important; }
-      .display.text-\[68px\], .display.text-\[64px\] { font-size: 28px !important; }
-      .display.text-\[56px\] { font-size: 26px !important; }
-      .stat-display.text-\[120px\] { font-size: 48px !important; }
-      .stat-display.text-\[88px\] { font-size: 38px !important; }
+      .display.text-\[68px\], .display.text-\[64px\] { font-size: 26px !important; }
+      .display.text-\[56px\] { font-size: 24px !important; }
+      .stat-display.text-\[120px\] { font-size: 44px !important; }
+      .stat-display.text-\[88px\] { font-size: 36px !important; }
       .live-pill { font-size: 8.5px !important; padding: 4px 8px !important; }
-      #hero .studio-stage { height: 280px; }
+      #hero .studio-stage { height: 180px !important; }
+      #hero .studio-stage > img.car { transform: scale(1.55) !important; }
+      /* Tighter dock on narrow phones — drop the range to keep pill on one line */
+      .mobile-dock .md-sep,
+      .mobile-dock .md-range { display: none !important; }
+      .mobile-dock { padding: 5px 5px 5px 11px; gap: 8px; }
+      .mobile-dock .md-stats { font-size: 11px; }
+      .mobile-dock .md-cta { width: 32px; height: 32px; }
     }
   </style>
 </head>
@@ -1955,6 +2064,19 @@
     </div>
   </footer>
 
+  <!-- ==================== MOBILE FLOATING DOCK (compact pill) ==================== -->
+  <div id="mobile-dock" class="mobile-dock">
+    <span class="md-pulse"></span>
+    <div class="md-stats">
+      <span class="md-num" id="md-price">AED 257,556</span>
+      <span class="md-sep">·</span>
+      <span class="md-range"><span id="md-range">471</span> km</span>
+    </div>
+    <button id="mobile-dock-cta" class="md-cta" aria-label="Talk to advisor">
+      <i data-lucide="phone"></i>
+    </button>
+  </div>
+
   <!-- ==================== PERSISTENT 'Your build' CHIP ==================== -->
   <div id="build-chip" class="build-chip">
     <div class="stat-block">
@@ -2280,6 +2402,9 @@
       // Build chip
       document.getElementById('bc-price').textContent = pStr;
       document.getElementById('bc-range').textContent = r;
+      // Mobile dock
+      document.getElementById('md-price').textContent = pStr;
+      document.getElementById('md-range').textContent = r;
       // Cronus widget briefing
       const briefBits = [heroState.wheel.name, heroState.interior.name, ...buildExtras.map(e => e.name)].slice(0, 4);
       document.getElementById('cw-brief-summary').textContent = briefBits.join(' · ');
@@ -2574,6 +2699,10 @@
     const overlay = document.getElementById('cronus-overlay');
     document.getElementById('cronus-compact-cta').addEventListener('click', (e) => {
       e.stopPropagation(); overlay.classList.add('open'); collapseWidget();
+    });
+    // Mobile dock CTA opens overlay
+    document.getElementById('mobile-dock-cta').addEventListener('click', () => {
+      overlay.classList.add('open');
     });
     document.getElementById('cronus-close').addEventListener('click', () => overlay.classList.remove('open'));
     overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('open'); });
