@@ -431,6 +431,31 @@
       box-shadow: 0 0 10px rgba(74, 222, 128, 0.45);
     }
 
+    /* ---------- Atlas match score badge ---------- */
+    .match-pill {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 5px 10px 5px 6px;
+      border-radius: 999px;
+      background: rgba(15,17,28,0.7);
+      border: 1px solid rgba(0,173,239,0.32);
+      backdrop-filter: blur(20px);
+      font-size: 10.5px;
+      font-feature-settings: "tnum";
+    }
+    .match-ring-mini {
+      --p: 92;
+      width: 22px; height: 22px; border-radius: 999px;
+      background: conic-gradient(#00ADEF calc(var(--p) * 1%), rgba(255,255,255,0.10) 0);
+      display: grid; place-items: center;
+      box-shadow: 0 0 8px rgba(0,173,239,0.35);
+    }
+    .match-ring-mini > span {
+      width: 16px; height: 16px; border-radius: 999px;
+      background: #06080d;
+      display: grid; place-items: center;
+      font-size: 8px; font-weight: 600; letter-spacing: -0.02em;
+    }
+
     /* ---------- Channel tile (Cronus) ---------- */
     .channel-active {
       border-color: rgba(0, 173, 239, 0.5) !important;
@@ -464,6 +489,22 @@
       background: #00ADEF;
       box-shadow: 0 0 8px rgba(0,173,239,0.8);
       animation: dotBlink 2.4s ease-in-out infinite;
+    }
+    .build-chip .bc-cta {
+      display: inline-flex; align-items: center; gap: 6px;
+      margin-left: 4px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-size: 11px;
+      letter-spacing: 0.005em;
+      color: #fff;
+      background: rgba(0,173,239,0.06);
+      border: 1px solid rgba(0,173,239,0.45);
+      transition: all .2s ease;
+    }
+    .build-chip .bc-cta:hover {
+      background: rgba(0,173,239,0.14);
+      border-color: rgba(0,173,239,0.7);
     }
     .flash {
       animation: flashChip .9s ease-out;
@@ -544,14 +585,14 @@
     }
     .cw-channel {
       flex: 1;
-      height: 36px;
       border-radius: 10px;
-      display: grid; place-items: center;
+      display: flex; align-items: center; justify-content: center;
       background: rgba(255,255,255,0.03);
       border: 1px solid rgba(255,255,255,0.05);
       cursor: pointer;
       transition: all .2s ease;
     }
+    .cw-channel.flex-col { flex-direction: column; }
     .cw-channel:hover {
       background: rgba(255,255,255,0.06);
       border-color: rgba(255,255,255,0.14);
@@ -674,13 +715,126 @@
     section[id] { scroll-margin-top: 60px; }
 
     /* Responsive */
-    @media (max-width: 900px) {
-      .desktop-only { display: none; }
-      .cronus-widget { width: calc(100vw - 32px); right: 16px; bottom: 16px; }
-      .build-chip { display: none; }
-    }
     @media (max-width: 1100px) {
       .lg-stack-2 { grid-template-columns: 1fr !important; }
+    }
+    @media (max-width: 900px) {
+      .desktop-only { display: none; }
+      .cronus-widget { width: calc(100vw - 24px); right: 12px; bottom: 12px; }
+      .build-chip { display: none; }
+    }
+
+    /* ---------- MOBILE OPTIMIZATIONS (≤ 768px) ---------- */
+    @media (max-width: 768px) {
+      /* Section padding tighter */
+      section .px-8 { padding-left: 18px !important; padding-right: 18px !important; }
+      section .py-28 { padding-top: 64px !important; padding-bottom: 64px !important; }
+      section .py-24 { padding-top: 56px !important; padding-bottom: 56px !important; }
+      section .py-20 { padding-top: 44px !important; padding-bottom: 44px !important; }
+      header.relative { padding-left: 16px !important; padding-right: 16px !important; padding-top: 32px !important; }
+
+      /* Display headline scaling */
+      .display.text-\[88px\] { font-size: 46px !important; line-height: 1.02 !important; }
+      .display.text-\[80px\] { font-size: 42px !important; line-height: 1.02 !important; }
+      .display.text-\[78px\] { font-size: 42px !important; }
+      .display.text-\[68px\] { font-size: 40px !important; }
+      .display.text-\[64px\] { font-size: 36px !important; }
+      .display.text-\[56px\] { font-size: 32px !important; }
+      .display.text-\[44px\] { font-size: 28px !important; }
+      .display.text-\[36px\] { font-size: 26px !important; }
+      .display.text-\[28px\] { font-size: 22px !important; }
+
+      /* Stat displays scaling */
+      .stat-display.text-\[120px\] { font-size: 72px !important; }
+      .stat-display.text-\[112px\] { font-size: 64px !important; }
+      .stat-display.text-\[110px\] { font-size: 60px !important; }
+      .stat-display.text-\[88px\]  { font-size: 50px !important; }
+      .stat-display.text-\[68px\]  { font-size: 42px !important; }
+      .stat-display.text-\[64px\]  { font-size: 40px !important; }
+      .stat-display.text-\[52px\]  { font-size: 34px !important; }
+      .stat-display.text-\[44px\]  { font-size: 30px !important; }
+
+      .display-soft.text-\[20px\] { font-size: 14px !important; }
+
+      /* Header — hide left utility nav and right action icons clutter */
+      header nav { display: none; }
+      header > div { grid-template-columns: 1fr auto !important; }
+      header .flex.items-center.justify-end { gap: 12px !important; }
+
+      /* Hero — reduce height, restructure chips below car */
+      #hero .relative.rounded-3xl[style*="height: 880px"] {
+        height: auto !important;
+        min-height: 0 !important;
+        padding-bottom: 24px;
+      }
+      /* On mobile, lift chips out of absolute positioning and stack below */
+      #hero .absolute.top-12.right-12 {
+        position: static !important;
+        width: 100% !important;
+        margin-top: 24px;
+        padding: 0 16px;
+      }
+      #hero .absolute.top-12.left-14 {
+        position: static !important;
+        padding: 28px 18px 0 18px !important;
+        max-width: 100% !important;
+      }
+      #hero .absolute.bottom-14.left-14 {
+        position: static !important;
+        padding: 18px !important;
+        flex-wrap: wrap;
+        gap: 24px !important;
+      }
+      #hero .absolute.bottom-14.right-14 {
+        position: static !important;
+        padding: 0 18px 24px 18px !important;
+        align-items: flex-start !important;
+      }
+      #hero .studio-stage { position: relative !important; height: 360px; }
+      #hero .floor-glow { bottom: 0 !important; }
+
+      /* Convert all 12-col grids to single column on mobile */
+      .grid.grid-cols-12 > [class*="lg:col-span-"] { grid-column: span 12 / span 12 !important; }
+
+      /* Atlas: 3-up → 1-up */
+      #atlas .grid.grid-cols-3 { grid-template-columns: 1fr !important; }
+      /* Service plan tier cards: 3-up → 1-up */
+      #service .grid.grid-cols-3 { grid-template-columns: 1fr !important; }
+      /* Cronus tiles: 3-up → 1-up */
+      #cronus #cronus-tiles { grid-template-columns: 1fr !important; }
+
+      /* Feature module visuals — reduce inner image-stage heights */
+      section [style*="height: 540px"] { height: 360px !important; }
+      section [style*="height: 520px"] { height: 340px !important; }
+
+      /* Live readouts at hero — smaller */
+      #hero .stat-display.text-\[52px\] { font-size: 32px !important; }
+
+      /* Footer grid */
+      footer .grid.grid-cols-12 { grid-template-columns: 1fr !important; }
+      footer .col-span-9.grid.grid-cols-4 { grid-template-columns: repeat(2, 1fr) !important; gap: 18px !important; }
+
+      /* TCO compact bar widths can break — let bars flex */
+      #tco .grid.grid-cols-2 { grid-template-columns: 1fr !important; }
+
+      /* AI modal full-width */
+      .ai-modal { padding: 12px !important; }
+      .ai-modal-card { padding: 22px !important; }
+      .ai-modal-card .display.text-\[36px\] { font-size: 26px !important; }
+      .ai-modal-card .grid.grid-cols-4 { grid-template-columns: repeat(2, 1fr) !important; }
+
+      /* Cronus overlay */
+      .cronus-overlay { padding: 12px !important; }
+      .cronus-overlay-card { padding: 22px !important; }
+      .cronus-overlay-card .display.text-\[36px\] { font-size: 26px !important; }
+      .cronus-overlay-card .grid.grid-cols-3 { grid-template-columns: 1fr !important; }
+    }
+
+    /* extra-narrow phones */
+    @media (max-width: 420px) {
+      .display.text-\[88px\], .display.text-\[80px\], .display.text-\[78px\] { font-size: 36px !important; }
+      .stat-display.text-\[120px\] { font-size: 56px !important; }
+      .live-pill { font-size: 8.5px !important; padding: 4px 8px !important; }
     }
   </style>
 </head>
@@ -689,12 +843,6 @@
   <!-- ==================== TOP PULSE BAR ==================== -->
   <div class="fixed top-0 left-0 right-0 z-50 pointer-events-none">
     <div class="pulse-line"></div>
-    <div class="flex justify-end pr-6 pt-2">
-      <div class="flex items-center gap-2 text-[9.5px] uppercase tracking-[0.28em] text-muted/70 font-light">
-        <span class="block w-1 h-1 rounded-full bg-accent" style="box-shadow: 0 0 6px rgba(0,173,239,0.8);"></span>
-        Adapting to you
-      </div>
-    </div>
   </div>
 
   <!-- ==================== HEADER ==================== -->
@@ -755,7 +903,7 @@
           <!-- Big car render -->
           <div class="absolute inset-0 studio-stage">
             <img id="hero-car" class="car" src="assets/cars/glc-hero-studio.webp" alt="Mercedes-Benz GLC with EQ Technology"
-                 style="transform: scale(1.32); transform-origin: center 62%;" />
+                 style="transform: scale(1.08); transform-origin: center 62%;" />
           </div>
 
           <!-- Top-left editorial -->
@@ -871,7 +1019,6 @@
                   Add Enhanced Charging
                 </button>
               </div>
-              <a href="#" class="mt-5 inline-flex items-center gap-1.5 text-[11px] text-muted-2 hover:text-accent transition">Open in full configurator <i data-lucide="arrow-right" class="w-3 h-3"></i></a>
             </div>
 
             <div class="col-span-12 lg:col-span-7 relative">
@@ -965,7 +1112,6 @@
                   Add Drive Pilot Plus
                 </button>
               </div>
-              <a href="#" class="mt-5 inline-flex items-center gap-1.5 text-[11px] text-muted-2 hover:text-accent transition">Open in full configurator <i data-lucide="arrow-right" class="w-3 h-3"></i></a>
             </div>
           </div>
         </div>
@@ -1009,7 +1155,6 @@
                   Add Burmester 4D
                 </button>
               </div>
-              <a href="#" class="mt-5 inline-flex items-center gap-1.5 text-[11px] text-muted-2 hover:text-accent transition">Open in full configurator <i data-lucide="arrow-right" class="w-3 h-3"></i></a>
             </div>
 
             <div class="col-span-12 lg:col-span-7 relative">
@@ -1101,7 +1246,6 @@
                   Add to your build
                 </button>
               </div>
-              <a href="#" class="mt-5 inline-flex items-center gap-1.5 text-[11px] text-muted-2 hover:text-accent transition">Open in full configurator <i data-lucide="arrow-right" class="w-3 h-3"></i></a>
             </div>
           </div>
         </div>
@@ -1144,7 +1288,6 @@
                   Add panoramic roof
                 </button>
               </div>
-              <a href="#" class="mt-5 inline-flex items-center gap-1.5 text-[11px] text-muted-2 hover:text-accent transition">Open in full configurator <i data-lucide="arrow-right" class="w-3 h-3"></i></a>
             </div>
 
             <div class="col-span-12 lg:col-span-7 relative">
@@ -1251,7 +1394,6 @@
                   Add 12 months free
                 </button>
               </div>
-              <a href="#" class="mt-5 inline-flex items-center gap-1.5 text-[11px] text-muted-2 hover:text-accent transition">Open in full configurator <i data-lucide="arrow-right" class="w-3 h-3"></i></a>
             </div>
           </div>
         </div>
@@ -1360,6 +1502,123 @@
 
   <div class="chapter-rule mx-8"></div>
 
+  <!-- ==================== SERVICE PLAN CALCULATOR ==================== -->
+  <section id="service" class="relative">
+    <div class="atmo-tco">
+      <div class="px-8 py-24">
+        <div class="max-w-7xl mx-auto">
+
+          <div class="flex items-center gap-3 mb-10">
+            <span class="live-pill"><span class="dot"></span>Service plan · MB Care</span>
+          </div>
+
+          <div class="grid grid-cols-12 gap-10 items-end mb-10">
+            <div class="col-span-12 lg:col-span-7">
+              <h2 class="display text-[56px]">Cover the routine</h2>
+              <h2 class="display text-[56px] text-white/65 mt-1">at a fixed monthly.</h2>
+            </div>
+            <div class="col-span-12 lg:col-span-5">
+              <div class="stat-display text-[88px] leading-none">AED <span id="sp-monthly">348</span></div>
+              <div class="stat-label mt-3">Per month · over <span id="sp-term-label">5 years</span></div>
+            </div>
+          </div>
+
+          <div class="glass-premium rounded-3xl p-7">
+            <div class="grid grid-cols-12 gap-7">
+
+              <!-- Plan tiers -->
+              <div class="col-span-12 lg:col-span-7">
+                <div class="stat-label mb-3">Pick a plan</div>
+                <div class="grid grid-cols-3 gap-3" id="sp-plans">
+                  <button class="sp-plan glass-soft rounded-2xl p-5 text-left hairline" data-plan="essential" data-monthly-base="248" data-included='Brake fluid · Filters · Inspection A &amp; B'>
+                    <div class="flex items-center justify-between mb-3">
+                      <div class="text-[10px] uppercase tracking-[0.2em] text-muted-2">Essential</div>
+                      <i data-lucide="circle" class="w-4 h-4 text-muted-2"></i>
+                    </div>
+                    <div class="display text-[28px] leading-none">AED 248</div>
+                    <div class="text-[10px] text-muted-2 mt-2">Routine maintenance</div>
+                  </button>
+                  <button class="sp-plan glass-soft rounded-2xl p-5 text-left hairline channel-active active" data-plan="plus" data-monthly-base="348" data-included='Essential + brake pads &amp; discs · battery checks · cabin filter'>
+                    <div class="flex items-center justify-between mb-3">
+                      <div class="text-[10px] uppercase tracking-[0.2em] text-accent">Plus · popular</div>
+                      <i data-lucide="check-circle-2" class="w-4 h-4 text-accent"></i>
+                    </div>
+                    <div class="display text-[28px] leading-none">AED 348</div>
+                    <div class="text-[10px] text-muted-2 mt-2">Wear &amp; tear covered</div>
+                  </button>
+                  <button class="sp-plan glass-soft rounded-2xl p-5 text-left hairline" data-plan="complete" data-monthly-base="488" data-included='Plus + tyres (4) · 12V battery · windscreen wear · roadside Plus'>
+                    <div class="flex items-center justify-between mb-3">
+                      <div class="text-[10px] uppercase tracking-[0.2em] text-muted-2">Complete</div>
+                      <i data-lucide="circle" class="w-4 h-4 text-muted-2"></i>
+                    </div>
+                    <div class="display text-[28px] leading-none">AED 488</div>
+                    <div class="text-[10px] text-muted-2 mt-2">Tyres &amp; battery in</div>
+                  </button>
+                </div>
+
+                <div class="mt-6 grid grid-cols-2 gap-5">
+                  <div>
+                    <div class="stat-label mb-2">Term</div>
+                    <div class="grid grid-cols-3 gap-2" id="sp-term">
+                      <button class="opt-chip justify-center" data-term="3">3 yr</button>
+                      <button class="opt-chip justify-center active" data-term="5">5 yr</button>
+                      <button class="opt-chip justify-center" data-term="7">7 yr</button>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="flex items-center justify-between mb-2">
+                      <div class="stat-label">Annual km</div>
+                      <div class="text-[13px]"><span id="sp-km-out">22,000</span></div>
+                    </div>
+                    <input id="sp-km" type="range" min="8000" max="40000" step="1000" value="22000" class="slider"/>
+                  </div>
+                </div>
+              </div>
+
+              <!-- What's included + add CTA -->
+              <div class="col-span-12 lg:col-span-5 flex flex-col gap-5">
+                <div>
+                  <div class="stat-label mb-3">What's included</div>
+                  <ul class="space-y-2 text-[12px] text-muted/85" id="sp-includes">
+                    <li class="flex items-start gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-accent flex-shrink-0 mt-0.5"></i>Routine inspections (A &amp; B)</li>
+                    <li class="flex items-start gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-accent flex-shrink-0 mt-0.5"></i>Brake pads &amp; discs</li>
+                    <li class="flex items-start gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-accent flex-shrink-0 mt-0.5"></i>12 V battery checks &amp; replace</li>
+                    <li class="flex items-start gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-accent flex-shrink-0 mt-0.5"></i>Cabin filter &amp; wiper blades</li>
+                    <li class="flex items-start gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-accent flex-shrink-0 mt-0.5"></i>Loaner GLC during service</li>
+                  </ul>
+                </div>
+
+                <div class="pt-4 border-t border-line">
+                  <div class="flex items-baseline justify-between mb-3">
+                    <div>
+                      <div class="stat-label">Total over term</div>
+                      <div class="stat-display text-[32px] mt-1">AED <span id="sp-total">20,880</span></div>
+                    </div>
+                    <div class="text-right">
+                      <div class="stat-label">vs pay-as-you-go</div>
+                      <div class="stat-display text-[18px] mt-1 win">save AED <span id="sp-savings">5,400</span></div>
+                    </div>
+                  </div>
+
+                  <button class="btn-pill btn-glass w-full justify-center add-to-build" data-name="MB Care · Plus 5yr" data-price="20880" data-range="0">
+                    <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                    Add to your build
+                  </button>
+                </div>
+
+                <div class="text-[10px] text-muted-2 leading-relaxed">
+                  Spread across the term as a fixed monthly. Cancel any time before activation.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="chapter-rule mx-8"></div>
+
   <!-- ==================== ATLAS — INVENTORY MATCH ==================== -->
   <section id="atlas" class="relative">
     <div class="atmo-tco">
@@ -1387,8 +1646,14 @@
             <article class="glass-premium rounded-2xl overflow-hidden">
               <div class="image-slot studio-thumb relative" style="aspect-ratio: 16/10;">
                 <img class="slot-img" src="assets/cars/glc-front34.webp" alt="GLC obsidian black" />
-                <div class="absolute top-4 left-4 z-10">
-                  <span class="live-pill"><span class="dot"></span>Available May 28</span>
+                <div class="absolute top-4 left-4 z-10 flex items-center gap-2">
+                  <div class="match-pill">
+                    <div class="match-ring-mini" style="--p:84;"><span class="atlas-pct" data-card="1">84%</span></div>
+                    <span class="text-white/85">match</span>
+                  </div>
+                </div>
+                <div class="absolute top-4 right-4 z-10">
+                  <span class="live-pill" style="font-size:9px;"><span class="dot"></span>May 28</span>
                 </div>
               </div>
               <div class="p-5">
@@ -1397,6 +1662,7 @@
                   <div>4.2 km</div>
                 </div>
                 <div class="text-[14px] mt-2.5">Obsidian black · 19" wheels</div>
+                <div class="text-[10.5px] text-muted-2 mt-1.5" data-card-diff="1">Differs · paint, wheel size</div>
                 <div class="flex items-center justify-between mt-4">
                   <div class="text-[12px] win">−AED 2,400</div>
                   <button class="btn-pill btn-glass text-[12px]" style="padding: 6px 14px;">Reserve <i data-lucide="arrow-right" class="w-3 h-3"></i></button>
@@ -1407,8 +1673,14 @@
             <article class="glass-premium rounded-2xl overflow-hidden">
               <div class="image-slot studio-thumb relative" style="aspect-ratio: 16/10;">
                 <img class="slot-img" src="assets/cars/glc-color-silver.webp" alt="GLC selenite grey" />
-                <div class="absolute top-4 left-4 z-10">
-                  <span class="live-pill"><span class="dot"></span>Available June 4</span>
+                <div class="absolute top-4 left-4 z-10 flex items-center gap-2">
+                  <div class="match-pill">
+                    <div class="match-ring-mini" style="--p:92;"><span class="atlas-pct" data-card="2">92%</span></div>
+                    <span class="text-white/85">match</span>
+                  </div>
+                </div>
+                <div class="absolute top-4 right-4 z-10">
+                  <span class="live-pill" style="font-size:9px;"><span class="dot"></span>Jun 4</span>
                 </div>
               </div>
               <div class="p-5">
@@ -1417,6 +1689,7 @@
                   <div>22 km</div>
                 </div>
                 <div class="text-[14px] mt-2.5">Selenite grey · 20" Aero</div>
+                <div class="text-[10.5px] text-muted-2 mt-1.5" data-card-diff="2">Differs · paint shade only</div>
                 <div class="flex items-center justify-between mt-4">
                   <div class="text-[12px] text-white">+AED 1,100</div>
                   <button class="btn-pill btn-ghost text-[12px]" style="padding: 6px 14px;">Reserve <i data-lucide="arrow-right" class="w-3 h-3"></i></button>
@@ -1427,8 +1700,14 @@
             <article class="glass-premium rounded-2xl overflow-hidden">
               <div class="image-slot studio-thumb relative" style="aspect-ratio: 16/10;">
                 <img class="slot-img" src="assets/cars/glc-color-blue.webp" alt="GLC spectral blue" />
-                <div class="absolute top-4 left-4 z-10">
-                  <span class="live-pill"><span class="dot"></span>Available May 22</span>
+                <div class="absolute top-4 left-4 z-10 flex items-center gap-2">
+                  <div class="match-pill">
+                    <div class="match-ring-mini" style="--p:79;"><span class="atlas-pct" data-card="3">79%</span></div>
+                    <span class="text-white/85">match</span>
+                  </div>
+                </div>
+                <div class="absolute top-4 right-4 z-10">
+                  <span class="live-pill" style="font-size:9px;"><span class="dot"></span>May 22</span>
                 </div>
               </div>
               <div class="p-5">
@@ -1437,6 +1716,7 @@
                   <div>140 km</div>
                 </div>
                 <div class="text-[14px] mt-2.5">Spectral blue · AMG line</div>
+                <div class="text-[10.5px] text-muted-2 mt-1.5" data-card-diff="3">Differs · paint, AMG trim</div>
                 <div class="flex items-center justify-between mt-4">
                   <div class="text-[12px] win">−AED 5,800</div>
                   <button class="btn-pill btn-ghost text-[12px]" style="padding: 6px 14px;">Reserve <i data-lucide="arrow-right" class="w-3 h-3"></i></button>
@@ -1645,6 +1925,10 @@
       <div class="lbl">WLTP</div>
     </div>
     <span class="pulse ml-1"></span>
+    <a href="#" class="bc-cta">
+      Open in Forge
+      <i data-lucide="arrow-up-right" class="w-3 h-3"></i>
+    </a>
   </div>
 
   <!-- ==================== FLOATING CRONUS WIDGET ==================== -->
@@ -1652,7 +1936,7 @@
     <div class="corner-glow"></div>
     <button class="cw-collapse" id="cw-collapse-btn" aria-label="Collapse"><i data-lucide="chevron-down" class="w-3.5 h-3.5 text-muted-2"></i></button>
 
-    <!-- Top row: sparkle + Available pill (always visible, scaled in compact) -->
+    <!-- Top row: sparkle + Available pill -->
     <div class="flex items-center justify-between mb-2.5">
       <div class="w-7 h-7 rounded-lg grid place-items-center"
            style="background: rgba(167,139,250,0.12); border: 1px solid rgba(167,139,250,0.32);">
@@ -1661,41 +1945,61 @@
       <span class="live-pill ai" style="font-size:9px; padding:3px 8px;"><span class="dot"></span>Available</span>
     </div>
 
-    <!-- Compact body: avatar + name + Talk now (always visible) -->
-    <div class="flex items-center gap-3">
+    <!-- Avatar + name + role -->
+    <div class="flex items-center gap-3 mb-3">
       <div class="cw-avatar" style="width:34px;height:34px;"></div>
       <div class="min-w-0 flex-1">
         <div class="text-[12.5px] font-medium leading-tight">Sarah · MB Dubai</div>
         <div class="text-[10.5px] text-muted-2 mt-0.5">Trusted AI advisor</div>
       </div>
-      <!-- Compact CTA -->
-      <button class="cw-cta-compact btn-pill btn-glass" style="padding:6px 12px;font-size:11.5px;" id="cronus-compact-cta">
-        <i data-lucide="phone" class="w-3 h-3"></i>
-        Talk
-      </button>
     </div>
 
-    <!-- Expanded extras -->
+    <!-- Channel hint row (visual only in compact, swapped to interactive in expanded) -->
+    <div class="flex items-center justify-between text-[10.5px] text-muted-2">
+      <div class="flex items-center gap-1.5">
+        <i data-lucide="phone" class="w-3 h-3"></i>
+        <i data-lucide="message-circle" class="w-3 h-3"></i>
+        <i data-lucide="calendar" class="w-3 h-3"></i>
+        <span class="ml-1">3 ways to contact</span>
+      </div>
+      <span class="text-muted/60 text-[10px]">Tap ▾</span>
+    </div>
+
+    <!-- ====== Expanded extras ====== -->
     <div class="cw-extra mt-4 pt-4 border-t border-line">
 
-      <!-- Briefing -->
-      <div class="text-[10.5px] text-muted-2 leading-relaxed mb-3" id="cw-briefing">
-        Briefed on your config · <span class="text-white/85" id="cw-brief-summary">20" Aero · Black leather · EQ Premium</span>
+      <!-- Transmission indicator -->
+      <div class="flex items-start gap-2 text-[10.5px] leading-snug text-muted-2 mb-4">
+        <i data-lucide="link" class="w-3 h-3 text-accent flex-shrink-0 mt-0.5"></i>
+        <div>
+          Carrying your build · <span class="text-white/85" id="cw-brief-summary">20" Aero · Black leather</span>
+        </div>
+      </div>
+
+      <!-- Channel toggles (selectable) -->
+      <div class="text-[9.5px] uppercase tracking-[0.2em] text-muted-2 mb-2">Choose a channel</div>
+      <div class="grid grid-cols-3 gap-1.5 mb-4" id="cw-channels">
+        <button class="cw-channel active flex-col gap-0.5 py-2" data-channel="phone" title="Voice call">
+          <i data-lucide="phone" class="w-3.5 h-3.5"></i>
+          <span class="text-[9px] uppercase tracking-[0.18em] text-muted-2">Call</span>
+        </button>
+        <button class="cw-channel flex-col gap-0.5 py-2" data-channel="whatsapp" title="WhatsApp">
+          <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
+          <span class="text-[9px] uppercase tracking-[0.18em] text-muted-2">Chat</span>
+        </button>
+        <button class="cw-channel flex-col gap-0.5 py-2" data-channel="calendar" title="Schedule visit">
+          <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
+          <span class="text-[9px] uppercase tracking-[0.18em] text-muted-2">Visit</span>
+        </button>
       </div>
 
       <!-- Briefing chips -->
+      <div class="text-[9.5px] uppercase tracking-[0.2em] text-muted-2 mb-2">Whoever picks up sees</div>
       <div class="flex flex-wrap gap-1.5 mb-4" id="cw-brief-chips">
         <span class="text-[10px] px-2 py-1 rounded-full hairline bg-white/[0.02] flex items-center gap-1.5"><i data-lucide="settings-2" class="w-2.5 h-2.5 text-accent"></i>Config</span>
         <span class="text-[10px] px-2 py-1 rounded-full hairline bg-white/[0.02] flex items-center gap-1.5"><i data-lucide="bar-chart-3" class="w-2.5 h-2.5 text-accent"></i>Range &amp; TCO</span>
+        <span class="text-[10px] px-2 py-1 rounded-full hairline bg-white/[0.02] flex items-center gap-1.5"><i data-lucide="repeat-2" class="w-2.5 h-2.5 text-accent"></i>Trade-in</span>
         <span class="text-[10px] px-2 py-1 rounded-full hairline bg-white/[0.02] flex items-center gap-1.5"><i data-lucide="map-pin" class="w-2.5 h-2.5 text-accent"></i>3 stock matches</span>
-      </div>
-
-      <!-- Channel toggles -->
-      <div class="text-[9.5px] uppercase tracking-[0.2em] text-muted-2 mb-2">Channel</div>
-      <div class="flex items-center gap-2 mb-4" id="cw-channels">
-        <button class="cw-channel active" data-channel="phone" title="Voice"><i data-lucide="phone" class="w-3.5 h-3.5"></i></button>
-        <button class="cw-channel" data-channel="whatsapp" title="WhatsApp"><i data-lucide="message-circle" class="w-3.5 h-3.5"></i></button>
-        <button class="cw-channel" data-channel="calendar" title="Schedule"><i data-lucide="calendar" class="w-3.5 h-3.5"></i></button>
       </div>
 
       <!-- Last activity -->
@@ -1708,19 +2012,19 @@
         </ul>
       </div>
 
-      <!-- Full CTA -->
-      <button id="cronus-open" class="btn-pill btn-glass cw-cta-full w-full justify-center text-[13px] mb-3">
+      <!-- Send CTA — label/icon swap by selected channel -->
+      <button id="cronus-compact-cta" class="btn-pill btn-glass w-full justify-center text-[12.5px] mb-2" style="padding: 9px 14px;">
         <i id="cw-cta-icon" data-lucide="phone" class="w-3.5 h-3.5"></i>
-        <span id="cw-cta-label">Talk now</span>
+        <span id="cw-cta-label">Send my build &amp; call</span>
+      </button>
+      <button id="cronus-open" class="btn-pill btn-glass-ai w-full justify-center text-[11.5px]" style="padding: 7px 14px;">
+        <i data-lucide="sparkles" class="w-3 h-3"></i>
+        Open full handoff
       </button>
 
-      <!-- Sync indicator -->
-      <div class="flex items-center justify-between text-[10px] text-muted-2">
-        <div class="flex items-center gap-2">
-          <span class="sync-dot"></span>
-          Live config sync
-        </div>
-        <span>Updated 3s ago</span>
+      <div class="flex items-center justify-between text-[10px] text-muted-2 mt-3">
+        <div class="flex items-center gap-2"><span class="sync-dot"></span> Live config sync</div>
+        <span>Encrypted · session-bound</span>
       </div>
     </div>
   </div>
@@ -1951,6 +2255,33 @@
       // Cronus widget briefing
       const briefBits = [heroState.wheel.name, heroState.interior.name, ...buildExtras.map(e => e.name)].slice(0, 4);
       document.getElementById('cw-brief-summary').textContent = briefBits.join(' · ');
+      // Atlas match scores — recompute against current paint + wheel
+      updateAtlasMatches();
+    }
+
+    // ============== ATLAS · dynamic match score ==============
+    // Card 0: obsidian black + 19" wheels
+    // Card 1: selenite grey + 20" Aero
+    // Card 2: spectral blue + AMG line, 20"
+    function updateAtlasMatches() {
+      const cards = [
+        { paintCode: 'black',       wheel: '19' },
+        { paintCode: 'silverlight', wheel: '20' },
+        { paintCode: 'blue',        wheel: '20', trimMismatch: true },
+      ];
+      const userWheel = heroState.wheel.name.includes('19') ? '19' : '20';
+      cards.forEach((c, i) => {
+        let score = 100;
+        if (c.paintCode !== heroState.paint.code) score -= 8;
+        if (c.wheel !== userWheel) score -= 6;
+        if (c.trimMismatch) score -= 5;
+        if (heroState.interior.name !== 'Black leather') score -= 2;
+        score = Math.max(60, Math.min(99, score));
+        const ringEl = document.querySelectorAll('#atlas .match-ring-mini')[i];
+        const pctEl  = document.querySelector(`.atlas-pct[data-card="${i+1}"]`);
+        if (ringEl) ringEl.style.setProperty('--p', score);
+        if (pctEl)  pctEl.textContent = score + '%';
+      });
     }
 
     function flashChip() {
@@ -2115,6 +2446,76 @@
         if (newIc) newIc.id = 'cw-cta-icon';
       });
     });
+
+    // ============== SERVICE PLAN CALCULATOR ==============
+    const spPlans = document.querySelectorAll('#sp-plans .sp-plan');
+    const spTermBtns = document.querySelectorAll('#sp-term .opt-chip');
+    const spKm = document.getElementById('sp-km');
+    let spState = { plan: 'plus', monthlyBase: 348, term: 5, km: 22000, included: 'Essential + brake pads &amp; discs · battery checks · cabin filter' };
+
+    // pay-as-you-go reference (per year, scaled by km)
+    const PAYG_BASE_PER_YR = { essential: 4200, plus: 5600, complete: 7400 };
+
+    function spCompute() {
+      // monthly scales modestly with km vs 22k baseline
+      const kmFactor = 1 + (spState.km - 22000) / 60000; // ±~30%
+      const monthly = Math.round(spState.monthlyBase * kmFactor);
+      const total   = monthly * 12 * spState.term;
+      const payg    = Math.round(PAYG_BASE_PER_YR[spState.plan] * spState.term * kmFactor);
+      const savings = Math.max(0, payg - total);
+
+      document.getElementById('sp-monthly').textContent = monthly.toLocaleString('en-US');
+      document.getElementById('sp-term-label').textContent = spState.term + ' years';
+      document.getElementById('sp-km-out').textContent = spState.km.toLocaleString('en-US');
+      document.getElementById('sp-total').textContent = total.toLocaleString('en-US');
+      document.getElementById('sp-savings').textContent = savings.toLocaleString('en-US');
+
+      // Update the Add-to-build CTA on the service plan
+      const cta = document.querySelector('#service .add-to-build');
+      cta.dataset.name = `MB Care · ${spState.plan.charAt(0).toUpperCase()+spState.plan.slice(1)} ${spState.term}yr`;
+      cta.dataset.price = total;
+    }
+
+    spPlans.forEach((p) => {
+      p.addEventListener('click', () => {
+        spPlans.forEach((x) => x.classList.remove('channel-active', 'active'));
+        p.classList.add('channel-active', 'active');
+        spState.plan = p.dataset.plan;
+        spState.monthlyBase = parseInt(p.dataset.monthlyBase, 10);
+
+        // refresh icons (active gets check, others circle)
+        spPlans.forEach((x) => {
+          const icon = x.querySelector('i');
+          if (icon) {
+            icon.setAttribute('data-lucide', x === p ? 'check-circle-2' : 'circle');
+          }
+        });
+        // refresh tier label color
+        spPlans.forEach((x) => {
+          const lbl = x.querySelector('div > div:first-child');
+          if (lbl) {
+            lbl.classList.remove('text-accent');
+            if (x === p) lbl.classList.add('text-accent');
+            else lbl.classList.add('text-muted-2');
+          }
+        });
+        lucide.createIcons();
+        spCompute();
+      });
+    });
+    spTermBtns.forEach((b) => {
+      b.addEventListener('click', () => {
+        spTermBtns.forEach((x) => x.classList.remove('active'));
+        b.classList.add('active');
+        spState.term = parseInt(b.dataset.term, 10);
+        spCompute();
+      });
+    });
+    spKm.addEventListener('input', () => {
+      spState.km = parseInt(spKm.value, 10);
+      spCompute();
+    });
+    spCompute();
 
     // ============== CRONUS widget expand/collapse ==============
     const cwEl = document.getElementById('cronus-widget');
