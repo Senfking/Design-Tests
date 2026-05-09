@@ -544,22 +544,24 @@
     }
     .cw-extra { display: none; }
     .cronus-widget.expanded .cw-extra { display: block; }
+    .cronus-widget.expanded .cw-hint { display: none; }
     .cw-cta-compact { display: inline-flex; }
     .cronus-widget.expanded .cw-cta-compact { display: none; }
     .cw-cta-full { display: none; }
     .cronus-widget.expanded .cw-cta-full { display: inline-flex; }
     .cw-collapse {
       display: none;
-      position: absolute; top: 12px; right: 12px;
       width: 26px; height: 26px;
       border-radius: 999px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.10);
       align-items: center; justify-content: center;
       cursor: pointer; transition: all .2s ease;
+      flex-shrink: 0;
     }
     .cronus-widget.expanded .cw-collapse { display: inline-flex; }
-    .cw-collapse:hover { background: rgba(255,255,255,0.08); }
+    .cronus-widget.expanded .cw-available { display: none; }
+    .cw-collapse:hover { background: rgba(255,255,255,0.10); border-color: rgba(255,255,255,0.20); }
     .cronus-widget .corner-glow {
       position: absolute; inset: 0;
       border-radius: 22px; pointer-events: none;
@@ -718,123 +720,163 @@
     @media (max-width: 1100px) {
       .lg-stack-2 { grid-template-columns: 1fr !important; }
     }
-    @media (max-width: 900px) {
-      .desktop-only { display: none; }
-      .cronus-widget { width: calc(100vw - 24px); right: 12px; bottom: 12px; }
-      .build-chip { display: none; }
-    }
 
-    /* ---------- MOBILE OPTIMIZATIONS (≤ 768px) ---------- */
-    @media (max-width: 768px) {
-      /* Section padding tighter */
-      section .px-8 { padding-left: 18px !important; padding-right: 18px !important; }
+    /* ---------- MOBILE / TABLET (≤ 1023 px) ---------- */
+    @media (max-width: 1023px) {
+      .desktop-only { display: none; }
+      .build-chip { display: none; }
+      /* Hide floating Cronus widget on mobile — full Cronus card at the bottom serves the same purpose */
+      .cronus-widget { display: none !important; }
+
+      /* Section padding */
+      section .px-8 { padding-left: 22px !important; padding-right: 22px !important; }
       section .py-28 { padding-top: 64px !important; padding-bottom: 64px !important; }
       section .py-24 { padding-top: 56px !important; padding-bottom: 56px !important; }
-      section .py-20 { padding-top: 44px !important; padding-bottom: 44px !important; }
-      header.relative { padding-left: 16px !important; padding-right: 16px !important; padding-top: 32px !important; }
+      section .py-20 { padding-top: 48px !important; padding-bottom: 48px !important; }
+      header.relative { padding-left: 18px !important; padding-right: 18px !important; padding-top: 32px !important; }
 
       /* Display headline scaling */
-      .display.text-\[88px\] { font-size: 46px !important; line-height: 1.02 !important; }
-      .display.text-\[80px\] { font-size: 42px !important; line-height: 1.02 !important; }
-      .display.text-\[78px\] { font-size: 42px !important; }
-      .display.text-\[68px\] { font-size: 40px !important; }
-      .display.text-\[64px\] { font-size: 36px !important; }
-      .display.text-\[56px\] { font-size: 32px !important; }
-      .display.text-\[44px\] { font-size: 28px !important; }
+      .display.text-\[88px\] { font-size: 52px !important; line-height: 1.02 !important; }
+      .display.text-\[80px\] { font-size: 48px !important; line-height: 1.02 !important; }
+      .display.text-\[78px\] { font-size: 48px !important; }
+      .display.text-\[68px\] { font-size: 44px !important; }
+      .display.text-\[64px\] { font-size: 40px !important; }
+      .display.text-\[56px\] { font-size: 36px !important; }
+      .display.text-\[44px\] { font-size: 30px !important; }
       .display.text-\[36px\] { font-size: 26px !important; }
       .display.text-\[28px\] { font-size: 22px !important; }
 
       /* Stat displays scaling */
-      .stat-display.text-\[120px\] { font-size: 72px !important; }
-      .stat-display.text-\[112px\] { font-size: 64px !important; }
-      .stat-display.text-\[110px\] { font-size: 60px !important; }
-      .stat-display.text-\[88px\]  { font-size: 50px !important; }
-      .stat-display.text-\[68px\]  { font-size: 42px !important; }
-      .stat-display.text-\[64px\]  { font-size: 40px !important; }
-      .stat-display.text-\[52px\]  { font-size: 34px !important; }
+      .stat-display.text-\[120px\] { font-size: 76px !important; }
+      .stat-display.text-\[112px\] { font-size: 68px !important; }
+      .stat-display.text-\[110px\] { font-size: 64px !important; }
+      .stat-display.text-\[88px\]  { font-size: 54px !important; }
+      .stat-display.text-\[68px\]  { font-size: 44px !important; }
+      .stat-display.text-\[64px\]  { font-size: 42px !important; }
+      .stat-display.text-\[52px\]  { font-size: 36px !important; }
       .stat-display.text-\[44px\]  { font-size: 30px !important; }
 
-      .display-soft.text-\[20px\] { font-size: 14px !important; }
+      .display-soft.text-\[20px\] { font-size: 15px !important; }
 
-      /* Header — hide left utility nav and right action icons clutter */
-      header nav { display: none; }
+      /* Header */
+      header nav { display: none !important; }
       header > div { grid-template-columns: 1fr auto !important; }
-      header .flex.items-center.justify-end { gap: 12px !important; }
+      header > div > div:nth-child(2) { align-items: flex-start !important; }
+      header .flex.items-center.justify-end { gap: 14px !important; }
 
-      /* Hero — reduce height, restructure chips below car */
+      /* Hero — full-bleed, taller, car prominent */
       #hero .relative.rounded-3xl[style*="height: 880px"] {
         height: auto !important;
         min-height: 0 !important;
-        padding-bottom: 24px;
+        padding-bottom: 28px;
       }
-      /* On mobile, lift chips out of absolute positioning and stack below */
       #hero .absolute.top-12.right-12 {
         position: static !important;
         width: 100% !important;
-        margin-top: 24px;
-        padding: 0 16px;
+        margin-top: 28px;
+        padding: 0 22px;
+        max-width: 520px;
+        margin-left: auto; margin-right: auto;
       }
       #hero .absolute.top-12.left-14 {
         position: static !important;
-        padding: 28px 18px 0 18px !important;
+        padding: 32px 22px 0 22px !important;
         max-width: 100% !important;
+        text-align: center;
       }
+      #hero .absolute.top-12.left-14 .display { text-align: center; }
+      #hero .absolute.top-12.left-14 .live-pill { margin: 0 auto 16px auto; }
       #hero .absolute.bottom-14.left-14 {
         position: static !important;
-        padding: 18px !important;
+        padding: 20px 22px 0 22px !important;
         flex-wrap: wrap;
-        gap: 24px !important;
+        gap: 28px !important;
+        justify-content: center;
+        text-align: center;
       }
       #hero .absolute.bottom-14.right-14 {
         position: static !important;
-        padding: 0 18px 24px 18px !important;
-        align-items: flex-start !important;
+        padding: 14px 22px 24px 22px !important;
+        align-items: center !important;
       }
-      #hero .studio-stage { position: relative !important; height: 360px; }
-      #hero .floor-glow { bottom: 0 !important; }
+      #hero .studio-stage { position: relative !important; height: 480px; }
+      #hero .studio-stage > img.car { transform: scale(1.25) !important; transform-origin: center 60% !important; }
+      #hero .floor-glow { bottom: 0 !important; height: 22% !important; }
 
-      /* Convert all 12-col grids to single column on mobile */
+      /* Convert all 12-col grids to single column */
       .grid.grid-cols-12 > [class*="lg:col-span-"] { grid-column: span 12 / span 12 !important; }
 
-      /* Atlas: 3-up → 1-up */
+      /* 3-up grids → 1-up */
       #atlas .grid.grid-cols-3 { grid-template-columns: 1fr !important; }
-      /* Service plan tier cards: 3-up → 1-up */
       #service .grid.grid-cols-3 { grid-template-columns: 1fr !important; }
-      /* Cronus tiles: 3-up → 1-up */
       #cronus #cronus-tiles { grid-template-columns: 1fr !important; }
 
-      /* Feature module visuals — reduce inner image-stage heights */
-      section [style*="height: 540px"] { height: 360px !important; }
-      section [style*="height: 520px"] { height: 340px !important; }
+      /* Feature module visuals */
+      section [style*="height: 540px"] { height: 380px !important; }
+      section [style*="height: 520px"] { height: 360px !important; }
 
-      /* Live readouts at hero — smaller */
-      #hero .stat-display.text-\[52px\] { font-size: 32px !important; }
+      /* Live readouts at hero */
+      #hero .stat-display.text-\[52px\] { font-size: 36px !important; }
 
-      /* Footer grid */
+      /* Footer */
       footer .grid.grid-cols-12 { grid-template-columns: 1fr !important; }
-      footer .col-span-9.grid.grid-cols-4 { grid-template-columns: repeat(2, 1fr) !important; gap: 18px !important; }
+      footer .col-span-9.grid.grid-cols-4 { grid-template-columns: repeat(2, 1fr) !important; gap: 22px !important; }
 
-      /* TCO compact bar widths can break — let bars flex */
+      /* TCO 2-col → 1-col */
       #tco .grid.grid-cols-2 { grid-template-columns: 1fr !important; }
 
-      /* AI modal full-width */
-      .ai-modal { padding: 12px !important; }
-      .ai-modal-card { padding: 22px !important; }
+      /* AI modal */
+      .ai-modal { padding: 16px !important; }
+      .ai-modal-card { padding: 24px !important; }
       .ai-modal-card .display.text-\[36px\] { font-size: 26px !important; }
       .ai-modal-card .grid.grid-cols-4 { grid-template-columns: repeat(2, 1fr) !important; }
 
       /* Cronus overlay */
-      .cronus-overlay { padding: 12px !important; }
-      .cronus-overlay-card { padding: 22px !important; }
+      .cronus-overlay { padding: 16px !important; }
+      .cronus-overlay-card { padding: 24px !important; }
       .cronus-overlay-card .display.text-\[36px\] { font-size: 26px !important; }
       .cronus-overlay-card .grid.grid-cols-3 { grid-template-columns: 1fr !important; }
     }
 
+    /* phones */
+    @media (max-width: 600px) {
+      section .py-28 { padding-top: 48px !important; padding-bottom: 48px !important; }
+      section .py-24 { padding-top: 44px !important; padding-bottom: 44px !important; }
+      section .py-20 { padding-top: 36px !important; padding-bottom: 36px !important; }
+
+      .display.text-\[88px\] { font-size: 40px !important; }
+      .display.text-\[80px\] { font-size: 38px !important; }
+      .display.text-\[78px\] { font-size: 38px !important; }
+      .display.text-\[68px\] { font-size: 34px !important; }
+      .display.text-\[64px\] { font-size: 32px !important; }
+      .display.text-\[56px\] { font-size: 28px !important; }
+      .display.text-\[44px\] { font-size: 26px !important; }
+
+      .stat-display.text-\[120px\] { font-size: 56px !important; }
+      .stat-display.text-\[112px\] { font-size: 52px !important; }
+      .stat-display.text-\[110px\] { font-size: 48px !important; }
+      .stat-display.text-\[88px\]  { font-size: 44px !important; }
+      .stat-display.text-\[68px\]  { font-size: 36px !important; }
+      .stat-display.text-\[64px\]  { font-size: 32px !important; }
+
+      footer .col-span-9.grid.grid-cols-4 { grid-template-columns: 1fr !important; }
+
+      #hero .studio-stage { height: 360px; }
+      #hero .studio-stage > img.car { transform: scale(1.18) !important; }
+
+      section [style*="height: 540px"], section [style*="height: 520px"] { height: 280px !important; }
+    }
+
     /* extra-narrow phones */
     @media (max-width: 420px) {
-      .display.text-\[88px\], .display.text-\[80px\], .display.text-\[78px\] { font-size: 36px !important; }
-      .stat-display.text-\[120px\] { font-size: 56px !important; }
+      section .px-8 { padding-left: 16px !important; padding-right: 16px !important; }
+      .display.text-\[88px\], .display.text-\[80px\], .display.text-\[78px\] { font-size: 32px !important; }
+      .display.text-\[68px\], .display.text-\[64px\] { font-size: 28px !important; }
+      .display.text-\[56px\] { font-size: 26px !important; }
+      .stat-display.text-\[120px\] { font-size: 48px !important; }
+      .stat-display.text-\[88px\] { font-size: 38px !important; }
       .live-pill { font-size: 8.5px !important; padding: 4px 8px !important; }
+      #hero .studio-stage { height: 280px; }
     }
   </style>
 </head>
@@ -1934,15 +1976,15 @@
   <!-- ==================== FLOATING CRONUS WIDGET ==================== -->
   <div id="cronus-widget" class="cronus-widget">
     <div class="corner-glow"></div>
-    <button class="cw-collapse" id="cw-collapse-btn" aria-label="Collapse"><i data-lucide="chevron-down" class="w-3.5 h-3.5 text-muted-2"></i></button>
 
-    <!-- Top row: sparkle + Available pill -->
+    <!-- Top row: sparkle + Available (compact) | Close (expanded) -->
     <div class="flex items-center justify-between mb-2.5">
       <div class="w-7 h-7 rounded-lg grid place-items-center"
            style="background: rgba(167,139,250,0.12); border: 1px solid rgba(167,139,250,0.32);">
         <i data-lucide="sparkles" class="w-3 h-3 text-ai"></i>
       </div>
-      <span class="live-pill ai" style="font-size:9px; padding:3px 8px;"><span class="dot"></span>Available</span>
+      <span class="live-pill ai cw-available" style="font-size:9px; padding:3px 8px;"><span class="dot"></span>Available</span>
+      <button class="cw-collapse" id="cw-collapse-btn" aria-label="Close"><i data-lucide="x" class="w-3.5 h-3.5 text-muted-2"></i></button>
     </div>
 
     <!-- Avatar + name + role -->
@@ -1954,8 +1996,8 @@
       </div>
     </div>
 
-    <!-- Channel hint row (visual only in compact, swapped to interactive in expanded) -->
-    <div class="flex items-center justify-between text-[10.5px] text-muted-2">
+    <!-- Channel hint row (compact only — collapsed expanded) -->
+    <div class="flex items-center justify-between text-[10.5px] text-muted-2 cw-hint">
       <div class="flex items-center gap-1.5">
         <i data-lucide="phone" class="w-3 h-3"></i>
         <i data-lucide="message-circle" class="w-3 h-3"></i>
@@ -1976,7 +2018,7 @@
         </div>
       </div>
 
-      <!-- Channel toggles (selectable) -->
+      <!-- Channel toggles -->
       <div class="text-[9.5px] uppercase tracking-[0.2em] text-muted-2 mb-2">Choose a channel</div>
       <div class="grid grid-cols-3 gap-1.5 mb-4" id="cw-channels">
         <button class="cw-channel active flex-col gap-0.5 py-2" data-channel="phone" title="Voice call">
@@ -2002,24 +2044,10 @@
         <span class="text-[10px] px-2 py-1 rounded-full hairline bg-white/[0.02] flex items-center gap-1.5"><i data-lucide="map-pin" class="w-2.5 h-2.5 text-accent"></i>3 stock matches</span>
       </div>
 
-      <!-- Last activity -->
-      <div class="rounded-xl hairline p-3 mb-4" style="background: rgba(255,255,255,0.02);">
-        <div class="text-[9.5px] uppercase tracking-[0.2em] text-muted-2 mb-1.5">Recent activity</div>
-        <ul class="space-y-1 text-[10.5px] text-muted/85">
-          <li class="flex items-start gap-1.5"><i data-lucide="dot" class="w-3 h-3 text-accent flex-shrink-0 mt-0.5"></i>You opened the cabin module</li>
-          <li class="flex items-start gap-1.5"><i data-lucide="dot" class="w-3 h-3 text-accent flex-shrink-0 mt-0.5"></i>Added Burmester 4D to build</li>
-          <li class="flex items-start gap-1.5"><i data-lucide="dot" class="w-3 h-3 text-accent flex-shrink-0 mt-0.5"></i>Ran personalized range AI</li>
-        </ul>
-      </div>
-
-      <!-- Send CTA — label/icon swap by selected channel -->
-      <button id="cronus-compact-cta" class="btn-pill btn-glass w-full justify-center text-[12.5px] mb-2" style="padding: 9px 14px;">
+      <!-- Send CTA — primary action -->
+      <button id="cronus-compact-cta" class="btn-pill btn-glass w-full justify-center text-[12.5px]" style="padding: 9px 14px;">
         <i id="cw-cta-icon" data-lucide="phone" class="w-3.5 h-3.5"></i>
         <span id="cw-cta-label">Send my build &amp; call</span>
-      </button>
-      <button id="cronus-open" class="btn-pill btn-glass-ai w-full justify-center text-[11.5px]" style="padding: 7px 14px;">
-        <i data-lucide="sparkles" class="w-3 h-3"></i>
-        Open full handoff
       </button>
 
       <div class="flex items-center justify-between text-[10px] text-muted-2 mt-3">
@@ -2530,11 +2558,23 @@
     document.getElementById('cw-collapse-btn').addEventListener('click', (e) => {
       e.stopPropagation(); collapseWidget();
     });
+    // click outside the widget — collapse
+    document.addEventListener('click', (e) => {
+      if (!cwEl.classList.contains('expanded')) return;
+      if (e.target.closest('#cronus-widget')) return;
+      if (e.target.closest('#cronus-overlay')) return;
+      collapseWidget();
+    });
+    // ESC closes
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && cwEl.classList.contains('expanded')) collapseWidget();
+    });
 
     // ============== CRONUS overlay ==============
     const overlay = document.getElementById('cronus-overlay');
-    document.getElementById('cronus-open').addEventListener('click', (e) => { e.stopPropagation(); overlay.classList.add('open'); });
-    document.getElementById('cronus-compact-cta').addEventListener('click', (e) => { e.stopPropagation(); overlay.classList.add('open'); });
+    document.getElementById('cronus-compact-cta').addEventListener('click', (e) => {
+      e.stopPropagation(); overlay.classList.add('open'); collapseWidget();
+    });
     document.getElementById('cronus-close').addEventListener('click', () => overlay.classList.remove('open'));
     overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('open'); });
 
