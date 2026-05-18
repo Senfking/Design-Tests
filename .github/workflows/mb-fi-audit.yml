@@ -1,5 +1,9 @@
 name: MB Finland audit
 
+# Always runs against the seo-content-audit branch regardless of the
+# "Use workflow from" branch picked in the dispatch UI, because that's where
+# audit/playwright-audit.js lives and where results are committed back.
+
 on:
   workflow_dispatch:
     inputs:
@@ -8,11 +12,15 @@ on:
         required: true
         default: "https://www.mercedes-benz.fi/"
       model_url:
-        description: "Second page URL (model page)"
+        description: "Model page URL"
         required: true
         default: "https://www.mercedes-benz.fi/passengercars/models/saloon/e-class.html"
+      service_url:
+        description: "Service page URL"
+        required: true
+        default: "https://www.mercedes-benz.fi/services/eco-huolto/"
       commit_results:
-        description: "Commit the captured screenshots and JSON back to this branch"
+        description: "Commit captured screenshots and JSON back to the audit branch"
         required: true
         default: "true"
         type: choice
@@ -21,14 +29,20 @@ on:
 permissions:
   contents: write
 
+env:
+  AUDIT_BRANCH: claude/seo-content-audit-3yIo0
+
 jobs:
   audit:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
 
     steps:
-      - name: Checkout
+      - name: Checkout audit branch
         uses: actions/checkout@v4
+        with:
+          ref: claude/seo-content-audit-3yIo0
+          fetch-depth: 0
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -45,28 +59,15 @@ jobs:
 
       - name: Run Playwright audit (screenshots + SEO/content/perf JSON)
         env:
-          OUT_DIR: ${{ github.workspace }}/audit
-          MODEL_URL: ${{ inputs.model_url }}
+          OUT_DIR:     ${{ github.workspace }}/audit
           LANDING_URL: ${{ inputs.landing_url }}
-        run: |
-          # The script reads MODEL_URL via env; landing URL is hard-coded in TARGETS.
-          # Patch landing URL in place so workflow inputs win.
-          node -e "
-            const fs = require('fs');
-            const p  = 'audit/playwright-audit.js';
-            let s = fs.readFileSync(p,'utf8');
-            s = s.replace(
-              /name: 'landing',\s*url: '[^']+'/,
-              \"name: 'landing',  url: process.env.LANDING_URL || 'https://www.mercedes-benz.fi/'\"
-            );
-            fs.writeFileSync(p, s);
-          "
-          node audit/playwright-audit.js
+          MODEL_URL:   ${{ inputs.model_url }}
+          SERVICE_URL: ${{ inputs.service_url }}
+        run: node audit/playwright-audit.js
 
-      - name: Run Lighthouse (mobile + desktop, both URLs)
+      - name: Run Lighthouse (mobile + desktop, three URLs)
         run: |
           mkdir -p audit/lighthouse
-          # Lighthouse drives its own headless Chrome.
           run_lh () {
             local url="$1"
             local slug="$2"
@@ -89,14 +90,19 @@ jobs:
           run_lh "${{ inputs.landing_url }}" landing desktop
           run_lh "${{ inputs.model_url }}"   model   mobile
           run_lh "${{ inputs.model_url }}"   model   desktop
+          run_lh "${{ inputs.service_url }}" service mobile
+          run_lh "${{ inputs.service_url }}" service desktop
 
       - name: Summarise Lighthouse scores
+        if: always()
         run: |
           node -e "
             const fs = require('fs');
             const path = require('path');
             const dir = 'audit/lighthouse';
+            if (!fs.existsSync(dir)) { console.log('No lighthouse dir'); process.exit(0); }
             const files = fs.readdirSync(dir).filter(f => f.endsWith('.report.json'));
+            if (!files.length) { console.log('No lighthouse JSON files'); process.exit(0); }
             const rows = [['Page','Form factor','Perf','A11y','BP','SEO','LCP (ms)','CLS','TBT (ms)']];
             for (const f of files) {
               const j = JSON.parse(fs.readFileSync(path.join(dir,f),'utf8'));
@@ -120,8 +126,6 @@ jobs:
             const out = [line(rows[0]), widths.map(w => '-'.repeat(w)).join('  '), ...rows.slice(1).map(line)].join('\n');
             console.log('\n' + out + '\n');
             fs.writeFileSync('audit/lighthouse/SCORES.txt', out);
-
-            // Also markdown for the step summary
             const md = ['| ' + rows[0].join(' | ') + ' |',
                         '|' + rows[0].map(() => '---').join('|') + '|',
                         ...rows.slice(1).map(r => '| ' + r.join(' | ') + ' |')].join('\n');
@@ -129,6 +133,7 @@ jobs:
           "
 
       - name: Upload audit artifact
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: mb-fi-audit-${{ github.run_id }}
@@ -139,8 +144,8 @@ jobs:
           if-no-files-found: warn
           retention-days: 30
 
-      - name: Commit results back to branch
-        if: ${{ inputs.commit_results == 'true' }}
+      - name: Commit results back to audit branch
+        if: ${{ inputs.commit_results == 'true' && success() }}
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -149,9 +154,8 @@ jobs:
             echo "No new audit artifacts to commit."
           else
             git commit -m "Capture MB Finland audit run ${{ github.run_id }} [skip ci]"
-            # retry push up to 4 times w/ exponential backoff on network blips
             for i in 1 2 3 4; do
-              if git push origin HEAD:${{ github.ref_name }}; then
+              if git push origin HEAD:${AUDIT_BRANCH}; then
                 break
               fi
               sleep $((2 ** i))
