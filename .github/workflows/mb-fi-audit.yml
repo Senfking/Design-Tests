@@ -1,0 +1,159 @@
+name: MB Finland audit
+
+on:
+  workflow_dispatch:
+    inputs:
+      landing_url:
+        description: "Landing page URL"
+        required: true
+        default: "https://www.mercedes-benz.fi/"
+      model_url:
+        description: "Second page URL (model page)"
+        required: true
+        default: "https://www.mercedes-benz.fi/passengercars/models/saloon/e-class.html"
+      commit_results:
+        description: "Commit the captured screenshots and JSON back to this branch"
+        required: true
+        default: "true"
+        type: choice
+        options: ["true", "false"]
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install dependencies
+        run: |
+          npm init -y >/dev/null
+          npm install --no-save playwright@1.56.1 lighthouse@12 chrome-launcher@1
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Run Playwright audit (screenshots + SEO/content/perf JSON)
+        env:
+          OUT_DIR: ${{ github.workspace }}/audit
+          MODEL_URL: ${{ inputs.model_url }}
+          LANDING_URL: ${{ inputs.landing_url }}
+        run: |
+          # The script reads MODEL_URL via env; landing URL is hard-coded in TARGETS.
+          # Patch landing URL in place so workflow inputs win.
+          node -e "
+            const fs = require('fs');
+            const p  = 'audit/playwright-audit.js';
+            let s = fs.readFileSync(p,'utf8');
+            s = s.replace(
+              /name: 'landing',\s*url: '[^']+'/,
+              \"name: 'landing',  url: process.env.LANDING_URL || 'https://www.mercedes-benz.fi/'\"
+            );
+            fs.writeFileSync(p, s);
+          "
+          node audit/playwright-audit.js
+
+      - name: Run Lighthouse (mobile + desktop, both URLs)
+        run: |
+          mkdir -p audit/lighthouse
+          # Lighthouse drives its own headless Chrome.
+          run_lh () {
+            local url="$1"
+            local slug="$2"
+            local formfactor="$3"
+            local preset_flags=""
+            if [ "$formfactor" = "desktop" ]; then
+              preset_flags="--preset=desktop"
+            fi
+            echo "Lighthouse  $slug  $formfactor  $url"
+            npx --yes lighthouse "$url" \
+              $preset_flags \
+              --quiet \
+              --chrome-flags="--headless=new --no-sandbox --disable-gpu" \
+              --output=html --output=json \
+              --output-path="audit/lighthouse/${slug}-${formfactor}" \
+              --only-categories=performance,accessibility,best-practices,seo \
+              || echo "lighthouse exited non-zero for ${slug}-${formfactor} (continuing)"
+          }
+          run_lh "${{ inputs.landing_url }}" landing mobile
+          run_lh "${{ inputs.landing_url }}" landing desktop
+          run_lh "${{ inputs.model_url }}"   model   mobile
+          run_lh "${{ inputs.model_url }}"   model   desktop
+
+      - name: Summarise Lighthouse scores
+        run: |
+          node -e "
+            const fs = require('fs');
+            const path = require('path');
+            const dir = 'audit/lighthouse';
+            const files = fs.readdirSync(dir).filter(f => f.endsWith('.report.json'));
+            const rows = [['Page','Form factor','Perf','A11y','BP','SEO','LCP (ms)','CLS','TBT (ms)']];
+            for (const f of files) {
+              const j = JSON.parse(fs.readFileSync(path.join(dir,f),'utf8'));
+              const c = j.categories || {};
+              const a = j.audits || {};
+              const fmt = (s) => s != null ? Math.round(s*100) : '-';
+              const ms  = (k) => a[k] && a[k].numericValue != null ? Math.round(a[k].numericValue) : '-';
+              const cls = a['cumulative-layout-shift'] && a['cumulative-layout-shift'].numericValue != null
+                ? a['cumulative-layout-shift'].numericValue.toFixed(3) : '-';
+              const [name, ff] = f.replace('.report.json','').split('-');
+              rows.push([name, ff, fmt(c.performance && c.performance.score),
+                                  fmt(c.accessibility && c.accessibility.score),
+                                  fmt(c['best-practices'] && c['best-practices'].score),
+                                  fmt(c.seo && c.seo.score),
+                                  ms('largest-contentful-paint'),
+                                  cls,
+                                  ms('total-blocking-time')]);
+            }
+            const widths = rows[0].map((_,i) => Math.max(...rows.map(r => String(r[i]).length)));
+            const line = (r) => r.map((c,i) => String(c).padEnd(widths[i])).join('  ');
+            const out = [line(rows[0]), widths.map(w => '-'.repeat(w)).join('  '), ...rows.slice(1).map(line)].join('\n');
+            console.log('\n' + out + '\n');
+            fs.writeFileSync('audit/lighthouse/SCORES.txt', out);
+
+            // Also markdown for the step summary
+            const md = ['| ' + rows[0].join(' | ') + ' |',
+                        '|' + rows[0].map(() => '---').join('|') + '|',
+                        ...rows.slice(1).map(r => '| ' + r.join(' | ') + ' |')].join('\n');
+            fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, '## Lighthouse scores\n\n' + md + '\n');
+          "
+
+      - name: Upload audit artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mb-fi-audit-${{ github.run_id }}
+          path: |
+            audit/screens/
+            audit/data/
+            audit/lighthouse/
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Commit results back to branch
+        if: ${{ inputs.commit_results == 'true' }}
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add audit/screens audit/data audit/lighthouse || true
+          if git diff --cached --quiet; then
+            echo "No new audit artifacts to commit."
+          else
+            git commit -m "Capture MB Finland audit run ${{ github.run_id }} [skip ci]"
+            # retry push up to 4 times w/ exponential backoff on network blips
+            for i in 1 2 3 4; do
+              if git push origin HEAD:${{ github.ref_name }}; then
+                break
+              fi
+              sleep $((2 ** i))
+            done
+          fi
