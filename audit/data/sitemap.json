@@ -1,0 +1,14 @@
+{
+  "timedOut": false,
+  "httpRequestsUsed": 3,
+  "robotsStatus": 200,
+  "robots": "# robots.txt generated at https://keyloop.com\r\nUser-agent: *\r\nAllow: /\r\nDisallow: */online-deposits/*\r\nDisallow: */enquiry/*\r\nDisallow: */new-car-variants/*\r\nDisallow: */book-a-test-drive/*\r\nDisallow: */api/*\r\nDisallow: */ajax/*\r\nDisallow: */search/*\r\nDisallow: *order=*\r\nDisallow: */vehicle-search/*\r\nDisallow: */data-preferences/*\r\nDisallow: */online-payments/*\r\n\r\nUser-agent: semaltspider\r\nDisallow: /\r\n\r\nSitemap: https://www.mercedes-benz.fi/sitemap.xml.gz\r\nSitemap: https://www.mercedes-benz.fi/css-sitemap/fi-fi\r\n\r\n",
+  "sitemapUrls": [
+    "https://www.mercedes-benz.fi/sitemap.xml.gz",
+    "https://www.mercedes-benz.fi/css-sitemap/fi-fi"
+  ],
+  "sitemapCount": 0,
+  "sitemapByDepth": {},
+  "sitemapBySection": {},
+  "sample": []
+}
