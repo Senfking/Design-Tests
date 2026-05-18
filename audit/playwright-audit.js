@@ -27,36 +27,52 @@ const VIEWPORTS = [
   { tag: 'mobile',  width: 414,  height: 896,  fullPage: false, isMobile: true },
 ];
 
-// ---------- tiny https GET ----------
-function fetchText(url, max = 2_000_000) {
+// ---------- tiny https GET with hard timeout + global request cap ----------
+let _httpReqCount = 0;
+const _httpReqMax = 30;
+
+function fetchText(url, { max = 2_000_000, timeoutMs = 7000 } = {}) {
+  if (_httpReqCount++ >= _httpReqMax) return Promise.resolve({ status: 0, body: '', _capped: true });
   return new Promise((resolve) => {
-    https.get(url, { headers: { 'User-Agent': 'Mozilla/5.0 audit-bot' } }, (res) => {
+    let done = false;
+    const finish = (v) => { if (!done) { done = true; resolve(v); } };
+    const req = https.get(url, {
+      headers: { 'User-Agent': 'Mozilla/5.0 audit-bot' },
+      timeout: timeoutMs,
+    }, (res) => {
       if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
-        return resolve(fetchText(new URL(res.headers.location, url).toString(), max));
+        try {
+          const next = new URL(res.headers.location, url).toString();
+          res.resume();
+          return finish(fetchText(next, { max, timeoutMs }).then((v) => finish(v)));
+        } catch {}
       }
       const chunks = []; let len = 0;
       res.on('data', (c) => { len += c.length; if (len < max) chunks.push(c); });
-      res.on('end',  () => resolve({ status: res.statusCode, body: Buffer.concat(chunks).toString('utf8') }));
-      res.on('error',() => resolve({ status: 0, body: '' }));
-    }).on('error', () => resolve({ status: 0, body: '' }));
+      res.on('end',  () => finish({ status: res.statusCode, body: Buffer.concat(chunks).toString('utf8') }));
+      res.on('error',() => finish({ status: 0, body: '' }));
+    });
+    req.on('timeout', () => { req.destroy(); finish({ status: 0, body: '', _timeout: true }); });
+    req.on('error',   () => finish({ status: 0, body: '' }));
   });
 }
 
-async function crawlSitemap(rootUrl, depth = 0, seen = new Set()) {
-  if (depth > 3 || seen.has(rootUrl)) return [];
+async function crawlSitemap(rootUrl, depth = 0, seen = new Set(), collected = { count: 0 }) {
+  if (depth > 2 || seen.has(rootUrl) || collected.count > 4000 || _httpReqCount > _httpReqMax) return [];
   seen.add(rootUrl);
   const r = await fetchText(rootUrl);
   if (r.status !== 200 || !r.body) return [];
   const locs = [...r.body.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1].trim());
   if (/<sitemapindex/i.test(r.body)) {
     const all = [];
-    for (const child of locs.slice(0, 20)) {
-      const childUrls = await crawlSitemap(child, depth + 1, seen);
-      all.push(...childUrls.map((u) => ({ ...u, from: child })));
-      if (all.length > 5000) break;
+    for (const child of locs.slice(0, 10)) {
+      if (collected.count > 4000 || _httpReqCount > _httpReqMax) break;
+      const childUrls = await crawlSitemap(child, depth + 1, seen, collected);
+      all.push(...childUrls);
     }
     return all;
   }
+  collected.count += locs.length;
   return locs.map((u) => ({ url: u, from: rootUrl }));
 }
 
@@ -68,19 +84,25 @@ async function findAndCrawlSitemaps() {
     for (const x of m) sitemapUrls.push(x[1].trim());
   }
   if (!sitemapUrls.length) {
-    // fall back to common paths
     sitemapUrls.push(
       'https://www.mercedes-benz.fi/sitemap.xml',
       'https://www.mercedes-benz.fi/sitemap_index.xml',
-      'https://www.mercedes-benz.fi/sitemap-index.xml',
     );
   }
   const all = [];
-  for (const s of sitemapUrls) {
+  for (const s of sitemapUrls.slice(0, 4)) {
     const urls = await crawlSitemap(s);
     all.push(...urls);
   }
   return { robots: robotsR, sitemapUrls, urls: all };
+}
+
+// run with a hard wall-clock deadline; partial = ok
+async function withDeadline(promise, ms, fallback) {
+  return Promise.race([
+    promise,
+    new Promise((resolve) => setTimeout(() => resolve(fallback), ms)),
+  ]);
 }
 
 // ---------- cookie banner ----------
@@ -148,30 +170,6 @@ async function lazyScroll(page, maxPx = 18000) {
 
 // ---------- main ----------
 (async () => {
-  console.log('Fetching robots.txt + sitemap …');
-  const { robots, sitemapUrls, urls: sitemap } = await findAndCrawlSitemaps();
-  const sitemapByDepth = {};
-  const sitemapBySection = {};
-  for (const e of sitemap) {
-    try {
-      const u = new URL(e.url);
-      const segs = u.pathname.split('/').filter(Boolean);
-      sitemapByDepth[segs.length] = (sitemapByDepth[segs.length] || 0) + 1;
-      const sec = segs[0] || '(root)';
-      sitemapBySection[sec] = (sitemapBySection[sec] || 0) + 1;
-    } catch {}
-  }
-  fs.writeFileSync(path.join(DATA_DIR, 'sitemap.json'), JSON.stringify({
-    robotsStatus: robots.status,
-    robots: robots.body.slice(0, 8000),
-    sitemapUrls,
-    sitemapCount: sitemap.length,
-    sitemapByDepth,
-    sitemapBySection,
-    sample: sitemap.slice(0, 120).map(s => s.url),
-  }, null, 2));
-  console.log(`  robots.txt: ${robots.status}  sitemap URLs total: ${sitemap.length} from ${sitemapUrls.length} entry point(s)`);
-
   const browser = await chromium.launch({ args: ['--no-sandbox'] });
   const summary = {};
 
@@ -385,4 +383,37 @@ async function lazyScroll(page, maxPx = 18000) {
   const outFile = path.join(DATA_DIR, 'summary.json');
   fs.writeFileSync(outFile, JSON.stringify(summary, null, 2));
   console.log('\nWritten ' + outFile);
+
+  // Sitemap is best-effort, runs last with a hard 60s deadline so it can
+  // never block the screenshots/SEO/perf capture from being committed.
+  console.log('\nFetching robots.txt + sitemap (60s deadline) …');
+  const sitemapResult = await withDeadline(
+    findAndCrawlSitemaps(),
+    60_000,
+    { robots: { status: 0, body: '' }, sitemapUrls: [], urls: [], _timedOut: true },
+  );
+  const { robots, sitemapUrls, urls: sitemap, _timedOut } = sitemapResult;
+  const sitemapByDepth = {};
+  const sitemapBySection = {};
+  for (const e of sitemap) {
+    try {
+      const u = new URL(e.url);
+      const segs = u.pathname.split('/').filter(Boolean);
+      sitemapByDepth[segs.length] = (sitemapByDepth[segs.length] || 0) + 1;
+      const sec = segs[0] || '(root)';
+      sitemapBySection[sec] = (sitemapBySection[sec] || 0) + 1;
+    } catch {}
+  }
+  fs.writeFileSync(path.join(DATA_DIR, 'sitemap.json'), JSON.stringify({
+    timedOut: !!_timedOut,
+    httpRequestsUsed: _httpReqCount,
+    robotsStatus: robots.status,
+    robots: (robots.body || '').slice(0, 8000),
+    sitemapUrls,
+    sitemapCount: sitemap.length,
+    sitemapByDepth,
+    sitemapBySection,
+    sample: sitemap.slice(0, 200).map(s => s.url),
+  }, null, 2));
+  console.log(`  robots.txt: ${robots.status}  sitemap URLs total: ${sitemap.length}${_timedOut ? ' (DEADLINE HIT)' : ''}`);
 })();
