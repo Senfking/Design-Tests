@@ -142,30 +142,41 @@ async function dismissCookies(page, pageData) {
 }
 
 async function lazyScroll(page, maxPx = 18000) {
-  await page.evaluate(async (cap) => {
-    await new Promise((resolve) => {
-      let lastH = 0, stable = 0;
-      const tick = () => {
-        const h = document.documentElement.scrollHeight;
-        if (h === lastH) stable++; else { stable = 0; lastH = h; }
-        if (stable > 2 || window.scrollY > cap) {
-          window.scrollTo(0, 0);
-          setTimeout(resolve, 400);
-          return;
-        }
-        window.scrollBy(0, Math.min(900, window.innerHeight * 0.9));
-        setTimeout(tick, 220);
-      };
-      tick();
-    });
-  }, maxPx).catch(() => {});
-  // wait for any in-flight images
-  await page.evaluate(() => Promise.all(
-    Array.from(document.images).filter(i => !i.complete).map(i =>
-      new Promise(r => { i.addEventListener('load', r, { once: true }); i.addEventListener('error', r, { once: true }); })
-    )
-  )).catch(() => {});
-  await page.waitForLoadState('networkidle', { timeout: 4000 }).catch(() => {});
+  // bounded scroll
+  await Promise.race([
+    page.evaluate(async (cap) => {
+      await new Promise((resolve) => {
+        let lastH = 0, stable = 0, ticks = 0;
+        const tick = () => {
+          ticks++;
+          const h = document.documentElement.scrollHeight;
+          if (h === lastH) stable++; else { stable = 0; lastH = h; }
+          if (stable > 2 || window.scrollY > cap || ticks > 80) {
+            window.scrollTo(0, 0);
+            setTimeout(resolve, 400);
+            return;
+          }
+          window.scrollBy(0, Math.min(900, window.innerHeight * 0.9));
+          setTimeout(tick, 220);
+        };
+        tick();
+      });
+    }, maxPx).catch(() => {}),
+    new Promise((r) => setTimeout(r, 22_000)),
+  ]);
+  // wait for any in-flight EAGER images (not lazy), hard-capped at 4s
+  await Promise.race([
+    page.evaluate(() => Promise.all(
+      Array.from(document.images)
+        .filter(i => !i.complete && i.loading !== 'lazy')
+        .map(i => new Promise(r => {
+          i.addEventListener('load',  r, { once: true });
+          i.addEventListener('error', r, { once: true });
+        }))
+    )).catch(() => {}),
+    new Promise((r) => setTimeout(r, 4_000)),
+  ]);
+  await page.waitForLoadState('networkidle', { timeout: 3000 }).catch(() => {});
 }
 
 // ---------- main ----------
@@ -173,6 +184,7 @@ async function lazyScroll(page, maxPx = 18000) {
   const browser = await chromium.launch({ args: ['--no-sandbox'] });
   const summary = {};
 
+  const PAGE_DEADLINE_MS = 150_000; // 2.5 min per page is the hard ceiling
   for (const target of TARGETS) {
     console.log(`\n=== ${target.name}: ${target.url} ===`);
     const t0 = Date.now();
@@ -194,30 +206,44 @@ async function lazyScroll(page, maxPx = 18000) {
     page.on('console',  (m) => pageData.console.push({ type: m.type(), text: m.text().slice(0, 500) }));
     page.on('pageerror', (e) => pageData.errors.push(String(e).slice(0, 500)));
 
-    // ONE navigation. `load`, not `networkidle` — MB site never idles.
-    const navStart = Date.now();
-    const resp = await page.goto(target.url, { waitUntil: 'load', timeout: 60000 })
-      .catch((e) => { pageData.errors.push('nav: ' + e.message); return null; });
-    pageData.navMs    = Date.now() - navStart;
-    pageData.finalUrl = page.url();
-    pageData.status   = resp ? resp.status() : null;
+    const work = (async () => {
+      const navStart = Date.now();
+      const resp = await page.goto(target.url, { waitUntil: 'load', timeout: 60000 })
+        .catch((e) => { pageData.errors.push('nav: ' + e.message); return null; });
+      pageData.navMs    = Date.now() - navStart;
+      pageData.finalUrl = page.url();
+      pageData.status   = resp ? resp.status() : null;
 
-    await dismissCookies(page, pageData);
+      await dismissCookies(page, pageData);
 
-    // For each viewport: resize, fire resize event, lazy-scroll, nuke banner, screenshot.
-    for (const vp of VIEWPORTS) {
-      await page.setViewportSize({ width: vp.width, height: vp.height });
-      // give the layout a moment to recompute and lazy components a chance to react
-      await page.evaluate(() => window.dispatchEvent(new Event('resize')));
-      await page.waitForTimeout(600);
-      await lazyScroll(page);
-      await page.addStyleTag({ content: NUKE_BANNERS_CSS }).catch(() => {});
-      await page.waitForTimeout(300);
-      const shot = path.join(SCREENS_DIR, `${target.name}-${vp.tag}.png`);
-      await page.screenshot({ path: shot, fullPage: !!vp.fullPage })
-        .catch((e) => pageData.errors.push('screenshot ' + vp.tag + ': ' + e.message));
-      pageData.viewports[vp.tag] = { shot, width: vp.width, height: vp.height, fullPage: !!vp.fullPage };
-      console.log(`  shot ${vp.tag} -> ${shot}  (${Date.now() - t0}ms total)`);
+      for (const vp of VIEWPORTS) {
+        await page.setViewportSize({ width: vp.width, height: vp.height });
+        await page.evaluate(() => window.dispatchEvent(new Event('resize'))).catch(() => {});
+        await page.waitForTimeout(500);
+        await lazyScroll(page);
+        await page.addStyleTag({ content: NUKE_BANNERS_CSS }).catch(() => {});
+        await page.waitForTimeout(250);
+        const shot = path.join(SCREENS_DIR, `${target.name}-${vp.tag}.png`);
+        await Promise.race([
+          page.screenshot({ path: shot, fullPage: !!vp.fullPage }),
+          new Promise((_, rej) => setTimeout(() => rej(new Error('screenshot timeout')), 25_000)),
+        ]).catch((e) => pageData.errors.push('screenshot ' + vp.tag + ': ' + e.message));
+        pageData.viewports[vp.tag] = { shot, width: vp.width, height: vp.height, fullPage: !!vp.fullPage };
+        console.log(`  shot ${vp.tag} (${Date.now() - t0}ms total)`);
+      }
+      return 'work-done';
+    })();
+
+    const result = await Promise.race([
+      work,
+      new Promise((resolve) => setTimeout(() => resolve('deadline'), PAGE_DEADLINE_MS)),
+    ]);
+    if (result === 'deadline') {
+      pageData.errors.push(`page deadline (${PAGE_DEADLINE_MS}ms) hit; aborting page`);
+      console.log(`  ! DEADLINE hit for ${target.name}, moving on`);
+      await context.close().catch(() => {});
+      summary[target.name] = pageData;
+      continue;
     }
 
     // ---- SEO + content extraction (back to desktop) ----
