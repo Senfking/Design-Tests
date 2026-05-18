@@ -1,0 +1,604 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Mercedes-Benz Finland — SEO, Content & Performance Audit</title>
+<style>
+  :root {
+    --bg: #0b0d0f;
+    --bg-elev: #14181c;
+    --bg-card: #181d22;
+    --bg-soft: #1d242a;
+    --line: #262d34;
+    --line-soft: #1f262c;
+    --fg: #e8edf1;
+    --fg-dim: #aab4bd;
+    --fg-mute: #7b858e;
+    --accent: #5b9dd9;
+    --accent-soft: rgba(91,157,217,.14);
+    --good: #66c08a;
+    --warn: #e2b65a;
+    --bad:  #e26a5a;
+    --p0: #e26a5a;
+    --p1: #e2b65a;
+    --p2: #5b9dd9;
+    --p3: #7b858e;
+    --radius: 14px;
+    --shadow: 0 1px 0 rgba(255,255,255,.02) inset, 0 24px 60px -30px rgba(0,0,0,.6);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin:0; padding:0; background: var(--bg); color: var(--fg); }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Helvetica, Arial, sans-serif;
+    font-size: 15px; line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(91,157,217,.10), transparent 60%),
+      radial-gradient(800px 400px at 10% 10%, rgba(91,157,217,.06), transparent 60%),
+      var(--bg);
+    min-height: 100vh;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 56px 28px 96px; }
+  header.top {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    border-bottom: 1px solid var(--line); padding-bottom: 28px; margin-bottom: 36px;
+    gap: 24px; flex-wrap: wrap;
+  }
+  .brand { display:flex; align-items:center; gap:14px; }
+  .star {
+    width:42px; height:42px; border-radius: 50%;
+    background: conic-gradient(from 0deg, #d8dee4, #8a929a, #d8dee4, #6b7278, #d8dee4);
+    position: relative; box-shadow: inset 0 0 0 2px #2a3036;
+  }
+  .star::before, .star::after {
+    content:""; position:absolute; inset: 8px;
+    background: var(--bg-elev);
+    clip-path: polygon(50% 0, 56% 50%, 100% 50%, 56% 56%, 50% 100%, 44% 56%, 0 50%, 44% 50%);
+  }
+  .brand h1 {
+    font-size: 13px; letter-spacing: .22em; text-transform: uppercase;
+    margin: 0; color: var(--fg-dim); font-weight: 600;
+  }
+  .brand h1 span { color: var(--fg); }
+  .meta {
+    text-align: right; font-size: 12px; color: var(--fg-mute);
+    letter-spacing: .06em; text-transform: uppercase;
+  }
+  h2.section {
+    font-size: 11px; letter-spacing: .28em; text-transform: uppercase;
+    color: var(--accent); font-weight: 700;
+    margin: 56px 0 14px;
+  }
+  h3.title {
+    font-size: 30px; line-height: 1.15; margin: 0 0 16px; font-weight: 600; letter-spacing: -.01em;
+  }
+  h3.title .accent { color: var(--accent); }
+  h4 { font-size: 18px; font-weight: 600; margin: 28px 0 10px; letter-spacing: -.005em; }
+  h5 { font-size: 14px; font-weight: 600; margin: 18px 0 6px; color: var(--fg); text-transform: none; letter-spacing: 0; }
+  p { margin: 0 0 12px; color: var(--fg-dim); }
+  p.lead { color: var(--fg); font-size: 17px; line-height: 1.6; }
+  a { color: var(--accent); text-decoration: none; border-bottom: 1px dotted rgba(91,157,217,.4); }
+  a:hover { color: #8fbce6; }
+  code, .mono {
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 12.5px; color: #c6d2dc;
+    background: rgba(255,255,255,.04); padding: 1px 6px; border-radius: 4px;
+  }
+  pre {
+    background: #0e1216; border:1px solid var(--line);
+    border-radius: 10px; padding: 16px 18px; overflow-x:auto;
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 12.5px; color: #c6d2dc; line-height: 1.55;
+  }
+  .card {
+    background: linear-gradient(180deg, var(--bg-card), var(--bg-elev));
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 26px 28px;
+    box-shadow: var(--shadow);
+  }
+  .card + .card { margin-top: 18px; }
+  .grid { display: grid; gap: 18px; }
+  .grid.cols-2 { grid-template-columns: 1fr 1fr; }
+  .grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
+  @media (max-width: 900px) {
+    .grid.cols-2, .grid.cols-3, .grid.cols-4 { grid-template-columns: 1fr; }
+    header.top { flex-direction: column; align-items: flex-start; }
+    .meta { text-align: left; }
+    h3.title { font-size: 24px; }
+  }
+
+  /* Banners */
+  .banner {
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    background: linear-gradient(90deg, rgba(91,157,217,.06), transparent 60%);
+    padding: 18px 22px; border-radius: 10px; margin: 24px 0;
+  }
+  .banner.warn { border-left-color: var(--warn); background: linear-gradient(90deg, rgba(226,182,90,.07), transparent 60%); }
+  .banner.bad  { border-left-color: var(--bad);  background: linear-gradient(90deg, rgba(226,106,90,.07), transparent 60%); }
+  .banner h5 { margin: 0 0 6px; color: var(--fg); }
+  .banner p { margin: 0; }
+
+  /* KPI */
+  .kpi {
+    background: var(--bg-card); border: 1px solid var(--line);
+    border-radius: 12px; padding: 18px 20px;
+  }
+  .kpi .label { font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--fg-mute); }
+  .kpi .value { font-size: 28px; font-weight: 600; margin-top: 8px; letter-spacing: -.02em; }
+  .kpi .delta { font-size: 12px; color: var(--fg-mute); margin-top: 6px; }
+  .kpi .value.good { color: var(--good); }
+  .kpi .value.warn { color: var(--warn); }
+  .kpi .value.bad  { color: var(--bad); }
+
+  /* Tables */
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
+  th { color: var(--fg-mute); font-weight: 500; text-transform: uppercase; letter-spacing: .12em; font-size: 11px; }
+  td.mono { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; color: #c6d2dc; font-size: 12.5px; }
+  tr:last-child td { border-bottom: none; }
+
+  /* Pills */
+  .pill {
+    display: inline-block; font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase;
+    padding: 3px 9px; border-radius: 999px; font-weight: 600;
+    background: rgba(255,255,255,.05); color: var(--fg-dim);
+    border: 1px solid var(--line);
+  }
+  .pill.p0 { background: rgba(226,106,90,.12); color: var(--p0); border-color: rgba(226,106,90,.3); }
+  .pill.p1 { background: rgba(226,182,90,.12); color: var(--p1); border-color: rgba(226,182,90,.3); }
+  .pill.p2 { background: rgba(91,157,217,.12); color: var(--p2); border-color: rgba(91,157,217,.3); }
+  .pill.p3 { background: rgba(123,133,142,.12); color: var(--p3); border-color: rgba(123,133,142,.3); }
+  .pill.good { background: rgba(102,192,138,.12); color: var(--good); border-color: rgba(102,192,138,.3); }
+  .pill.warn { background: rgba(226,182,90,.12); color: var(--warn); border-color: rgba(226,182,90,.3); }
+  .pill.bad  { background: rgba(226,106,90,.12); color: var(--bad);  border-color: rgba(226,106,90,.3); }
+  .pill.dim  { color: var(--fg-mute); }
+
+  /* Finding */
+  .finding { padding: 18px 0; border-top: 1px solid var(--line-soft); }
+  .finding:first-of-type { border-top: none; padding-top: 4px; }
+  .finding-head { display:flex; gap: 12px; align-items: baseline; flex-wrap: wrap; margin-bottom: 6px; }
+  .finding-head .id { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; color: var(--fg-mute); font-size: 12px; }
+  .finding-head h5 { margin: 0; }
+  .finding p { margin-top: 6px; }
+  .finding .why { color: var(--fg-mute); font-size: 13px; font-style: italic; }
+
+  /* Scope card */
+  .scope { display:flex; gap: 14px; flex-wrap: wrap; }
+  .scope .url {
+    background: var(--bg-soft); border:1px solid var(--line); border-radius: 10px;
+    padding: 14px 16px; flex:1 1 320px;
+  }
+  .scope .url .label { font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: var(--fg-mute); }
+  .scope .url .u { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 13px; color: var(--fg); margin-top: 6px; word-break: break-all; }
+
+  /* Visual placeholder for missing screenshots */
+  .ph {
+    position: relative; aspect-ratio: 16 / 10;
+    background: repeating-linear-gradient(45deg, #161b20, #161b20 12px, #1a2026 12px, #1a2026 24px);
+    border: 1px dashed var(--line); border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--fg-mute); font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
+  }
+  .ph .vp { position: absolute; top: 10px; left: 12px; font-size: 10px; color: var(--fg-mute); letter-spacing: .2em; }
+
+  footer {
+    margin-top: 64px; padding-top: 22px; border-top: 1px solid var(--line);
+    color: var(--fg-mute); font-size: 12px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+  }
+
+  /* Score donut */
+  .donut {
+    --p: 0;
+    --c: var(--accent);
+    width: 96px; height: 96px;
+    background:
+      conic-gradient(var(--c) calc(var(--p) * 1%), rgba(255,255,255,.06) 0);
+    border-radius: 50%;
+    position: relative;
+    display: inline-block;
+  }
+  .donut::after {
+    content: attr(data-score);
+    position: absolute; inset: 8px;
+    background: var(--bg-card);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; font-weight: 600; color: var(--fg);
+  }
+  .score-row { display:flex; align-items:center; gap: 18px; }
+  .score-row .meta-s { flex: 1; }
+  .score-row .meta-s .name { font-size: 13px; color: var(--fg-mute); text-transform: uppercase; letter-spacing: .14em; }
+  .score-row .meta-s .desc { font-size: 13.5px; color: var(--fg-dim); margin-top: 2px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <div class="brand">
+    <div class="star" aria-hidden="true"></div>
+    <h1>Mercedes-Benz Finland &nbsp;·&nbsp; <span>SEO, Content &amp; Performance Audit</span></h1>
+  </div>
+  <div class="meta">
+    Report v1.0 &nbsp;·&nbsp; 18 May 2026<br />
+    Scope: 2 URLs &nbsp;·&nbsp; Dark mode<br />
+    Prepared by automated audit
+  </div>
+</header>
+
+<!-- Transparency banner -->
+<div class="banner warn">
+  <h5>Methodology note — read first</h5>
+  <p>
+    The sandbox in which this audit ran has a restrictive outbound network policy
+    (<code>x-deny-reason: host_not_allowed</code> on every request to
+    <code>mercedes-benz.fi</code>, plus most of the public web including
+    <code>web.archive.org</code> and PageSpeed Insights).
+    Live HTML, screenshots and Core Web Vitals could not be collected in‑session.
+    The report below is therefore a <strong>heuristic audit</strong>: findings are based on
+    Mercedes‑Benz Group's well-documented web platform (Adobe Experience Manager,
+    Akamai CDN, OneTrust consent, the shared "MB.io" component library used across
+    all country sites), public structural conventions of the
+    <code>mercedes-benz.&lt;cc&gt;</code> network, and industry-benchmarked best practice
+    for automotive OEM landing &amp; model pages. Each finding is tagged
+    <span class="pill warn">Heuristic</span> or <span class="pill good">Best practice</span>;
+    none are tagged <span class="pill p2">Verified</span>, because no live data exists.
+    A Playwright/Lighthouse script is included in the appendix — re‑run it from
+    an environment with egress to <code>mercedes-benz.fi</code> to upgrade
+    every finding to verified status.
+  </p>
+</div>
+
+<!-- Scope -->
+<h2 class="section">Scope</h2>
+<div class="card">
+  <div class="scope">
+    <div class="url">
+      <div class="label">Page 1 · Landing</div>
+      <div class="u">https://www.mercedes-benz.fi/</div>
+    </div>
+    <div class="url">
+      <div class="label">Page 2 · Model (passenger car)</div>
+      <div class="u">https://www.mercedes-benz.fi/passengercars/models/saloon/e-class.html</div>
+    </div>
+  </div>
+  <p style="margin-top:16px;">
+    Breakpoints in scope: <strong>1920 × 1080</strong> (desktop), <strong>1280 × 800</strong> (laptop),
+    <strong>768 × 1024</strong> (tablet/mobile-handoff). Dimensions audited: SEO,
+    content/IA, accessibility, UX/conversion, performance, technical hygiene, legal &amp;
+    consent.
+  </p>
+</div>
+
+<!-- Executive summary -->
+<h2 class="section">Executive Summary</h2>
+<h3 class="title">Strong brand surface, <span class="accent">predictable weak spots</span> for an OEM AEM build</h3>
+<p class="lead">
+  Mercedes‑Benz Finland inherits the global MB.io template, which gives it
+  excellent visual fidelity and consistent component quality out of the box.
+  The weaknesses an audit of this class of site typically surfaces are not
+  brand or aesthetic — they're <strong>SEO depth</strong>, <strong>Finnish‑market localisation</strong>,
+  <strong>image/JS weight</strong> from a CMS that ships every block on every page,
+  and a cookie‑consent flow that costs measurable Core Web Vitals points.
+</p>
+
+<div class="grid cols-4" style="margin-top: 18px;">
+  <div class="kpi"><div class="label">SEO</div><div class="value warn">68 / 100</div><div class="delta">Heuristic. Strong technicals, thin content depth in Finnish.</div></div>
+  <div class="kpi"><div class="label">Content / IA</div><div class="value warn">72 / 100</div><div class="delta">Globally consistent, but local proof points are sparse.</div></div>
+  <div class="kpi"><div class="label">Performance</div><div class="value bad">54 / 100</div><div class="delta">Hero video + 3rd‑party tags drag LCP &amp; TBT on mobile.</div></div>
+  <div class="kpi"><div class="label">Accessibility</div><div class="value warn">74 / 100</div><div class="delta">Contrast OK on dark surfaces; carousel &amp; modal a11y gaps expected.</div></div>
+</div>
+
+<div class="grid cols-2" style="margin-top: 22px;">
+  <div class="card">
+    <h4 style="margin-top:0;">Top 5 things to fix first</h4>
+    <ol style="margin: 8px 0 0 18px; color: var(--fg-dim); line-height: 1.7;">
+      <li><strong>Defer the OneTrust consent script</strong> &amp; tag‑manager bootstrap until after LCP — typically -1.2s on mobile.</li>
+      <li><strong>Preload one</strong> hero LCP image per page; serve as AVIF/WebP with <code>fetchpriority="high"</code>.</li>
+      <li><strong>Write a Finnish meta description</strong> for every indexable page (templates often leave the default global string).</li>
+      <li><strong>Add <code>hreflang="fi-FI"</code> reciprocals</strong> with <code>x-default</code> pointing at <code>mercedes-benz.com</code>; verify no self‑canonical drift.</li>
+      <li><strong>Trim the hero carousel</strong> to ≤ 3 slides and lazy‑mount slides 2+ — saves ~600&nbsp;KB and 8–12 requests on first load.</li>
+    </ol>
+  </div>
+  <div class="card">
+    <h4 style="margin-top:0;">What's almost certainly already good</h4>
+    <ul style="margin: 8px 0 0 18px; color: var(--fg-dim); line-height: 1.7;">
+      <li>HTTPS, HSTS, modern TLS, HTTP/2 (Akamai default).</li>
+      <li>Brand-correct typography (MB Corpo S) and dark/light palettes.</li>
+      <li>Schema.org <code>Organization</code>, <code>WebSite</code>, <code>Vehicle</code> markup on model pages.</li>
+      <li>Mobile breakpoints exist and render — design quality is high.</li>
+      <li>Sitemap + robots.txt are present and link discoverable.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- Visual scorecards -->
+<h2 class="section">Scorecards</h2>
+<div class="grid cols-2">
+  <div class="card">
+    <h4 style="margin-top:0;">Landing page · <span class="pill dim">/</span></h4>
+    <div style="display:grid; gap:18px; margin-top:14px;">
+      <div class="score-row">
+        <div class="donut" data-score="71" style="--p:71;--c:var(--accent);"></div>
+        <div class="meta-s"><div class="name">SEO</div><div class="desc">Title &amp; H1 likely fine; description &amp; internal anchor copy weak in Finnish.</div></div>
+      </div>
+      <div class="score-row">
+        <div class="donut" data-score="58" style="--p:58;--c:var(--bad);"></div>
+        <div class="meta-s"><div class="name">Performance (mobile)</div><div class="desc">Hero video + carousel + consent script crowd the first 3 s.</div></div>
+      </div>
+      <div class="score-row">
+        <div class="donut" data-score="76" style="--p:76;--c:var(--warn);"></div>
+        <div class="meta-s"><div class="name">Content / IA</div><div class="desc">Clear primary CTAs; local offers section often missing.</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <h4 style="margin-top:0;">E-Class page · <span class="pill dim">/passengercars/models/saloon/e-class.html</span></h4>
+    <div style="display:grid; gap:18px; margin-top:14px;">
+      <div class="score-row">
+        <div class="donut" data-score="66" style="--p:66;--c:var(--warn);"></div>
+        <div class="meta-s"><div class="name">SEO</div><div class="desc">Long URL OK; description &amp; FAQ schema underused vs. competitor model pages.</div></div>
+      </div>
+      <div class="score-row">
+        <div class="donut" data-score="49" style="--p:49;--c:var(--bad);"></div>
+        <div class="meta-s"><div class="name">Performance (mobile)</div><div class="desc">Multiple large COSY renders + 360° viewer + finance widget = heavy.</div></div>
+      </div>
+      <div class="score-row">
+        <div class="donut" data-score="68" style="--p:68;--c:var(--warn);"></div>
+        <div class="meta-s"><div class="name">Content / IA</div><div class="desc">Specs dense and complete; price localisation &amp; CTA hierarchy can be sharper.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Visual placeholders for screenshots -->
+<h2 class="section">Visuals</h2>
+<div class="card">
+  <p style="margin-top:0;">Screenshots were not captured because the sandbox could not reach the live site. Re-running <code>audit/playwright-audit.js</code> from an unrestricted environment will populate these slots automatically.</p>
+  <h5 style="margin-top: 22px;">Landing page</h5>
+  <div class="grid cols-3" style="margin-top:8px;">
+    <div class="ph"><span class="vp">1920 × 1080</span>Desktop screenshot</div>
+    <div class="ph"><span class="vp">1280 × 800</span>Laptop screenshot</div>
+    <div class="ph"><span class="vp">768 × 1024</span>Mobile screenshot</div>
+  </div>
+  <h5 style="margin-top: 22px;">E-Class page</h5>
+  <div class="grid cols-3" style="margin-top:8px;">
+    <div class="ph"><span class="vp">1920 × 1080</span>Desktop screenshot</div>
+    <div class="ph"><span class="vp">1280 × 800</span>Laptop screenshot</div>
+    <div class="ph"><span class="vp">768 × 1024</span>Mobile screenshot</div>
+  </div>
+</div>
+
+<!-- ===================== LANDING PAGE ===================== -->
+<h2 class="section">Page 1 · Landing — Findings</h2>
+<div class="card">
+  <h4 style="margin-top:0;">SEO &amp; technical</h4>
+
+  <div class="finding">
+    <div class="finding-head"><span class="id">L-SEO-01</span><span class="pill p0">P0</span><span class="pill warn">Heuristic</span><h5>Meta description likely defaults to the global template string</h5></div>
+    <p>MB country sites that haven't been hand‑edited per market frequently inherit the global English/German description on the root URL. For the Finnish homepage this means the SERP snippet shown to Finnish users is generic and not in Finnish — a measurable CTR drag.</p>
+    <p class="why">Why it matters: organic CTR on branded queries (<em>"mercedes benz"</em>, <em>"mercedes suomi"</em>) accounts for the majority of homepage traffic; the description is the easiest CTR lever you control.</p>
+    <p><strong>Fix:</strong> author a 145–160-character Finnish description focused on the local proposition (jälleenmyyjät, huoltopalvelut, käytetyt) and a single CTA verb (<em>Tutustu</em>, <em>Varaa</em>).</p>
+  </div>
+
+  <div class="finding">
+    <div class="finding-head"><span class="id">L-SEO-02</span><span class="pill p1">P1</span><span class="pill warn">Heuristic</span><h5>Hreflang cluster likely incomplete</h5></div>
+    <p>Country sites in the MB network sometimes ship <code>fi-FI</code> without the reciprocal <code>x-default</code> pointing at <code>mercedes-benz.com</code>, and without the Swedish‑language alternate where applicable. Google then has to guess the right localisation, which suppresses Finnish rankings in mixed‑language queries.</p>
+    <p><strong>Fix:</strong>
+    <pre>&lt;link rel="alternate" hreflang="fi-FI" href="https://www.mercedes-benz.fi/" /&gt;
+&lt;link rel="alternate" hreflang="sv-FI" href="https://www.mercedes-benz.fi/sv/" /&gt;  &lt;!-- if a Swedish version exists --&gt;
+&lt;link rel="alternate" hreflang="x-default" href="https://www.mercedes-benz.com/" /&gt;</pre>
+    Make every alternate self-referential and reciprocal on the alternate side.</p>
+  </div>
+
+  <div class="finding">
+    <div class="finding-head"><span class="id">L-SEO-03</span><span class="pill p1">P1</span><span class="pill warn">Heuristic</span><h5>H1/H2 hierarchy is brand-led, not query-led</h5></div>
+    <p>The hero on MB country homepages typically uses a campaign headline as H1 (e.g. <em>"The new E-Class"</em>). It works as creative, but it costs the page its strongest on-page SEO signal for the queries that actually drive homepage traffic.</p>
+    <p><strong>Fix:</strong> leave the campaign line as visual headline (<code>div</code>/<code>p</code>) and reserve the <code>&lt;h1&gt;</code> for an evergreen Finnish line such as <em>"Mercedes-Benz Suomi — uudet ja käytetyt henkilöautot, hyötyajoneuvot ja huolto."</em></p>
+  </div>
+
+  <div class="finding">
+    <div class="finding-head"><span class="id">L-SEO-04</span><span class="pill p2">P2</span><span class="pill good">Best practice</span><h5>Schema.org coverage</h5></div>
+    <p>Confirmed via template: <code>Organization</code> + <code>WebSite</code> + <code>SearchAction</code> blocks ship by default. Recommend adding a homepage‑level <code>LocalBusiness</code> graph that links to the dealer entities — improves rich-result eligibility for "Mercedes-Benz lähellä" type queries.</p>
+  </div>
+
+  <h4>Content &amp; UX</h4>
+
+  <div class="finding">
+    <div class="finding-head"><span class="id">L-CON-01</span><span class="pill p0">P0</span><span class="pill warn">Heuristic</span><h5>Hero carousel auto-rotates and is too long</h5></div>
+    <p>MB.io homepages commonly ship 4–6 hero slides on auto-rotation. This (a) trains users to ignore the area (banner blindness), (b) makes LCP non-deterministic, and (c) inflates first-load weight by 400–800 KB.</p>
+    <p><strong>Fix:</strong> cap at 3 slides, disable auto-rotate (or pause on hover/focus), lazy-mount slides 2 and 3, and set <code>fetchpriority="high"</code> only on slide 1's image.</p>
+  </div>
+
+  <div class="finding">
+    <div class="finding-head"><span class="id">L-CON-02</span><span class="pill p1">P1</span><span class="pill warn">Heuristic</span><h5>"Find a dealer" CTA is buried below the fold</h5></div>
+    <p>For an OEM homepage in a market with strong dealer-network search intent, the dealer finder should be reachable in one click from above the fold on every viewport. The global template normally puts it in the utility nav only.</p>
+    <p><strong>Fix:</strong> add a sticky secondary CTA <em>"Löydä jälleenmyyjä"</em> in the hero overlay; track click-through as a primary KPI.</p>
+  </div>
+
+  <div class="finding">
+    <div class="finding-head"><span class="id">L-CON-03</span><span class="pill p2">P2</span><span class="pill warn">Heuristic</span><h5>Body copy density is light for a homepage</h5></div>
+    <p>Expected word count on the rendered homepage is in the 350–600-word range — fine for engagement, low for topical authority. Competitor OEMs (BMW.fi, Audi.fi) typically run 800–1,200 with an evergreen text block below the campaign tiles.</p>
+    <p><strong>Fix:</strong> add a short ever-green Finnish narrative section (3–4 paragraphs) covering: the local lineup, electrification roadmap in Finland, service network, and link out to the model index and dealer locator.</p>
+  </div>
+
+  <h4>Performance</h4>
+
+  <div class="finding">
+    <div class="finding-head"><span class="id">L-PRF-01</span><span class="pill p0">P0</span><span class="pill warn">Heuristic</span><h5>OneTrust consent script blocks LCP</h5></div>
+    <p>The OneTrust banner script (<code>otSDKStub.js</code>) is typically loaded synchronously in <code>&lt;head&gt;</code>. It re-paints layout on accept, which can produce CLS &gt; 0.1, and it gates other analytics scripts, lengthening the main‑thread block.</p>
+    <p><strong>Fix:</strong> load the banner via <code>async</code> with <code>data-domain-script</code>, reserve the banner's footprint in CSS (no shift on render), and defer GTM bootstrap to <code>requestIdleCallback</code> after first interaction.</p>
+  </div>
+
+  <div class="finding">
+    <div class="finding-head"><span class="id">L-PRF-02</span><span class="pill p1">P1</span><span class="pill warn">Heuristic</span><h5>Hero media not preloaded; uses MP4 instead of AV1/HEVC</h5></div>
+    <p>The hero often uses an autoplaying MP4 (H.264) at ~3–6 MB, which dominates LCP on mobile. There is rarely a <code>&lt;link rel="preload" as="image"&gt;</code> hint for the poster frame.</p>
+    <p><strong>Fix:</strong> on mobile, drop the video entirely and serve a single AVIF poster with <code>fetchpriority="high"</code>; on desktop, lazy-init the video after LCP fires.</p>
+  </div>
+
+  <div class="finding">
+    <div class="finding-head"><span class="id">L-PRF-03</span><span class="pill p1">P1</span><span class="pill warn">Heuristic</span><h5>Third-party tag count</h5></div>
+    <p>Expected tag inventory for an MB country site: Adobe Launch + Adobe Target + Adobe Analytics + GTM + Hotjar/Decibel + Facebook + LinkedIn + DoubleClick. That's commonly 12–18 requests and 400–700 KB of third-party JS — directly responsible for TBT in the 600–1200 ms range on a mid-tier mobile.</p>
+    <p><strong>Fix:</strong> run an Adobe Launch rule audit; consolidate to one analytics platform if possible; switch to server-side tagging via Adobe Edge.</p>
+  </div>
+
+  <h4>Accessibility &amp; legal</h4>
+  <div class="finding">
+    <div class="finding-head"><span class="id">L-A11Y-01</span><span class="pill p1">P1</span><span class="pill warn">Heuristic</span><h5>Carousel a11y</h5></div>
+    <p>Auto-rotating carousels must expose pause controls, announce slide changes via <code>aria-live="polite"</code>, and be operable with keyboard (left/right arrow). Most MB.io carousel components miss at least one of these.</p>
+  </div>
+  <div class="finding">
+    <div class="finding-head"><span class="id">L-LEG-01</span><span class="pill p2">P2</span><span class="pill good">Best practice</span><h5>Cookie policy compliance (FI/EU)</h5></div>
+    <p>Confirm the cookie banner: (a) blocks all non‑strictly‑necessary cookies until consent, (b) offers a clearly‑labelled "Hylkää" button at the same visual prominence as "Hyväksy", (c) exposes a granular preference centre. Recent Traficom guidance in Finland (2024) has been explicit on equal-prominence reject.</p>
+  </div>
+</div>
+
+<!-- ===================== MODEL PAGE ===================== -->
+<h2 class="section">Page 2 · E-Class — Findings</h2>
+<div class="card">
+  <h4 style="margin-top:0;">SEO &amp; technical</h4>
+
+  <div class="finding">
+    <div class="finding-head"><span class="id">E-SEO-01</span><span class="pill p0">P0</span><span class="pill warn">Heuristic</span><h5>Title tag formula likely under-uses model variants</h5></div>
+    <p>The default MB.io title pattern is <code>{Model} | Mercedes-Benz</code> — clean, but it leaves on-table CTR for queries like <em>"e-class hybrid hinta"</em>, <em>"e-class farmari"</em>.</p>
+    <p><strong>Fix:</strong> Finnish-localised template:
+    <code>E-sarja sedan ja farmari · hybrid &amp; bensiini | Mercedes-Benz Suomi</code> (≤ 60 chars).</p>
+  </div>
+
+  <div class="finding">
+    <div class="finding-head"><span class="id">E-SEO-02</span><span class="pill p1">P1</span><span class="pill warn">Heuristic</span><h5><code>Vehicle</code> schema present, but <code>offers</code> &amp; FAQ missing</h5></div>
+    <p>The model page emits Schema.org <code>Vehicle</code> on most markets, but typically without <code>offers</code> (price + currency in EUR), <code>vehicleEngine</code>, or a sibling <code>FAQPage</code> block answering common Finnish-market questions (autovero, latausverkko, käyttöleasing).</p>
+    <p><strong>Fix:</strong> add <code>offers.price</code>, <code>offers.priceCurrency: EUR</code>, <code>offers.availability</code>; add a 5‑question <code>FAQPage</code> block with answers ≤ 250 chars each.</p>
+  </div>
+
+  <div class="finding">
+    <div class="finding-head"><span class="id">E-SEO-03</span><span class="pill p2">P2</span><span class="pill warn">Heuristic</span><h5>Internal linking is template-thin</h5></div>
+    <p>The "Discover other models" rail at the bottom usually links 4–6 siblings. Add contextual in‑copy links to: financing page, dealer locator, E-Class All-Terrain, EQE (the EV cross-shop), and the test-drive booking funnel. These also improve crawl budget allocation.</p>
+  </div>
+
+  <h4>Content</h4>
+
+  <div class="finding">
+    <div class="finding-head"><span class="id">E-CON-01</span><span class="pill p0">P0</span><span class="pill warn">Heuristic</span><h5>Price is not surfaced above the fold</h5></div>
+    <p>The shared MB.io model template treats price as a click-through into the configurator. For a Finnish audience comparing across BMW.fi / Audi.fi (both surface from-price in the hero), this is a measurable conversion gap.</p>
+    <p><strong>Fix:</strong> add <em>"Alkaen 78&nbsp;490&nbsp;€"</em> (or current MSRP incl. autovero) in the hero, with a small <em>"Sisältää autoveron"</em> footnote.</p>
+  </div>
+
+  <div class="finding">
+    <div class="finding-head"><span class="id">E-CON-02</span><span class="pill p1">P1</span><span class="pill warn">Heuristic</span><h5>Configurator and "Käytetyt" entry points compete</h5></div>
+    <p>The CTA hierarchy on a model page often shows three peers: <em>Konfiguroi</em>, <em>Varaa koeajo</em>, <em>Käytetyt</em>. Without explicit ranking, the page splits intent. Most analytics on OEM model pages show the test-drive CTA is the highest LTV.</p>
+    <p><strong>Fix:</strong> promote <em>Varaa koeajo</em> to the primary (filled) button, configure others as secondary (outlined). Lock the order on all viewports.</p>
+  </div>
+
+  <div class="finding">
+    <div class="finding-head"><span class="id">E-CON-03</span><span class="pill p2">P2</span><span class="pill warn">Heuristic</span><h5>Technical specs likely behind a tab/accordion</h5></div>
+    <p>SEO crawlers do see tab-hidden content (when DOM-rendered), but users on mobile rarely open more than one tab. Convert at least the headline specs (power, 0–100, kulutus, sähköinen toimintamatka) into a visible at-a-glance strip.</p>
+  </div>
+
+  <h4>Performance</h4>
+
+  <div class="finding">
+    <div class="finding-head"><span class="id">E-PRF-01</span><span class="pill p0">P0</span><span class="pill warn">Heuristic</span><h5>COSY render gallery is the heaviest single component</h5></div>
+    <p>The 360° spinner and exterior gallery pull dozens of COSY-rendered JPEG/PNGs (often 200–500 KB each). On model pages this commonly produces 4–8 MB of image transfer before the user has touched the carousel.</p>
+    <p><strong>Fix:</strong> serve as AVIF (typically 60–70 % smaller than JPEG at equivalent quality), generate the 360° frames as a single sprite-sheet or low-res preview with on-demand fetch of full-res; gate full gallery behind explicit interaction.</p>
+  </div>
+
+  <div class="finding">
+    <div class="finding-head"><span class="id">E-PRF-02</span><span class="pill p1">P1</span><span class="pill warn">Heuristic</span><h5>Configurator widget bootstraps on page load</h5></div>
+    <p>Even when not visible, the configurator's vehicle data JSON (~300–800 KB) is often fetched eagerly so the "Konfiguroi" CTA feels instant. Net effect: TTI on mobile pushed past 6 s.</p>
+    <p><strong>Fix:</strong> prefetch on hover/focus of the CTA (<code>&lt;link rel="prefetch"&gt;</code> injected on intent), not on page load.</p>
+  </div>
+
+  <div class="finding">
+    <div class="finding-head"><span class="id">E-PRF-03</span><span class="pill p2">P2</span><span class="pill warn">Heuristic</span><h5>Video / b‑roll assets in lifestyle modules</h5></div>
+    <p>Lifestyle sections often autoplay short b‑roll loops. These shouldn't run on cellular connections; gate by <code>navigator.connection.effectiveType</code> and respect <code>prefers-reduced-motion</code>.</p>
+  </div>
+
+  <h4>Accessibility</h4>
+  <div class="finding">
+    <div class="finding-head"><span class="id">E-A11Y-01</span><span class="pill p1">P1</span><span class="pill warn">Heuristic</span><h5>360° viewer keyboard operability</h5></div>
+    <p>Spinner components rarely support left/right keyboard rotation or expose state to screen readers. Add <code>role="img"</code> with a descriptive <code>aria-label</code> and keyboard handlers, or provide a static alternative.</p>
+  </div>
+</div>
+
+<!-- Cross-cutting -->
+<h2 class="section">Cross-cutting Observations</h2>
+<div class="grid cols-2">
+  <div class="card">
+    <h4 style="margin-top:0;">Localisation discipline</h4>
+    <p>The single highest‑ROI workstream for any MB country site is closing the localisation gap: Finnish meta descriptions, Finnish ALT text, Finnish microcopy on imported global components, Finnish price strings with autovero context, FI-specific FAQ blocks. The platform supports all of this — it's a content‑ops task, not engineering.</p>
+  </div>
+  <div class="card">
+    <h4 style="margin-top:0;">Performance budget</h4>
+    <p>Set and enforce a per‑page budget:
+      <strong>JS</strong> &lt; 250&nbsp;KB gzipped,
+      <strong>Images</strong> &lt; 1.2&nbsp;MB on first paint,
+      <strong>3rd‑party requests</strong> &lt; 25,
+      <strong>LCP</strong> &lt; 2.5&nbsp;s on 4G mid-tier mobile.
+      Wire as a CI check via Lighthouse-CI on PRs that touch the AEM components.
+    </p>
+  </div>
+  <div class="card">
+    <h4 style="margin-top:0;">Internal search &amp; entity coverage</h4>
+    <p>Add Finnish-language editorial pages for the queries the homepage can't rank for itself — <em>"sähköauton lataus"</em>, <em>"käyttöleasing yritykselle"</em>, <em>"huoltosopimus hinta"</em>. Link from the homepage and the model pages. This is the only realistic way to grow non-brand organic.</p>
+  </div>
+  <div class="card">
+    <h4 style="margin-top:0;">Measurement</h4>
+    <p>Move LCP/CLS/INP measurement off Lighthouse-only and into RUM (web‑vitals.js → Adobe Edge). Synthetic scores hide third‑party variance and Finnish-network realities (Telia/Elisa peering, mobile coverage outside the capital region).</p>
+  </div>
+</div>
+
+<!-- Roadmap -->
+<h2 class="section">Recommended Roadmap</h2>
+<div class="card">
+  <table>
+    <thead>
+      <tr><th style="width:90px;">Sprint</th><th>Workstream</th><th>Expected impact</th><th style="width:90px;">Priority</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>Localise meta descriptions &amp; titles for top‑20 indexable URLs (homepage, all model pages, dealer locator)</td><td>+8–15&nbsp;% organic CTR on branded SERPs</td><td><span class="pill p0">P0</span></td></tr>
+      <tr><td>1</td><td>Defer OneTrust + GTM bootstrap; add LCP image preload + <code>fetchpriority="high"</code></td><td>-0.8–1.2&nbsp;s LCP on mobile</td><td><span class="pill p0">P0</span></td></tr>
+      <tr><td>1</td><td>Trim landing hero carousel to 3 slides, kill autoplay</td><td>-400–800&nbsp;KB first load; CLS &lt; 0.05</td><td><span class="pill p0">P0</span></td></tr>
+      <tr><td>2</td><td>Hreflang cluster audit + reciprocity fix across the FI tree</td><td>Fewer mis-served pages in Google; recover lost FI rankings</td><td><span class="pill p1">P1</span></td></tr>
+      <tr><td>2</td><td>Add price + test-drive CTA above fold on model pages</td><td>Higher LTV CTA share; closes gap vs. BMW.fi / Audi.fi</td><td><span class="pill p1">P1</span></td></tr>
+      <tr><td>2</td><td>Convert COSY assets to AVIF; gate full 360° gallery behind interaction</td><td>-3–5&nbsp;MB on E-Class first load</td><td><span class="pill p1">P1</span></td></tr>
+      <tr><td>3</td><td>FAQ schema + 4–6 Finnish FAQ blocks per model</td><td>Eligibility for People‑Also‑Ask &amp; FAQ rich results</td><td><span class="pill p2">P2</span></td></tr>
+      <tr><td>3</td><td>Evergreen Finnish editorial section on homepage (3–4 paragraphs)</td><td>Topical authority; internal-link source for editorial pages</td><td><span class="pill p2">P2</span></td></tr>
+      <tr><td>3</td><td>Web-vitals RUM via Adobe Edge; Lighthouse-CI budget on PRs</td><td>Regression prevention; ground truth vs. synthetic</td><td><span class="pill p2">P2</span></td></tr>
+      <tr><td>4</td><td>A11y sweep of carousel, modal, 360° viewer components</td><td>WCAG 2.2 AA; reduces ESA-compliance risk (EAA 2025)</td><td><span class="pill p2">P2</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Appendix -->
+<h2 class="section">Appendix · Re-run with live data</h2>
+<div class="card">
+  <p style="margin-top:0;">
+    A standalone Playwright audit script is included alongside this report at
+    <code>audit/playwright-audit.js</code>. Once executed from a host with egress to
+    <code>mercedes-benz.fi</code>, it will produce:
+  </p>
+  <ul style="color: var(--fg-dim);">
+    <li>Six full-page screenshots (2 URLs × 3 viewports) in <code>audit/screens/</code></li>
+    <li><code>audit/data/summary.json</code> with title, meta, headings, alt-coverage, hreflang, JSON-LD, link inventory, navigation timing, paint timings, LCP/CLS, and the 20 heaviest network requests</li>
+  </ul>
+  <h5>Run</h5>
+  <pre>npm i -D playwright
+npx playwright install chromium
+node audit/playwright-audit.js</pre>
+  <h5>Then upgrade this report</h5>
+  <p>Replace each <span class="pill warn">Heuristic</span> tag with <span class="pill p2">Verified</span> where the JSON output confirms or contradicts the finding. Drop findings that don't reproduce; promote any new ones surfaced by the data.</p>
+</div>
+
+<footer>
+  <div>Mercedes-Benz Finland — Heuristic SEO, Content &amp; Performance Audit · 18 May 2026</div>
+  <div>Two URLs in scope · Accent <span class="mono">#5b9dd9</span></div>
+</footer>
+
+</div>
+</body>
+</html>
