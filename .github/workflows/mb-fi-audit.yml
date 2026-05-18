@@ -1,8 +1,7 @@
 name: MB Finland audit
 
 # Always runs against the seo-content-audit branch regardless of the
-# "Use workflow from" branch picked in the dispatch UI, because that's where
-# audit/playwright-audit.js lives and where results are committed back.
+# "Use workflow from" branch picked in the dispatch UI.
 
 on:
   workflow_dispatch:
@@ -14,7 +13,7 @@ on:
       model_url:
         description: "Model page URL"
         required: true
-        default: "https://www.mercedes-benz.fi/passengercars/models/saloon/e-class.html"
+        default: "https://www.mercedes-benz.fi/models/e-class-sedan-w214-806-2/"
       service_url:
         description: "Service page URL"
         required: true
@@ -35,7 +34,7 @@ env:
 jobs:
   audit:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 30
 
     steps:
       - name: Checkout audit branch
