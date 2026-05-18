@@ -1,0 +1,8 @@
+Page     Form factor  Perf  A11y  BP  SEO  LCP (ms)  CLS    TBT (ms)
+-------  -----------  ----  ----  --  ---  --------  -----  --------
+landing  desktop      95    83    78  92   857       0.006  51      
+landing  mobile       31    86    79  92   12314     0.000  1781    
+model    desktop      96    83    78  92   933       0.006  43      
+model    mobile       72    92    79  100  3351      0.010  609     
+service  desktop      93    83    78  92   1400      0.000  0       
+service  mobile       48    87    79  92   10625     0.000  422     
