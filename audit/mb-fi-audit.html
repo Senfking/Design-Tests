@@ -142,6 +142,18 @@
   details.page figcaption{padding:8px 10px; font-family:var(--mono); font-size:11px; letter-spacing:.06em; color:var(--fg-3); border-top:1px solid var(--line)}
   details.page img{display:block; width:100%; height:auto; max-height:520px; object-fit:cover; object-position:top}
 
+  /* nested details ("Show full SEO fingerprint") */
+  details.inner{margin-top:18px; border-top:1px solid var(--line-soft); padding-top:14px}
+  details.inner > summary{list-style:none; cursor:pointer; display:inline-flex; align-items:center; gap:8px;
+    font-family:var(--mono); font-size:11.5px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--accent); padding:6px 10px; border:1px solid var(--line); border-radius:8px;
+    background:rgba(91,157,217,.05)}
+  details.inner > summary::-webkit-details-marker{display:none}
+  details.inner > summary::after{content:""; width:6px; height:6px; border-right:1.5px solid var(--accent);
+    border-bottom:1.5px solid var(--accent); transform:rotate(45deg); transition:transform .2s}
+  details.inner[open] > summary::after{transform:rotate(225deg)}
+  details.inner table.t{margin-top:14px}
+
   /* Tables */
   table.t{width:100%; border-collapse:collapse; font-size:13.5px}
   table.t th, table.t td{text-align:left; padding:9px 12px; border-bottom:1px solid var(--line-soft); vertical-align:top}
@@ -380,34 +392,31 @@
           <div class="chip"><div class="l">Avg sentence</div><div class="v">25.7 wpc</div></div>
         </div>
 
-        <h4>SEO fingerprint</h4>
-        <table class="t">
-          <tr><td style="width:170px;color:var(--fg-3)">Title</td><td class="mono">Mercedes-Benz-henkilöautot | Etusivu <span class="pill good">36c</span></td></tr>
-          <tr><td style="color:var(--fg-3)">Meta description</td><td class="mono">Luksus, urheilullisuus ja turvallisuus yhdistettynä. Olipa kyseessä sitten sedan, farmari, SUV tai Coupé. Polttomoottorilla tai ladattavana. Mercedes on aina Mercedes. <span class="pill good">167c</span></td></tr>
-          <tr><td style="color:var(--fg-3)">Canonical</td><td class="mono">https://www.mercedes-benz.fi/</td></tr>
-          <tr><td style="color:var(--fg-3)">Headings</td><td class="mono">H1 1 · H2 0 · H3 0 · H4 3<br><span style="color:var(--fg-3)">H1 text: Meistä</span><br><span style="color:var(--fg-3)">Order: H1 > H4 > H4 > H4</span></td></tr>
-          <tr><td style="color:var(--fg-3)">Open Graph</td><td class="mono"><span class="pill bad">empty</span> Twitter site: <code>@VehoSuomi</code></td></tr>
-          <tr><td style="color:var(--fg-3)">hreflang</td><td class="mono"><span class="pill bad">none</span></td></tr>
-          <tr><td style="color:var(--fg-3)">JSON-LD</td><td class="mono">1 blocks · types: WebSite, WebPage, Organization</td></tr>
-          <tr><td style="color:var(--fg-3)">Images</td><td class="mono">92 total · 18 no alt · 32 eager · 90 missing width/height</td></tr>
-          <tr><td style="color:var(--fg-3)">Links</td><td class="mono">576 total · 549 internal · 27 external · 143 with no text</td></tr>
-        </table>
-
-        
         <h4>Specific actions</h4>
-        <ol style="color:var(--fg-2); line-height:1.7; padding-left:20px">
-          <li>Set the H1 to an evergreen Finnish line — <em>"Mercedes-Benz Suomi — uudet ja käytetyt autot, hyötyajoneuvot ja huolto"</em> — and bury the "Meistä" line as a section H2.</li>
-          <li>Promote the 6 main tile headlines (Mallisto, Tarjoukset, Käytetyt, Huolto, Lataus, Jälleenmyyjät) from H4 to H2 — no visual change.</li>
-          <li>Fill og:title / og:description / og:image with the same content as &lt;title&gt; / meta description / hero image. WhatsApp + LinkedIn previews go from blank to real.</li>
-        </ol>
-
+    <ol style="color:var(--fg-2); line-height:1.7; padding-left:20px; margin:0">
+    <li style="margin-bottom:6px">Set the H1 to an evergreen Finnish line — <em>"Mercedes-Benz Suomi — uudet ja käytetyt autot, hyötyajoneuvot ja huolto"</em> — and demote the "Meistä" line to a section H2.</li><li style="margin-bottom:6px">Promote the six main tile headlines (Mallisto, Tarjoukset, Käytetyt, Huolto, Lataus, Jälleenmyyjät) from H4 to H2 — zero visual change.</li><li style="margin-bottom:6px">Fill og:title / og:description / og:image with the same content as &lt;title&gt; / meta description / hero image. WhatsApp + LinkedIn previews go from blank to real.</li>
+    </ol>
+        
         
 
-        
+        <details class="inner">
+          <summary>Show full SEO fingerprint</summary>
+          <table class="t">
+            <tr><td style="width:170px;color:var(--fg-3)">Title</td><td class="mono">Mercedes-Benz-henkilöautot | Etusivu <span class="pill good">36c</span></td></tr>
+            <tr><td style="color:var(--fg-3)">Meta description</td><td class="mono">Luksus, urheilullisuus ja turvallisuus yhdistettynä. Olipa kyseessä sitten sedan, farmari, SUV tai Coupé. Polttomoottorilla tai ladattavana. Mercedes on aina Mercedes. <span class="pill good">167c</span></td></tr>
+            <tr><td style="color:var(--fg-3)">Canonical</td><td class="mono">https://www.mercedes-benz.fi/</td></tr>
+            <tr><td style="color:var(--fg-3)">Headings</td><td class="mono">H1 1 · H2 0 · H3 0 · H4 3<br><span style="color:var(--fg-3)">H1 text: Meistä</span><br><span style="color:var(--fg-3)">Order: H1 > H4 > H4 > H4</span></td></tr>
+            <tr><td style="color:var(--fg-3)">Open Graph</td><td class="mono"><span class="pill bad">empty</span> Twitter site: <code>@VehoSuomi</code></td></tr>
+            <tr><td style="color:var(--fg-3)">hreflang</td><td class="mono"><span class="pill bad">none</span></td></tr>
+            <tr><td style="color:var(--fg-3)">JSON-LD</td><td class="mono">1 blocks · types: WebSite, WebPage, Organization</td></tr>
+            <tr><td style="color:var(--fg-3)">Images</td><td class="mono">92 total · 18 no alt · 32 eager · 90 missing width/height</td></tr>
+            <tr><td style="color:var(--fg-3)">Links</td><td class="mono">576 total · 549 internal · 27 external · 143 with no text</td></tr>
+          </table>
+        </details>
 
       </div>
     </details>
-    <details class="page" >
+    <details class="page" open>
       <summary>
         <div class="ptitle">
           <span class="n">E-Class sedan</span>
@@ -434,35 +443,31 @@
           <div class="chip"><div class="l">Avg sentence</div><div class="v">20.7 wpc</div></div>
         </div>
 
-        <h4>SEO fingerprint</h4>
-        <table class="t">
-          <tr><td style="width:170px;color:var(--fg-3)">Title</td><td class="mono">Mercedes-Benz-henkilöautot | E-sarjan sedan <span class="pill good">43c</span></td></tr>
-          <tr><td style="color:var(--fg-3)">Meta description</td><td class="mono">Tutustu E-sarjan sedanin ominaisuuksiin - upeasta muotoilusta hämmästyttävään teknologiaan ja vertaansa vailla olevaan suorituskykyyn!  <span class="pill good">135c</span></td></tr>
-          <tr><td style="color:var(--fg-3)">Canonical</td><td class="mono">https://www.mercedes-benz.fi/models/e-class-sedan-w214-806-2/</td></tr>
-          <tr><td style="color:var(--fg-3)">Headings</td><td class="mono">H1 0 · H2 0 · H3 0 · H4 3<br><span style="color:var(--fg-3)">Order: H4 > H4 > H4</span></td></tr>
-          <tr><td style="color:var(--fg-3)">Open Graph</td><td class="mono"><span class="pill bad">empty</span> Twitter site: <code>@VehoSuomi</code></td></tr>
-          <tr><td style="color:var(--fg-3)">hreflang</td><td class="mono"><span class="pill bad">none</span></td></tr>
-          <tr><td style="color:var(--fg-3)">JSON-LD</td><td class="mono">1 blocks · types: Car, Brand, ImageObject, BreadcrumbList</td></tr>
-          <tr><td style="color:var(--fg-3)">Images</td><td class="mono">336 total · 274 no alt · 23 eager · 334 missing width/height</td></tr>
-          <tr><td style="color:var(--fg-3)">Links</td><td class="mono">608 total · 582 internal · 26 external · 206 with no text</td></tr>
-        </table>
-
-        
-
         
         <h4>Specific actions</h4>
-        <ol style="color:var(--fg-2); line-height:1.7; padding-left:20px">
-          <li>Add a H1 <em>"Mercedes-Benz E-sarja sedan"</em> at the top of the hero. The page currently has none.</li>
-          <li>Add price-from (incl. autovero) in the hero, not behind the configurator. BMW.fi / Audi.fi both surface this above the fold.</li>
-          <li><b>Alt text is the urgent one here</b>: 274 of 336 images have none — 82%. This is the highest-traffic model page on a high-trust brand and it's invisible to screen-readers and crawler image search.</li>
-          <li>Add Vehicle.offers (priceCurrency: EUR, price: …) and FAQPage with 5 Finnish questions. The Car schema is already there.</li>
-        </ol>
-
+    <ol style="color:var(--fg-2); line-height:1.7; padding-left:20px; margin:0">
+    <li style="margin-bottom:6px">Add a H1 <em>"Mercedes-Benz E-sarja sedan"</em> at the top of the hero. The page currently has none.</li><li style="margin-bottom:6px">Add price-from (incl. autovero) in the hero, not behind the configurator. BMW.fi / Audi.fi both surface this above the fold.</li><li style="margin-bottom:6px"><b>Alt text is the urgent one here</b>: 274 of 336 images have none (82 %). Highest-traffic model page on a high-trust brand, invisible to screen-readers and image search.</li><li style="margin-bottom:6px">Add <code>Vehicle.offers</code> (priceCurrency: EUR, price: …) and <code>FAQPage</code>. The Car schema is already in place.</li>
+    </ol>
         
+
+        <details class="inner">
+          <summary>Show full SEO fingerprint</summary>
+          <table class="t">
+            <tr><td style="width:170px;color:var(--fg-3)">Title</td><td class="mono">Mercedes-Benz-henkilöautot | E-sarjan sedan <span class="pill good">43c</span></td></tr>
+            <tr><td style="color:var(--fg-3)">Meta description</td><td class="mono">Tutustu E-sarjan sedanin ominaisuuksiin - upeasta muotoilusta hämmästyttävään teknologiaan ja vertaansa vailla olevaan suorituskykyyn!  <span class="pill good">135c</span></td></tr>
+            <tr><td style="color:var(--fg-3)">Canonical</td><td class="mono">https://www.mercedes-benz.fi/models/e-class-sedan-w214-806-2/</td></tr>
+            <tr><td style="color:var(--fg-3)">Headings</td><td class="mono">H1 0 · H2 0 · H3 0 · H4 3<br><span style="color:var(--fg-3)">Order: H4 > H4 > H4</span></td></tr>
+            <tr><td style="color:var(--fg-3)">Open Graph</td><td class="mono"><span class="pill bad">empty</span> Twitter site: <code>@VehoSuomi</code></td></tr>
+            <tr><td style="color:var(--fg-3)">hreflang</td><td class="mono"><span class="pill bad">none</span></td></tr>
+            <tr><td style="color:var(--fg-3)">JSON-LD</td><td class="mono">1 blocks · types: Car, Brand, ImageObject, BreadcrumbList</td></tr>
+            <tr><td style="color:var(--fg-3)">Images</td><td class="mono">336 total · 274 no alt · 23 eager · 334 missing width/height</td></tr>
+            <tr><td style="color:var(--fg-3)">Links</td><td class="mono">608 total · 582 internal · 26 external · 206 with no text</td></tr>
+          </table>
+        </details>
 
       </div>
     </details>
-    <details class="page" >
+    <details class="page" open>
       <summary>
         <div class="ptitle">
           <span class="n">ECO-huolto</span>
@@ -489,31 +494,27 @@
           <div class="chip"><div class="l">Avg sentence</div><div class="v">24.7 wpc</div></div>
         </div>
 
-        <h4>SEO fingerprint</h4>
-        <table class="t">
-          <tr><td style="width:170px;color:var(--fg-3)">Title</td><td class="mono">Mercedes-Benz-henkilöautot | ECO-huolto <span class="pill good">39c</span></td></tr>
-          <tr><td style="color:var(--fg-3)">Meta description</td><td class="mono">Kattava ja edullinen merkkihuolto 6-vuotiaalle tai sitä vanhemmalle autollesi. <span class="pill warn">78c</span></td></tr>
-          <tr><td style="color:var(--fg-3)">Canonical</td><td class="mono">https://www.mercedes-benz.fi/services/eco-huolto/</td></tr>
-          <tr><td style="color:var(--fg-3)">Headings</td><td class="mono">H1 0 · H2 0 · H3 0 · H4 3<br><span style="color:var(--fg-3)">Order: H4 > H4 > H4</span></td></tr>
-          <tr><td style="color:var(--fg-3)">Open Graph</td><td class="mono"><span class="pill bad">empty</span> Twitter site: <code>@VehoSuomi</code></td></tr>
-          <tr><td style="color:var(--fg-3)">hreflang</td><td class="mono"><span class="pill bad">none</span></td></tr>
-          <tr><td style="color:var(--fg-3)">JSON-LD</td><td class="mono">1 blocks · types: BreadcrumbList</td></tr>
-          <tr><td style="color:var(--fg-3)">Images</td><td class="mono">41 total · 20 no alt · 23 eager · 39 missing width/height</td></tr>
-          <tr><td style="color:var(--fg-3)">Links</td><td class="mono">356 total · 331 internal · 25 external · 120 with no text</td></tr>
-        </table>
-
         
-
-        
-
         
         <h4>Specific actions</h4>
-        <ol style="color:var(--fg-2); line-height:1.7; padding-left:20px">
-          <li>This is the slowest of the three pages on mobile: <b>LCP 10.5 s, Perf 55</b>. Same scripts as the others, but ECO-huolto's hero is gated behind them differently — investigate why this template defers content paint longer.</li>
-          <li>Service page only has BreadcrumbList in JSON-LD. Add <code>Service</code> + <code>FAQPage</code> — ~25 lines of templated JSON. Almost guaranteed FAQ rich-result eligibility.</li>
-          <li>Meta description is short (78 chars). Aim for 140–160 with a clear CTA verb (<em>"Varaa ECO-huolto ja säästä jopa X €"</em>).</li>
-          <li>Add an H1 — currently 0.</li>
-        </ol>
+    <ol style="color:var(--fg-2); line-height:1.7; padding-left:20px; margin:0">
+    <li style="margin-bottom:6px">Slowest of the three on mobile: <b>LCP 10.5 s, Perf 55</b>. Same scripts as the others, but the hero is gated differently — investigate why this template defers content paint longer.</li><li style="margin-bottom:6px">Only BreadcrumbList in JSON-LD today. Add <code>Service</code> + <code>FAQPage</code> — ~25 templated lines. Almost guaranteed FAQ rich-result eligibility.</li><li style="margin-bottom:6px">Meta description is short (78 chars). Aim for 140–160 with a clear CTA verb — <em>"Varaa ECO-huolto ja säästä jopa X €"</em>.</li><li style="margin-bottom:6px">Add an H1 — currently 0.</li>
+    </ol>
+
+        <details class="inner">
+          <summary>Show full SEO fingerprint</summary>
+          <table class="t">
+            <tr><td style="width:170px;color:var(--fg-3)">Title</td><td class="mono">Mercedes-Benz-henkilöautot | ECO-huolto <span class="pill good">39c</span></td></tr>
+            <tr><td style="color:var(--fg-3)">Meta description</td><td class="mono">Kattava ja edullinen merkkihuolto 6-vuotiaalle tai sitä vanhemmalle autollesi. <span class="pill warn">78c</span></td></tr>
+            <tr><td style="color:var(--fg-3)">Canonical</td><td class="mono">https://www.mercedes-benz.fi/services/eco-huolto/</td></tr>
+            <tr><td style="color:var(--fg-3)">Headings</td><td class="mono">H1 0 · H2 0 · H3 0 · H4 3<br><span style="color:var(--fg-3)">Order: H4 > H4 > H4</span></td></tr>
+            <tr><td style="color:var(--fg-3)">Open Graph</td><td class="mono"><span class="pill bad">empty</span> Twitter site: <code>@VehoSuomi</code></td></tr>
+            <tr><td style="color:var(--fg-3)">hreflang</td><td class="mono"><span class="pill bad">none</span></td></tr>
+            <tr><td style="color:var(--fg-3)">JSON-LD</td><td class="mono">1 blocks · types: BreadcrumbList</td></tr>
+            <tr><td style="color:var(--fg-3)">Images</td><td class="mono">41 total · 20 no alt · 23 eager · 39 missing width/height</td></tr>
+            <tr><td style="color:var(--fg-3)">Links</td><td class="mono">356 total · 331 internal · 25 external · 120 with no text</td></tr>
+          </table>
+        </details>
 
       </div>
     </details>
