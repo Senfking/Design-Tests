@@ -1,7 +1,13 @@
 // MB Finland SEO + content + performance audit via Playwright
-const { chromium } = require('/opt/node22/lib/node_modules/playwright');
+const { chromium } = require('playwright');
 const fs = require('fs');
 const path = require('path');
+
+const OUT_DIR     = process.env.OUT_DIR || path.join(__dirname);
+const SCREENS_DIR = path.join(OUT_DIR, 'screens');
+const DATA_DIR    = path.join(OUT_DIR, 'data');
+fs.mkdirSync(SCREENS_DIR, { recursive: true });
+fs.mkdirSync(DATA_DIR,    { recursive: true });
 
 const TARGETS = [
   { name: 'landing',  url: 'https://www.mercedes-benz.fi/' },
@@ -118,7 +124,7 @@ const VIEWPORTS = [
         });
       }).catch(() => {});
 
-      const shot = path.join('/tmp/mb-audit/screens', `${target.name}-${vp.tag}.png`);
+      const shot = path.join(SCREENS_DIR, `${target.name}-${vp.tag}.png`);
       await page.screenshot({ path: shot, fullPage: vp.tag === 'desktop' }).catch((e) =>
         pageData.errors.push('screenshot ' + vp.tag + ': ' + e.message),
       );
@@ -245,6 +251,7 @@ const VIEWPORTS = [
   }
 
   await browser.close();
-  fs.writeFileSync('/tmp/mb-audit/data/summary.json', JSON.stringify(summary, null, 2));
-  console.log('\nWritten /tmp/mb-audit/data/summary.json');
+  const outFile = path.join(DATA_DIR, 'summary.json');
+  fs.writeFileSync(outFile, JSON.stringify(summary, null, 2));
+  console.log('\nWritten ' + outFile);
 })();
