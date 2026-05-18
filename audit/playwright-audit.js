@@ -6,6 +6,7 @@ const { chromium } = require('playwright');
 const fs   = require('fs');
 const path = require('path');
 const https = require('https');
+const zlib  = require('zlib');
 
 const OUT_DIR     = process.env.OUT_DIR || path.join(__dirname);
 const SCREENS_DIR = path.join(OUT_DIR, 'screens');
@@ -31,13 +32,16 @@ const VIEWPORTS = [
 let _httpReqCount = 0;
 const _httpReqMax = 30;
 
-function fetchText(url, { max = 2_000_000, timeoutMs = 7000 } = {}) {
+function fetchText(url, { max = 4_000_000, timeoutMs = 8000 } = {}) {
   if (_httpReqCount++ >= _httpReqMax) return Promise.resolve({ status: 0, body: '', _capped: true });
   return new Promise((resolve) => {
     let done = false;
     const finish = (v) => { if (!done) { done = true; resolve(v); } };
     const req = https.get(url, {
-      headers: { 'User-Agent': 'Mozilla/5.0 audit-bot' },
+      headers: {
+        'User-Agent': 'Mozilla/5.0 audit-bot',
+        'Accept-Encoding': 'gzip, deflate, br',
+      },
       timeout: timeoutMs,
     }, (res) => {
       if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
@@ -47,10 +51,18 @@ function fetchText(url, { max = 2_000_000, timeoutMs = 7000 } = {}) {
           return finish(fetchText(next, { max, timeoutMs }).then((v) => finish(v)));
         } catch {}
       }
+      // pick a decoder based on Content-Encoding OR file extension (.gz)
+      let stream = res;
+      const enc = (res.headers['content-encoding'] || '').toLowerCase();
+      const isGz = /\.gz(\?|$)/i.test(url);
+      if (enc === 'gzip' || isGz)      stream = res.pipe(zlib.createGunzip());
+      else if (enc === 'deflate')      stream = res.pipe(zlib.createInflate());
+      else if (enc === 'br')           stream = res.pipe(zlib.createBrotliDecompress());
       const chunks = []; let len = 0;
-      res.on('data', (c) => { len += c.length; if (len < max) chunks.push(c); });
-      res.on('end',  () => finish({ status: res.statusCode, body: Buffer.concat(chunks).toString('utf8') }));
-      res.on('error',() => finish({ status: 0, body: '' }));
+      stream.on('data', (c) => { len += c.length; if (len < max) chunks.push(c); });
+      stream.on('end',  () => finish({ status: res.statusCode, body: Buffer.concat(chunks).toString('utf8') }));
+      stream.on('error',() => finish({ status: 0, body: '' }));
+      res.on('error',   () => finish({ status: 0, body: '' }));
     });
     req.on('timeout', () => { req.destroy(); finish({ status: 0, body: '', _timeout: true }); });
     req.on('error',   () => finish({ status: 0, body: '' }));
