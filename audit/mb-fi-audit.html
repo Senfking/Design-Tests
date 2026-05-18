@@ -260,7 +260,7 @@
     </div>
     <h5>01 · Fill in Open Graph and Twitter card tags</h5>
     <p class="why">All three pages ship empty og:title, og:description, og:image. Shares on LinkedIn / WhatsApp / Slack render as blank cards — direct conversion leak.</p>
-    <p class="do"><b>Do:</b> Set per-page og:title (same as <title>), og:description (140–160 chars), og:image (1200×630). One template change.</p>
+    <p class="do"><b>Do:</b> Set per-page og:title (same as &lt;title&gt;), og:description (140–160 chars), og:image (1200×630). One template change.</p>
     <div class="badges">
       <span class="badge">Effort <b>XS</b></span>
       <span class="badge">Impact <b>High</b></span>
@@ -272,7 +272,7 @@
       <span class="pill"><i class="dot"></i>SEO</span>
     </div>
     <h5>02 · Add one H1 per page; promote section headings to H2/H3</h5>
-    <p class="why">Landing has a single H1 reading "Meistä"; model and service pages have no H1. Section heads are H4. Search and screen-readers both lose the page's topic.</p>
+    <p class="why">Landing has a single H1 reading "Meistä"; model and service pages have no H1. Section heads are H4. Search and screen-readers both lose the page&rsquo;s topic.</p>
     <p class="do"><b>Do:</b> Set H1 to a concise Finnish line per page (e.g. "Mercedes-Benz E-sarja sedan"). Convert H4 section titles to H2/H3 in sequential order — zero visual change.</p>
     <div class="badges">
       <span class="badge">Effort <b>S</b></span>
@@ -285,7 +285,7 @@
       <span class="pill"><i class="dot"></i>Inclusion</span>
     </div>
     <h5>03 · Backfill image alt text — 312 images affected</h5>
-    <p class="why">Landing 18/92 missing, model page 274/336 (82%), service 20/41 (49%). Lighthouse image-alt failing on model + service.</p>
+    <p class="why">Landing 18/92 missing, model page 274/336 (82 %), service 20/41 (49 %). Lighthouse image-alt failing on model + service.</p>
     <p class="do"><b>Do:</b> In Keyloop CMS, make alt a required field for content images. Backfill existing entries with Finnish, ≤125 chars, describing the subject not the file.</p>
     <div class="badges">
       <span class="badge">Effort <b>M</b></span>
@@ -312,7 +312,7 @@
     </div>
     <h5>05 · Add hreflang and x-default — currently zero</h5>
     <p class="why">Without hreflang, Google sometimes serves mercedes-benz.com results to Finnish queries instead of mercedes-benz.fi.</p>
-    <p class="do"><b>Do:</b> Inject in template head: <link rel="alternate" hreflang="fi-FI" href="…"> and <link rel="alternate" hreflang="x-default" href="https://www.mercedes-benz.com/…">.</p>
+    <p class="do"><b>Do:</b> Inject in template head: &lt;link rel="alternate" hreflang="fi-FI" href="…"&gt; and &lt;link rel="alternate" hreflang="x-default" href="https://www.mercedes-benz.com/…"&gt;.</p>
     <div class="badges">
       <span class="badge">Effort <b>XS</b></span>
       <span class="badge">Impact <b>Med</b></span>
@@ -323,7 +323,7 @@
       <span class="pill p1">P1</span>
       <span class="pill"><i class="dot"></i>Performance</span>
     </div>
-    <h5>06 · Add explicit width + height on every <img></h5>
+    <h5>06 · Add explicit width + height on every &lt;img&gt;</h5>
     <p class="why">Across 469 images audited, only 9 have explicit dimensions. CLS is currently low (0.005–0.023) only because cookie consent stabilises before LCP — on real users with slow networks the layout will shift.</p>
     <p class="do"><b>Do:</b> Keyloop image component should always emit width / height attributes based on source asset.</p>
     <div class="badges">
@@ -351,7 +351,7 @@
     </div>
     <h5>08 · Give icon-only links a name</h5>
     <p class="why">469 anchor tags have no accessible text (143 landing, 206 model, 120 service). Lighthouse link-name failing. Crawlers and screen-readers both blind.</p>
-    <p class="do"><b>Do:</b> Add aria-label to every icon-only <a> using the existing icon-name map.</p>
+    <p class="do"><b>Do:</b> Add aria-label to every icon-only &lt;a&gt; using the existing icon-name map.</p>
     <div class="badges">
       <span class="badge">Effort <b>S</b></span>
       <span class="badge">Impact <b>Med</b></span>
