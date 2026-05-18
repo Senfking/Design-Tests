@@ -10,9 +10,9 @@ fs.mkdirSync(SCREENS_DIR, { recursive: true });
 fs.mkdirSync(DATA_DIR,    { recursive: true });
 
 const TARGETS = [
-  { name: 'landing',  url: 'https://www.mercedes-benz.fi/' },
-  // resolved later to a real model URL
-  { name: 'model',    url: process.env.MODEL_URL || 'https://www.mercedes-benz.fi/passengercars/models/saloon/e-class.html' },
+  { name: 'landing', url: process.env.LANDING_URL || 'https://www.mercedes-benz.fi/' },
+  { name: 'model',   url: process.env.MODEL_URL   || 'https://www.mercedes-benz.fi/passengercars/models/saloon/e-class.html' },
+  { name: 'service', url: process.env.SERVICE_URL || 'https://www.mercedes-benz.fi/services/eco-huolto/' },
 ];
 
 const VIEWPORTS = [
