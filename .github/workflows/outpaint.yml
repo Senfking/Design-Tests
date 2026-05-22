@@ -54,7 +54,7 @@ jobs:
       - name: Scrape vehicle cards
         working-directory: scratch
         env:
-          SOURCE_URL: ${{ inputs.source_url }}
+          SOURCE_URL: ${{ inputs.source_url || 'https://www.mercedes-benz-mena.com/dubai/en/buy-new/?manufacturer%5B0%5D=Mercedes-Benz&model%5B0%5D=C-Class&nfcSearchVersion=1.0.0' }}
         run: |
           node scrape.mjs > vehicles.json
           echo "--- vehicles.json ---"
@@ -63,7 +63,7 @@ jobs:
       - name: Pick top N vehicles
         working-directory: scratch
         env:
-          N: ${{ inputs.num_images }}
+          N: ${{ inputs.num_images || '2' }}
         run: |
           python3 - <<'PY'
           import json, os, re
@@ -90,7 +90,7 @@ jobs:
         working-directory: scratch
         env:
           STABILITY_API_KEY: ${{ secrets.STABILITY_API_KEY }}
-          PROMPT: ${{ inputs.prompt }}
+          PROMPT: ${{ inputs.prompt || 'luxury sedan photographed in a modern showroom, soft studio lighting, matching background, photorealistic, no additional cars' }}
         run: |
           if [ -z "$STABILITY_API_KEY" ]; then
             echo "::error::Set the STABILITY_API_KEY repo secret (Settings -> Secrets and variables -> Actions)."
