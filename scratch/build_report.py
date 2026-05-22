@@ -22,7 +22,11 @@ from urllib.parse import urlparse
 
 
 def stem_of_url(url: str) -> str:
-    return Path(urlparse(url).path).stem or "image"
+    import hashlib
+    stem = Path(urlparse(url).path).stem or "image"
+    if len(stem) > 80:
+        stem = "img-" + hashlib.sha1(url.encode()).hexdigest()[:12]
+    return stem
 
 
 def data_uri(p: Path) -> str:

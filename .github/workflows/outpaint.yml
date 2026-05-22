@@ -60,31 +60,51 @@ jobs:
           echo "--- vehicles.json ---"
           python3 -c "import json; v=json.load(open('vehicles.json')); print(f'{len(v)} cards'); print(json.dumps(v[:3], indent=2))"
 
-      - name: Pick top N vehicles
+      - name: Pick top N vehicles, clean model name
         working-directory: scratch
         env:
           N: ${{ inputs.num_images || '2' }}
         run: |
           python3 - <<'PY'
           import json, os, re
+          from urllib.parse import unquote
+
           n = int(os.environ["N"])
           vehicles = json.load(open("vehicles.json"))
-          # require an image that looks like a real photo, not a thumb/icon
-          def good(v):
-              img = (v.get("image") or "").lower()
-              if not re.search(r"\.(jpe?g|png|webp)(\?|$)", img): return False
-              if re.search(r"(logo|icon|sprite|favicon|placeholder|flag|badge)", img): return False
-              return True
-          picked = [v for v in vehicles if good(v)][:n]
+
+          def clean_model(v: dict) -> str:
+              # JSON-LD concatenates fields ("Mercedes-BenzC-ClassC 200Available"),
+              # so prefer the stock URL slug when present.
+              m = re.search(r"/stock/\d+-(.+?)/", v.get("url") or "")
+              if m:
+                  return unquote(m.group(1)).replace("-", " ").strip()
+              return (v.get("model") or "").strip()
+
+          picked = []
+          for v in vehicles:
+              if not (v.get("url") or "").startswith("http"):
+                  continue
+              v = dict(v)
+              v["model"] = clean_model(v)
+              picked.append(v)
+              if len(picked) >= n:
+                  break
+
           json.dump(picked, open("picked.json", "w"), indent=2)
           print(f"picked {len(picked)}:")
           for v in picked:
-              print(f"  - {v.get('model')!r} | {v.get('price')!r}")
+              print(f"  - {v['model']!r} | {v.get('price')!r}")
               print(f"      url:   {v.get('url')}")
-              print(f"      image: {v.get('image')}")
           if not picked:
-              raise SystemExit("no vehicles survived filtering — see vehicles.json artifact")
+              raise SystemExit("no vehicles — see vehicles.json artifact")
           PY
+
+      - name: Enrich with full-res hero image from each detail page
+        working-directory: scratch
+        run: |
+          node enrich.mjs
+          echo "--- picked.json after enrich ---"
+          cat picked.json
 
       - name: Outpaint to 1:1
         working-directory: scratch

@@ -101,9 +101,16 @@ def outpaint_to_square(img: Image.Image, prompt: str = "") -> Image.Image:
 
 
 def stem_for(src: str) -> str:
+    import hashlib
     if src.startswith(("http://", "https://")):
-        return Path(urlparse(src).path).stem or "image"
-    return Path(src).stem
+        stem = Path(urlparse(src).path).stem or "image"
+    else:
+        stem = Path(src).stem
+    # Some CDNs (netdirector) encode the request in a long base64 path —
+    # fall back to a short hash so we don't blow past the FS filename limit.
+    if len(stem) > 80:
+        stem = "img-" + hashlib.sha1(src.encode()).hexdigest()[:12]
+    return stem
 
 
 def main() -> int:
