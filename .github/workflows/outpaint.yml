@@ -2,8 +2,8 @@ name: outpaint-cars
 
 # Runs the scrape + Stability outpaint pipeline on a GitHub runner
 # (the sandboxed Claude Code env can't reach api.stability.ai or the
-# MB MENA CDN). Trigger from the Actions tab; results land as an
-# artifact named "outpainted".
+# MB MENA CDN). Trigger from the Actions tab; artifact "outpainted"
+# contains report.html (open in a browser) + results.json + the PNGs.
 
 on:
   workflow_dispatch:
@@ -13,7 +13,7 @@ on:
         required: false
         default: "https://www.mercedes-benz-mena.com/dubai/en/buy-new/?manufacturer%5B0%5D=Mercedes-Benz&model%5B0%5D=C-Class&nfcSearchVersion=1.0.0"
       num_images:
-        description: "How many images to outpaint"
+        description: "How many vehicles to outpaint"
         required: false
         default: "2"
       prompt:
@@ -46,55 +46,39 @@ jobs:
           npm install --silent playwright
           npx playwright install --with-deps chromium
 
-      - name: Scrape vehicle URLs
+      - name: Scrape vehicle cards
         working-directory: scratch
         env:
           SOURCE_URL: ${{ inputs.source_url }}
         run: |
-          # Patch the hardcoded URL in scrape.mjs with the workflow input.
-          node -e "
-            const fs = require('fs');
-            let s = fs.readFileSync('scrape.mjs', 'utf8');
-            s = s.replace(/const URL =[\s\S]*?;\n/, 'const URL = process.env.SOURCE_URL;\n');
-            fs.writeFileSync('scrape.mjs', s);
-          "
-          node scrape.mjs > urls.txt
-          echo "--- scraped $(wc -l < urls.txt) urls ---"
-          head -20 urls.txt
+          node scrape.mjs > vehicles.json
+          echo "--- vehicles.json ---"
+          python3 -c "import json; v=json.load(open('vehicles.json')); print(f'{len(v)} cards'); print(json.dumps(v[:3], indent=2))"
 
-      - name: Pick N largest-looking image URLs
+      - name: Pick top N vehicles
         working-directory: scratch
         env:
           N: ${{ inputs.num_images }}
         run: |
-          # Prefer URLs that look like full-resolution car renders.
-          # Heuristic: drop obvious thumbnails and pick the first N unique hosts.
           python3 - <<'PY'
-          import os, re
+          import json, os, re
           n = int(os.environ["N"])
-          urls = [u.strip() for u in open("urls.txt") if u.strip()]
-          # filter: looks like a photo, not a tiny thumb
-          def good(u):
-              low = u.lower()
-              if not re.search(r"\.(jpe?g|png|webp)(\?|$)", low): return False
-              if re.search(r"(logo|icon|sprite|favicon|placeholder|flag|badge|thumb)", low): return False
-              if re.search(r"[/_-](\d{2,3})x(\d{2,3})", low):  # e.g. 64x64
-                  return False
+          vehicles = json.load(open("vehicles.json"))
+          # require an image that looks like a real photo, not a thumb/icon
+          def good(v):
+              img = (v.get("image") or "").lower()
+              if not re.search(r"\.(jpe?g|png|webp)(\?|$)", img): return False
+              if re.search(r"(logo|icon|sprite|favicon|placeholder|flag|badge)", img): return False
               return True
-          picked = []
-          seen = set()
-          for u in urls:
-              if not good(u): continue
-              if u in seen: continue
-              seen.add(u)
-              picked.append(u)
-              if len(picked) >= n: break
-          with open("picked.txt", "w") as f:
-              f.write("\n".join(picked))
-          print("picked:")
-          for u in picked: print(" ", u)
+          picked = [v for v in vehicles if good(v)][:n]
+          json.dump(picked, open("picked.json", "w"), indent=2)
+          print(f"picked {len(picked)}:")
+          for v in picked:
+              print(f"  - {v.get('model')!r} | {v.get('price')!r}")
+              print(f"      url:   {v.get('url')}")
+              print(f"      image: {v.get('image')}")
           if not picked:
-              raise SystemExit("no vehicle URLs survived filtering — inspect urls.txt artifact")
+              raise SystemExit("no vehicles survived filtering — see vehicles.json artifact")
           PY
 
       - name: Outpaint to 1:1
@@ -107,9 +91,17 @@ jobs:
             echo "::error::Set the STABILITY_API_KEY repo secret (Settings -> Secrets and variables -> Actions)."
             exit 1
           fi
-          mapfile -t URLS < picked.txt
+          mapfile -t URLS < <(python3 -c "import json; [print(v['image']) for v in json.load(open('picked.json'))]")
           python3 outpaint.py "${URLS[@]}" --out out --prompt "$PROMPT"
           ls -la out
+
+      - name: Build report
+        working-directory: scratch
+        run: |
+          python3 build_report.py --picked picked.json --out-dir out \
+            --results results.json --report report.html
+          echo "--- results.json ---"
+          cat results.json
 
       - name: Upload artifact
         if: always()
@@ -117,7 +109,9 @@ jobs:
         with:
           name: outpainted
           path: |
+            scratch/report.html
+            scratch/results.json
+            scratch/vehicles.json
+            scratch/picked.json
             scratch/out/**
-            scratch/urls.txt
-            scratch/picked.txt
           if-no-files-found: warn
