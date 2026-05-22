@@ -1,0 +1,123 @@
+name: outpaint-cars
+
+# Runs the scrape + Stability outpaint pipeline on a GitHub runner
+# (the sandboxed Claude Code env can't reach api.stability.ai or the
+# MB MENA CDN). Trigger from the Actions tab; results land as an
+# artifact named "outpainted".
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_url:
+        description: "Listing URL to scrape"
+        required: false
+        default: "https://www.mercedes-benz-mena.com/dubai/en/buy-new/?manufacturer%5B0%5D=Mercedes-Benz&model%5B0%5D=C-Class&nfcSearchVersion=1.0.0"
+      num_images:
+        description: "How many images to outpaint"
+        required: false
+        default: "2"
+      prompt:
+        description: "Outpaint guidance"
+        required: false
+        default: "luxury sedan photographed in a modern showroom, soft studio lighting, matching background, photorealistic, no additional cars"
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Python deps
+        run: pip install --quiet requests pillow
+
+      - name: Install Playwright + Chromium
+        working-directory: scratch
+        run: |
+          npm init -y >/dev/null
+          npm install --silent playwright
+          npx playwright install --with-deps chromium
+
+      - name: Scrape vehicle URLs
+        working-directory: scratch
+        env:
+          SOURCE_URL: ${{ inputs.source_url }}
+        run: |
+          # Patch the hardcoded URL in scrape.mjs with the workflow input.
+          node -e "
+            const fs = require('fs');
+            let s = fs.readFileSync('scrape.mjs', 'utf8');
+            s = s.replace(/const URL =[\s\S]*?;\n/, 'const URL = process.env.SOURCE_URL;\n');
+            fs.writeFileSync('scrape.mjs', s);
+          "
+          node scrape.mjs > urls.txt
+          echo "--- scraped $(wc -l < urls.txt) urls ---"
+          head -20 urls.txt
+
+      - name: Pick N largest-looking image URLs
+        working-directory: scratch
+        env:
+          N: ${{ inputs.num_images }}
+        run: |
+          # Prefer URLs that look like full-resolution car renders.
+          # Heuristic: drop obvious thumbnails and pick the first N unique hosts.
+          python3 - <<'PY'
+          import os, re
+          n = int(os.environ["N"])
+          urls = [u.strip() for u in open("urls.txt") if u.strip()]
+          # filter: looks like a photo, not a tiny thumb
+          def good(u):
+              low = u.lower()
+              if not re.search(r"\.(jpe?g|png|webp)(\?|$)", low): return False
+              if re.search(r"(logo|icon|sprite|favicon|placeholder|flag|badge|thumb)", low): return False
+              if re.search(r"[/_-](\d{2,3})x(\d{2,3})", low):  # e.g. 64x64
+                  return False
+              return True
+          picked = []
+          seen = set()
+          for u in urls:
+              if not good(u): continue
+              if u in seen: continue
+              seen.add(u)
+              picked.append(u)
+              if len(picked) >= n: break
+          with open("picked.txt", "w") as f:
+              f.write("\n".join(picked))
+          print("picked:")
+          for u in picked: print(" ", u)
+          if not picked:
+              raise SystemExit("no vehicle URLs survived filtering — inspect urls.txt artifact")
+          PY
+
+      - name: Outpaint to 1:1
+        working-directory: scratch
+        env:
+          STABILITY_API_KEY: ${{ secrets.STABILITY_API_KEY }}
+          PROMPT: ${{ inputs.prompt }}
+        run: |
+          if [ -z "$STABILITY_API_KEY" ]; then
+            echo "::error::Set the STABILITY_API_KEY repo secret (Settings -> Secrets and variables -> Actions)."
+            exit 1
+          fi
+          mapfile -t URLS < picked.txt
+          python3 outpaint.py "${URLS[@]}" --out out --prompt "$PROMPT"
+          ls -la out
+
+      - name: Upload artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: outpainted
+          path: |
+            scratch/out/**
+            scratch/urls.txt
+            scratch/picked.txt
+          if-no-files-found: warn
