@@ -46,19 +46,34 @@ for (const v of picked) {
     await page.waitForTimeout(1500);
 
     const hero = await page.evaluate(() => {
-      const imgs = Array.from(document.querySelectorAll('img'));
-      let best = null, bestArea = 0;
-      for (const img of imgs) {
-        const w = img.naturalWidth, h = img.naturalHeight;
-        if (w < 600 || h < 300) continue;
+      const candidates = [];
+      for (const img of document.querySelectorAll('img')) {
         let src = img.currentSrc || img.src || '';
         if (src.startsWith('//')) src = 'https:' + src;
         if (!/^https?:/.test(src)) continue;
         if (/logo|icon|sprite|badge|placeholder|avatar/i.test(src)) continue;
-        const area = w * h;
-        if (area > bestArea) { bestArea = area; best = src; }
+        const w = img.naturalWidth, h = img.naturalHeight;
+        if (w < 600 || h < 300) continue;
+        candidates.push({ src, area: w * h });
       }
-      return best;
+      if (!candidates.length) return null;
+      // Prefer the netdirector image whose decoded key ends in _1.jpg —
+      // that's always the first frame in the gallery (the hero 3/4 angle).
+      const decode = (src) => {
+        const m = src.match(/netdirector\.auto\/([^?#]+)/);
+        if (!m) return null;
+        try {
+          const pad = (4 - (m[1].length % 4)) % 4;
+          return JSON.parse(atob(m[1] + '='.repeat(pad)));
+        } catch { return null; }
+      };
+      const firstFrame = candidates.find((c) => {
+        const d = decode(c.src);
+        return d && /_1\.jpe?g$/i.test(d.key || '');
+      });
+      if (firstFrame) return firstFrame.src;
+      // Fallback: largest by natural area.
+      return candidates.sort((a, b) => b.area - a.area)[0].src;
     });
 
     if (hero) {
