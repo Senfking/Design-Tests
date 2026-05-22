@@ -6,6 +6,11 @@ name: outpaint-cars
 # contains report.html (open in a browser) + results.json + the PNGs.
 
 on:
+  push:
+    branches: [claude/adoring-feynman-lr3Ip]
+    paths:
+      - "scratch/**"
+      - ".github/workflows/outpaint.yml"
   workflow_dispatch:
     inputs:
       source_url:
